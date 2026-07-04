@@ -68,6 +68,30 @@ class TestSanitizeImport(unittest.TestCase):
         self.assertEqual(len(state["assessment"]), 110)
         self.assertTrue(warns)
 
+    def test_import_reconciles_stale_na(self):
+        # scope permits wireless, but the file marks 3.1.16/17 N/A -> must be reset,
+        # otherwise score is silently inflated and screen/score disagree.
+        payload = {
+            "scope": {"handles_cui": True, "remote_access_permitted": True,
+                      "wireless_permitted": True, "mobile_permitted": True,
+                      "confirmed_at": "2026-07-04"},
+            "statuses": {c["id"]: "implemented" for c in CAT},
+        }
+        payload["statuses"]["3.1.16"] = "na_not_permitted"
+        payload["statuses"]["3.1.17"] = "na_not_permitted"
+        state, warns = sanitize_import(payload, CAT)
+        self.assertEqual(state["assessment"]["3.1.16"], NOT_IMPLEMENTED)
+        self.assertEqual(state["assessment"]["3.1.17"], NOT_IMPLEMENTED)
+        self.assertEqual(score_assessment(state["assessment"], CAT).score, 100)  # -5 -5
+        self.assertTrue(any("Reset N/A" in w for w in warns))
+
+    def test_calendar_invalid_date_dropped(self):
+        # a regex-valid but calendar-invalid date must not survive to crash the app
+        payload = {"poam": {"3.1.1": {"target_date": "2026-99-99"}}}
+        state, warns = sanitize_import(payload, CAT)
+        self.assertNotIn("3.1.1", state["poam"])
+        self.assertTrue(any("invalid POA&M date" in w for w in warns))
+
 
 if __name__ == "__main__":
     unittest.main()

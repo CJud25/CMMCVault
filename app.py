@@ -21,7 +21,8 @@ from logic.scoring import (
 )
 from logic.readiness import (
     LBL_MANDATORY, blocker_first_path, conditional_eligibility,
-    control_labels, dashboard_summary, evidence_index_from_register, poam_eligible,
+    control_labels, dashboard_summary, evidence_index_from_register, poam_clock,
+    poam_eligible,
 )
 from logic.scoping import (
     ASSET_CATEGORIES, conditional_na_applicable, reconcile_na_statuses,
@@ -595,6 +596,23 @@ with tab_poam:
         pdf.to_csv(buf, index=False)
         st.download_button("⬇️ Download POA&M (CSV)", buf.getvalue(),
                            file_name="poam.csv", mime="text/csv")
+
+    st.divider()
+    st.markdown("##### 180-day Conditional → Final countdown")
+    st.caption("If you have been granted Conditional CMMC status, enter its **actual** "
+               "date (from your assessment) — the 180-day POA&M closeout clock is "
+               "anchored only to that real date, never projected from this tool.")
+    use_clock = st.checkbox("I have an actual Conditional status date")
+    if use_clock:
+        cdate = st.date_input("Conditional status date", value=date.today())
+        clock = poam_clock(cdate, date.today())
+        if clock["expired"]:
+            st.error(f"POA&M closeout deadline {clock['deadline']} has **passed** "
+                     f"({-clock['days_remaining']} days ago) — Conditional status expires "
+                     "if not closed out.")
+        else:
+            st.info(f"POA&M closeout deadline: **{clock['deadline']}** "
+                    f"({clock['days_remaining']} days remaining).")
 
 # ----------------------------------------------------------------- about ----
 with tab_about:

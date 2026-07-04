@@ -7,14 +7,24 @@ embedded score (it is recomputed downstream). Pure: no Streamlit, no I/O.
 """
 
 import re
+from datetime import date
 
 from logic.scoring import (
     IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED, allowed_statuses,
 )
+from logic.scoping import reconcile_na_statuses
 
 SCHEMA_VERSION = 1
 
-_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+def _valid_date(value) -> bool:
+    """A calendar-valid ISO date. A bare regex would accept '2026-99-99', which then
+    crashes date.fromisoformat downstream and takes the whole app down."""
+    try:
+        date.fromisoformat(str(value))
+        return True
+    except (ValueError, TypeError):
+        return False
 _UNSAFE_SCHEME = re.compile(r"^\s*(javascript|data|vbscript|file):", re.IGNORECASE)
 _EV_FIELDS = ("title", "owner", "location_uri", "doc_status", "impl_status", "review_status")
 _DOC = {"missing", "draft", "final"}
@@ -62,7 +72,7 @@ def sanitize_import(payload: dict, catalog: list) -> tuple:
                 warnings.append(f"Dropped POA&M for unknown control '{cid}'.")
                 continue
             tgt = (p or {}).get("target_date", "") if isinstance(p, dict) else ""
-            if not _ISO_DATE.match(str(tgt)):
+            if not _valid_date(tgt):
                 warnings.append(f"{cid}: invalid POA&M date '{tgt}' — dropped.")
                 continue
             poam[cid] = {"target_date": tgt}
@@ -74,6 +84,14 @@ def sanitize_import(payload: dict, catalog: list) -> tuple:
     # ---- scope ----
     scope = _import_scope(payload.get("scope"))
     scope_assets = payload.get("scope_assets") if isinstance(payload.get("scope_assets"), list) else []
+
+    # Enforce the scope-earned-N/A invariant on import: an imported file could carry
+    # an N/A status the imported scope no longer earns (silent score inflation, and
+    # screen/score disagreement). Reconcile and report.
+    assessment, reset_ids = reconcile_na_statuses(assessment, scope, catalog)
+    if reset_ids:
+        warnings.append("Reset N/A -> 'not implemented' (scope does not permit N/A "
+                        "for these): " + ", ".join(reset_ids) + ".")
 
     company = str(payload.get("company", "") or "")
     state = {
@@ -130,7 +148,7 @@ def _import_scope(raw):
         if isinstance(raw.get(k), bool):
             out[k] = raw[k]
     ca = raw.get("confirmed_at")
-    out["confirmed_at"] = ca if (ca is None or _ISO_DATE.match(str(ca))) else None
+    out["confirmed_at"] = ca if (ca is None or _valid_date(ca)) else None
     return out
 
 
