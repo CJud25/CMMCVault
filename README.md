@@ -295,8 +295,8 @@ project does not currently attempt to answer.
 
 - **Requirement text** and the **DoD Assessment Methodology** content are works of the
   U.S. Government and are in the public domain.
-- The **application code** is © its author. No open-source license has been applied
-  yet; until a `LICENSE` file is added, all rights are reserved.
+- The **application code** is released under the **MIT License** (see
+  [`LICENSE`](LICENSE)).
 - "CMMC" and "Cybersecurity Maturity Model Certification" are marks of the U.S.
   Department of Defense. This project is independent and is not affiliated with,
   sponsored by, or endorsed by the DoD, the CMMC Program, or the Cyber AB.
