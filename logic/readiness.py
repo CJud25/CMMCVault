@@ -23,11 +23,9 @@ from datetime import date, timedelta
 
 from logic.scoring import (
     IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED,
-    CONDITIONAL_THRESHOLD, MAX_SCORE,
+    CONDITIONAL_THRESHOLD,
     deduction_for, score_assessment,
 )
-
-OPEN_STATUSES = (NOT_IMPLEMENTED, "partial_alt")  # anything not fully met / NA
 
 # Label vocabulary (the five readiness labels the UI renders).
 LBL_MANDATORY = "Cannot be deferred to a POA&M"
@@ -101,7 +99,7 @@ def conditional_eligibility(assessment: dict, catalog: list, rules: dict) -> Eli
 
 
 def blocker_first_path(assessment: dict, catalog: list, rules: dict,
-                       target: int = None) -> list:
+                       target: "int | None" = None) -> list:
     """Ordered remediation plan that respects POA&M eligibility.
 
     SSP first (if missing) -> ALL POA&M-ineligible open items (mandatory; they can
@@ -130,16 +128,22 @@ def blocker_first_path(assessment: dict, catalog: list, rules: dict,
         [(cid, d) for cid, d, elig in open_items if elig],
         key=lambda x: (-x[1], _sort_key(x[0])))
 
-    steps, running = [], result.score
+    mandatory_total = (1 if ssp_missing else 0) + len(mandatory)
+    steps, running, mandatory_done = [], result.score, 0
 
     def add(cid, gain, mandatory_flag, required_first=False):
-        nonlocal running
+        nonlocal running, mandatory_done
         running += gain
+        if mandatory_flag:
+            mandatory_done += 1
         steps.append({
             "id": cid, "short_title": by_id[cid]["short_title"],
             "gain": gain, "score_after": running,
             "mandatory": mandatory_flag, "required_first": required_first,
-            "reaches_target": running >= target,
+            # HONEST fields: score crossing 88 is NOT eligibility. `eligible_after`
+            # is only True once every mandatory blocker is cleared AND score >= 88.
+            "score_reaches_88": running >= target,
+            "eligible_after": mandatory_done == mandatory_total and running >= target,
         })
 
     if ssp_missing:
@@ -147,7 +151,7 @@ def blocker_first_path(assessment: dict, catalog: list, rules: dict,
     for cid, d in mandatory:
         add(cid, d, True)               # must be met no matter what
     for cid, d in deferrable:
-        if running >= target:
+        if mandatory_done == mandatory_total and running >= target:
             break
         add(cid, d, False)
     return steps
@@ -175,8 +179,9 @@ def control_labels(assessment: dict, catalog: list, rules: dict,
                 tags.append(LBL_HIGH_IMPACT)
             if cid == "3.12.4" and result.ssp_missing:
                 tags.append(LBL_SSP_BLOCKER)
-        else:
-            # implemented but evidence not demonstrably operational -> Final blocker
+        elif status != NA_NOT_PERMITTED:
+            # in-scope + implemented, but evidence not demonstrably operational -> Final blocker.
+            # (na_not_permitted is out of scope; never an evidence blocker.)
             ev = evidence_index.get(cid)
             if ev is not None and not ev.get("has_operational_final", False):
                 tags.append(LBL_SSP_BLOCKER)
@@ -210,13 +215,17 @@ class DashboardSummary:
 def dashboard_summary(assessment: dict, catalog: list, rules: dict,
                       evidence_index: dict = None, today: date = None) -> DashboardSummary:
     """One pure summary for the VP dashboard AND the binder exec summary (single
-    source of truth, no drift). `evidence_index` maps control_id ->
-    {'has_operational_final': bool}. `today` reserved for date-based risks."""
+    source of truth, no drift).
+
+    `evidence_index` maps control_id -> {'has_operational_final': bool}. Callers
+    should pass a DENSE index over applicable controls (a missing entry counts as
+    uncovered here, and produces no label in control_labels — pass both the same
+    index so the two screens agree). `today` reserved for date-based risks."""
     evidence_index = evidence_index or {}
     by_id = {c["id"]: c for c in catalog}
     elig = conditional_eligibility(assessment, catalog, rules)
 
-    open_5 = open_3 = open_1 = 0
+    open_5 = open_3 = open_1 = open_count = 0
     applicable = []            # in-scope controls (excludes scope-earned N/A)
     without_ev = []
     for cid, c in by_id.items():
@@ -224,6 +233,7 @@ def dashboard_summary(assessment: dict, catalog: list, rules: dict,
         if status != NA_NOT_PERMITTED:
             applicable.append(cid)
         if _is_open(c, status):
+            open_count += 1     # incl. an open SSP (max_deduction 0, no weight bucket)
             w = c["max_deduction"]
             if w == 5:
                 open_5 += 1
@@ -241,7 +251,9 @@ def dashboard_summary(assessment: dict, catalog: list, rules: dict,
 
     next_actions = blocker_first_path(assessment, catalog, rules)[:10]
 
-    final_ready = (elig.eligible and not without_ev)
+    # Final status requires ALL requirements MET (not merely POA&M-eligible) AND
+    # every in-scope control backed by demonstrably-operational, reviewed evidence.
+    final_ready = (elig.eligible and open_count == 0 and not without_ev)
 
     risks = []
     if elig.ssp_ok is False:
