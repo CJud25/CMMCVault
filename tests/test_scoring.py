@@ -85,12 +85,16 @@ class TestScoring(unittest.TestCase):
 
 
 class TestFastestPath(unittest.TestCase):
-    def test_sample_reaches_threshold(self):
+    def test_frozen_fastest_path_still_orders_by_gain(self):
+        # NOTE: the sample was intentionally rebuilt to the "89-but-not-ready"
+        # centerpiece; the Conditional-eligibility narrative now lives in
+        # test_readiness.py. This test only pins that the FROZEN scoring math and
+        # fastest_path helper are unchanged: sample scores 89 and the greedy helper
+        # still returns gains in descending order.
         sample = load_sample()
         r = score_assessment(sample["statuses"], CAT)
-        self.assertTrue(30 <= r.score <= 65, f"sample score {r.score} outside demo range")
+        self.assertEqual(r.score, 89)
         steps = fastest_path(sample["statuses"], CAT)
-        self.assertTrue(steps[-1]["reaches_target"])
         gains = [s["gain"] for s in steps if not s["required_first"]]
         self.assertEqual(gains, sorted(gains, reverse=True))
 

@@ -362,28 +362,49 @@ GUIDANCE = {
     },
 }
 
-# Sample company: a realistic small machine shop mid-journey.
+# Sample company: THE CENTERPIECE — scores exactly 89 yet is NOT conditionally
+# ready. It teaches the whole lesson on one screen: crossing 88 is necessary but
+# not sufficient. Open items sum to -21 (110-21=89), SSP present (costs 0):
+#   3.4.8 / 3.13.6 / 3.14.6  not_implemented  -5 each  -> NOT POA&M-eligible (5-pt)
+#   3.13.11                  partial_alt      -3       -> POA&M-eligible (sole exception)
+#   3.1.20                   not_implemented  -1       -> NOT eligible (one of the six named)
+#   3.3.4 / 3.6.3            not_implemented  -1 each  -> POA&M-eligible
+# Result: score_ok(89>=88) & ssp_ok, but 4 blockers -> Conditional INELIGIBLE.
 SAMPLE_NOT_IMPLEMENTED = [
-    "3.3.1", "3.3.3", "3.3.4", "3.3.5",
-    "3.4.1", "3.4.2", "3.4.8", "3.4.9",
-    "3.6.3",
-    "3.11.2",
-    "3.12.1", "3.12.3",
-    "3.13.6", "3.13.7",
-    "3.14.6", "3.14.7",
+    "3.4.8", "3.13.6", "3.14.6",   # three 5-pt mandatory blockers
+    "3.1.20",                        # excluded 1-pt (never POA&M-able) blocker
+    "3.3.4", "3.6.3",               # eligible 1-pt gaps
 ]
-SAMPLE_PARTIAL = ["3.5.3", "3.13.11"]  # MFA remote/priv only; encryption not FIPS-validated
+SAMPLE_PARTIAL = ["3.13.11"]  # encryption in use but not FIPS-validated (eligible at -3)
 SAMPLE_POAM = {
-    "3.5.3": "2026-08-15",
-    "3.4.1": "2026-08-31",
-    "3.11.2": "2026-09-15",
-    "3.4.2": "2026-09-30",
+    "3.3.4": "2026-08-31",
+    "3.6.3": "2026-09-30",
+    "3.13.11": "2026-10-15",
 }
+# Evidence register rows (metadata only — NO files stored). Shape matches the
+# Phase-1 evidence-register schema consumed by app.py / the binder.
 SAMPLE_EVIDENCE = {
-    "3.10.1": ["badge-access-policy.pdf", "facility-access-log-2026Q2.xlsx"],
-    "3.14.2": ["defender-coverage-report-jun2026.pdf"],
-    "3.5.3": ["m365-mfa-status-export.csv"],
-    "3.12.4": ["GCPM-SSP-v0.9-draft.docx"],
+    "3.10.1": [{
+        "title": "Badge access policy + Q2 facility log",
+        "owner": "Facilities Lead",
+        "location_uri": "SharePoint > Compliance > Physical",
+        "doc_status": "final", "impl_status": "demonstrates_operation",
+        "review_status": "reviewed",
+    }],
+    "3.14.2": [{
+        "title": "Defender for Endpoint coverage report",
+        "owner": "IT Manager",
+        "location_uri": "Defender console > Reports",
+        "doc_status": "final", "impl_status": "demonstrates_operation",
+        "review_status": "unreviewed",
+    }],
+    "3.4.8": [{
+        "title": "Allowlisting rollout plan (draft)",
+        "owner": "IT Manager",
+        "location_uri": "internal wiki > projects",
+        "doc_status": "draft", "impl_status": "documented_only",
+        "review_status": "unreviewed",
+    }],
 }
 
 
@@ -441,6 +462,47 @@ def validate(controls):
     }
 
 
+def validate_readiness(controls):
+    """Assert the POA&M eligibility ruleset is consistent with the catalog and that
+    the sample lands at the 89-but-not-ready verdict. Keeps the centerpiece and the
+    32-CFR-170.21 rules from silently drifting."""
+    import sys as _sys
+    _sys.path.insert(0, str(ROOT))
+    from logic.readiness import conditional_eligibility  # noqa: E402
+
+    rules = json.loads((DATA / "poam_eligibility.json").read_text(encoding="utf-8"))
+    by_id = {c["id"]: c for c in controls}
+
+    excluded = rules["excluded_ids"]
+    assert len(excluded) == 6, f"expected 6 excluded ids, got {len(excluded)}"
+    for cid in excluded:
+        assert cid in by_id, f"excluded id {cid} not in catalog"
+    # Five of the six are 1-point; 3.12.4 is the NA (SSP) row.
+    excl_ones = [c for c in controls if c["id"] in excluded and c["weight"] == 1]
+    assert len(excl_ones) == 5, f"expected 5 one-point excluded controls, got {len(excl_ones)}"
+    assert "3.12.4" in excluded, "3.12.4 (SSP) must be on the never-eligible list"
+    # Default-eligible 1-point set = 51 one-pointers minus the 5 excluded = 46.
+    ones = sum(1 for c in controls if c["weight"] == 1)
+    assert ones - len(excl_ones) == 46, "default-eligible 1-pt set must be 46"
+    # The sole partial-credit exception.
+    assert "3.13.11" in rules["exceptions"], "3.13.11 encryption exception missing"
+    assert rules["exceptions"]["3.13.11"]["allowed_status"] == "partial_alt"
+
+    # The centerpiece: sample scores exactly 89 and is NOT conditionally eligible.
+    sample = build_sample(controls)
+    elig = conditional_eligibility(sample["statuses"], controls, rules)
+    assert elig.score == 89, f"sample must score 89, got {elig.score}"
+    assert elig.score_ok and elig.ssp_ok, "sample must clear 88 and have an SSP"
+    assert not elig.eligible, "sample must be NOT conditionally eligible (the whole point)"
+    assert set(elig.blocking_ids) == {"3.4.8", "3.13.6", "3.14.6", "3.1.20"}, \
+        f"unexpected blockers: {elig.blocking_ids}"
+    return {
+        "excluded": len(excluded), "default_eligible_ones": ones - len(excl_ones),
+        "sample_score": elig.score, "sample_eligible": elig.eligible,
+        "sample_blockers": elig.blocking_ids,
+    }
+
+
 def build_sample(controls):
     statuses = {}
     for c in controls:
@@ -473,14 +535,21 @@ def main():
         json.dumps({"meta": meta, "controls": controls}, indent=1), encoding="utf-8")
     (DATA / "sample_assessment.json").write_text(
         json.dumps(build_sample(controls), indent=1), encoding="utf-8")
+    readiness = validate_readiness(controls)
     print(f"OK  110 controls | 5pt:{stats['fives']}  3pt:{stats['threes']}  "
           f"1pt:{stats['ones']}  NA:{stats['na']} | max deduction {stats['max_deduction']} "
           f"-> floor {stats['floor']}")
+    print(f"OK  POA&M rules: {readiness['excluded']} excluded, "
+          f"{readiness['default_eligible_ones']} default-eligible 1-pt | "
+          f"sample score {readiness['sample_score']} -> eligible={readiness['sample_eligible']} "
+          f"(blockers: {', '.join(readiness['sample_blockers'])})")
 
 
 if __name__ == "__main__":
     if "--check" in sys.argv:
-        stats = validate(build())
-        print(json.dumps(stats, indent=2))
+        controls = build()
+        stats = validate(controls)
+        readiness = validate_readiness(controls)
+        print(json.dumps({**stats, **readiness}, indent=2))
     else:
         main()

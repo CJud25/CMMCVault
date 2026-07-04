@@ -1,0 +1,14 @@
+{
+  "_source": "32 CFR 170.21 (POA&M requirements), verified 2026-07-04",
+  "_note": "Which NIST SP 800-171 requirements may be placed on a POA&M for CMMC Level 2 Conditional status. Consumed as plain data by logic/readiness.py; asserted by scripts/build_catalog.py --check.",
+  "conditional_min": 88,
+  "closeout_days": 180,
+  "max_points": 1,
+  "excluded_ids": ["3.1.20", "3.1.22", "3.12.4", "3.10.3", "3.10.4", "3.10.5"],
+  "exceptions": {
+    "3.13.11": {
+      "allowed_status": "partial_alt",
+      "note": "CUI encryption employed but not FIPS-validated (-3) may be POA&M'd; not-implemented (-5) may not."
+    }
+  }
+}

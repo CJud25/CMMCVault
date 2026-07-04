@@ -23,3 +23,10 @@ def controls() -> list[dict]:
 
 def meta() -> dict:
     return load_catalog()[0]
+
+
+@lru_cache(maxsize=1)
+def poam_rules() -> dict:
+    """POA&M eligibility ruleset (32 CFR 170.21). Static reference data, like the
+    catalog — consumed as a plain dict by logic/readiness.py."""
+    return json.loads((DATA_DIR / "poam_eligibility.json").read_text(encoding="utf-8"))
