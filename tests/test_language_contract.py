@@ -36,6 +36,13 @@ NEGATION = re.compile(
     r"\b(not|no|never|isn'?t|aren'?t|cannot|can'?t|without|confers no|nothing)\b",
     re.IGNORECASE)
 
+# Proper-noun contexts where a flagged word is part of an official name, not a claim.
+# These are stripped before scanning so "...Model Certification (a DoD mark)" passes
+# while a standalone "you'll be certified" claim still fails.
+ALLOWED_CONTEXT = [
+    "cybersecurity maturity model certification",  # the literal CMMC program name
+]
+
 # Exact user-facing lines that are known-good despite containing a flagged word.
 ALLOWLIST = set()
 
@@ -56,6 +63,8 @@ def _guidance_strings():
 
 def _violations(label, text):
     low = text.lower()
+    for phrase in ALLOWED_CONTEXT:            # strip official-name contexts first
+        low = low.replace(phrase, " ")
     hits = []
     if NEGATION.search(text):
         return hits  # negation/disclaimer context is allowed for FORBIDDEN terms

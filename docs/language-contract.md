@@ -31,5 +31,6 @@ Never assert, in any user-facing string, that a user *is* or *will be*:
 It scans user-facing strings (the UI source, `disclosures.py`, the binder, README,
 `docs/`, and the rendered guidance text in `data/controls.json`). A forbidden term
 fails the build **unless** it appears in a negation/disclaimer context (e.g. "not a
-certification") or on an explicit allowlist. Requirement text quoted verbatim from
-NIST SP 800-171 is authoritative source language and is out of scope.
+certification"), inside an official proper-noun name (the program name "Cybersecurity
+Maturity Model Certification" is exempt), or on an explicit allowlist. Requirement text
+quoted verbatim from NIST SP 800-171 is authoritative source language and is out of scope.

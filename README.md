@@ -9,9 +9,9 @@ missed truth impossible to ignore:
 > "Conditional" status.** Eligibility is a *compound gate* defined in 32 CFR 170.21,
 > and a contractor can sit above the threshold and still be ineligible.
 
-CMMC Vault is built as a **"super demo"**: a focused, session-only teaching tool used
-in guided readiness conversations. It is **not** a compliance platform, and it is
-deliberately transparent about what it can and cannot do (see
+CMMC Vault is a focused, session-only teaching tool for guided readiness
+conversations. It is **not** a compliance platform, and it is deliberately transparent
+about what it can and cannot do (see
 [What it is — and is not](#what-it-is--and-is-not)).
 
 ---
@@ -61,7 +61,7 @@ exists to explain that gap and turn it into an ordered plan of work.
 
 - A **self-assessment aid** and a **readiness self-estimate**.
 - A **teaching and conversation tool** for CMMC Level 2 readiness.
-- **Session-only**: no accounts, no database, and nothing stored on a server.
+- **Session-only**: no accounts, no database, and nothing persisted on a server.
 
 **It is not:**
 
@@ -139,9 +139,10 @@ hold:
 2. Every open (not-met) requirement placed on the POA&M is worth **no more than 1
    point** — with a single exception: **3.13.11** (CUI encryption) may be deferred when
    encryption is in use but not FIPS-validated (the −3 partial), **and**
-3. **None** of six specific 1-point requirements are open, because they can **never**
-   be placed on a POA&M: **3.1.20, 3.1.22, 3.12.4 (System Security Plan), 3.10.3,
-   3.10.4, 3.10.5**.
+3. **None** of six specific requirements are open, because they can **never** be
+   placed on a POA&M: five 1-point requirements — **3.1.20, 3.1.22, 3.10.3, 3.10.4,
+   3.10.5** — plus the **System Security Plan (3.12.4)**, which is unscored but
+   mandatory (without it, no valid assessment exists).
 
 POA&M items must be closed and confirmed within **180 days** of the Conditional status
 date, or the status expires. The ruleset is stored as data in
@@ -154,9 +155,10 @@ CMMC Vault is **session-only by design.**
 - **No server-side storage.** There is no database and no user account system. Your
   work exists only in the current browser session; closing the tab discards it. Export
   to JSON to save your work, and re-import to resume.
-- **No files are uploaded.** The evidence register stores *metadata and pointers* (a
-  title, an owner, a location such as "SharePoint > Compliance"), never the evidence
-  files themselves.
+- **No evidence files are uploaded or stored.** The evidence register holds *metadata
+  and pointers* only (a title, an owner, a location such as "SharePoint > Compliance"),
+  never the evidence files themselves. (The one file the app reads is your own saved
+  session `.json` on import, which is validated and never written back to a server.)
 - **No outbound network calls.** The application makes no external requests; it neither
   transmits nor phones home with any assessment data.
 - **A clear data boundary.** The interface instructs users **not** to enter real
@@ -171,19 +173,21 @@ CMMC Vault is **session-only by design.**
 ## Accuracy, provenance, and the guidance content
 
 - **Requirement weights** are transcribed from the *NIST SP 800-171 DoD Assessment
-  Methodology, Version 1.2.1 (2020-06-24), Annex A*. The **POA&M eligibility rules**
-  are taken from *32 CFR 170.21*.
+  Methodology, Version 1.2.1 (2020-06-24), Annex A* (via a public mirror of the
+  official document — verify against the official DoD PDF before high-stakes use). The
+  **POA&M eligibility rules** are taken from *32 CFR 170.21*.
 - **Build-time validation** (`scripts/build_catalog.py --check`) asserts the published
   weight distribution (44 × 5-point, 14 × 3-point, 51 × 1-point, 1 non-scored SSP;
   score floor −203), the eligibility ruleset, and that the sample scores **exactly 89
   and is not conditionally ready** — so neither the data nor the teaching example can
   silently drift.
-- **Plain-English guidance** for all 110 controls was authored against the NIST SP
-  800-171 Rev 2 requirement text and NIST SP 800-171A assessment objectives, and passed
-  a source-grounded review process. **This review was a structured, source-checked
-  editorial pass — not a sign-off by a licensed CMMC professional or C3PAO.** The
-  guidance is advisory. Requirement text is quoted from NIST SP 800-171 Rev 2, a U.S.
-  Government work in the public domain.
+- **Plain-English guidance** for all 110 controls was **drafted with AI assistance**
+  against the NIST SP 800-171 Rev 2 requirement text and NIST SP 800-171A assessment
+  objectives, then passed a structured, source-grounded review. **That review was a
+  source-checked editorial pass — not a sign-off by a licensed CMMC professional or
+  C3PAO.** The guidance is advisory and should be validated by a qualified professional
+  before it informs a contract decision. Requirement text is quoted from NIST SP
+  800-171 Rev 2, a U.S. Government work in the public domain.
 - **Before relying on any result with a real organization,** spot-check
   `data/controls.json` against the official DoD source document, run
   `python scripts/build_catalog.py --check`, and have a qualified professional validate
@@ -282,8 +286,10 @@ project does not currently attempt to answer.
 - The single untrusted-input surface — JSON import — is validated and sanitized
   (status/date/identifier validation, score recomputation, link-scheme and formatting
   neutralization, scope reconciliation).
-- If you discover a security issue, please open an issue describing the problem and the
-  steps to reproduce it. Do not include real CUI or sensitive data in a report.
+- If you discover a security issue, please report it privately via GitHub's **"Report a
+  vulnerability"** feature (the repository's *Security* tab) rather than a public issue,
+  so the flaw is not disclosed before it can be addressed. Do not include real CUI or
+  sensitive data in a report.
 
 ## Attribution and licensing
 
@@ -291,8 +297,9 @@ project does not currently attempt to answer.
   U.S. Government and are in the public domain.
 - The **application code** is © its author. No open-source license has been applied
   yet; until a `LICENSE` file is added, all rights are reserved.
-- "CMMC" is a term associated with the U.S. Department of Defense; this project is
-  independent and not affiliated with, or endorsed by, the DoD.
+- "CMMC" and "Cybersecurity Maturity Model Certification" are marks of the U.S.
+  Department of Defense. This project is independent and is not affiliated with,
+  sponsored by, or endorsed by the DoD, the CMMC Program, or the Cyber AB.
 
 ## Disclaimer
 
