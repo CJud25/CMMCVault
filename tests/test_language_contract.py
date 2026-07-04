@@ -15,16 +15,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-# Terms that must never appear unless negated/disclaimed.
+# Terms that must never appear unless negated/disclaimed. Note: bare "compliant"/
+# "compliance" is NOT here — it is legitimate product terminology ("compliant device",
+# "compliance report"). What's forbidden is CLAIMING the user's status (phrases below).
 FORBIDDEN = [
-    "certified", "certification", "compliant",
+    "certified", "certification",
     "guaranteed", "audit-approved", "assessor-approved", "attestation",
     "cmmc level 2 package",
 ]
-# Bare "passing/pass the assessment" style claims.
-FORBIDDEN_PHRASES = ["you pass", "you will pass", "guaranteed to pass",
-                     "you are certified", "you're certified", "officially certified",
-                     "fully compliant", "now compliant"]
+# Outcome-claim phrases — asserting the contractor passes / is compliant / is certified.
+FORBIDDEN_PHRASES = [
+    "you pass", "you will pass", "guaranteed to pass",
+    "you are certified", "you're certified", "officially certified",
+    "you are compliant", "you're compliant", "makes you compliant",
+    "keeps you compliant", "keep you compliant", "stay compliant",
+    "become compliant", "fully compliant", "now compliant", "is compliant",
+]
 
 NEGATION = re.compile(
     r"\b(not|no|never|isn'?t|aren'?t|cannot|can'?t|without|confers no|nothing)\b",

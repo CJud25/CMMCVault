@@ -10,8 +10,9 @@ never imply otherwise.
 Never assert, in any user-facing string, that a user *is* or *will be*:
 
 - **certified / certification** (except as a disclaimer: "not a certification")
-- **compliant** (except as a disclaimer / describing a *qualifying* POA&M is fine only
-  with a different word — use "satisfies this control", "qualifying")
+- **claiming compliance status** — phrases like "you are compliant", "makes you
+  compliant", "fully compliant", "now compliant", "is compliant". (The bare adjective
+  is fine in product terminology: an Intune "compliant device", a "compliance report".)
 - **passing / you pass / guaranteed to pass**
 - **audit-approved / assessor-approved**
 - **attestation** as something the tool completes (except negated)

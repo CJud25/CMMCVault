@@ -295,6 +295,112 @@ GUIDANCE = {
         "evidence": "User list export from Microsoft 365 / Active Directory with a quarterly review sign-off; onboarding/offboarding checklist.",
         "quick_win": "Export your user list today and disable every account you can't match to a current employee.",
     },
+    # ---- Access Control (3.1.2-3.1.22) — SME-reviewed batch (2026-07-04) ----
+    "3.1.2": {
+        "plain": "Having an account isn't enough — each person can only perform the transactions and functions their job needs. Roles and permissions, not everyone-an-admin. A shop-floor user shouldn't be able to change security settings or financial records.",
+        "evidence": "A role-to-function matrix mapping job roles to permitted system actions; screenshots of group/role membership (M365/AD) showing least-function access; a periodic access review with sign-off.",
+        "quick_win": "List your system/app roles and confirm no standard user has admin or cross-department functions they don't need — then remove the extras.",
+    },
+    "3.1.3": {
+        "plain": "You control where CUI is allowed to move — which systems, people, and networks — and block the paths it shouldn't take (no CUI to personal email or a consumer cloud drive).",
+        "evidence": "A data-flow diagram showing where CUI enters, is stored, and leaves; mail-flow / DLP rules restricting CUI destinations; a list of authorized flows.",
+        "quick_win": "Write down the few places CUI actually lives and moves, then add one mail-flow or DLP rule blocking the most obvious wrong path (e.g., external auto-forwarding).",
+    },
+    "3.1.4": {
+        "plain": "No single person should control a whole sensitive process end to end. Whoever requests a system change isn't the only one who approves it; whoever manages accounts isn't the sole reviewer of the logs — so one person can't act badly without a second noticing.",
+        "evidence": "A duty-separation matrix or a documented example (request vs. approve vs. implement handled by different roles); evidence that admin and audit-review duties aren't the same single person.",
+        "quick_win": "Pick your highest-risk system task (creating admin accounts, changing security configs) and require a different second person to approve or review it — and write down who does each part.",
+    },
+    "3.1.5": {
+        "plain": "Everyone gets the minimum access to do their job and nothing extra. Admin rights only for people who truly need them. Fewer admins, tightly scoped — including for security functions.",
+        "evidence": "A list of privileged/admin accounts each with a justification; evidence that local-admin rights are removed from standard user machines; a periodic privilege review.",
+        "quick_win": "Pull your admin list today and cut it to the few who genuinely need it; remove local-admin from everyday user laptops.",
+    },
+    "3.1.6": {
+        "plain": "Even your admins use a normal (non-admin) account for everyday work — email, browsing, documents — and switch to their admin account only for admin tasks. That way a phished admin session doesn't hand over the keys.",
+        "evidence": "Evidence that admins have separate standard and privileged accounts; a policy requiring non-privileged accounts for routine work.",
+        "quick_win": "Give each admin a second, standard account for daily email/web, and reserve the admin account for admin work only.",
+    },
+    "3.1.7": {
+        "plain": "Regular users can't run admin-level functions, and whenever anyone does run a privileged function, it's recorded. Two parts: block it for non-admins, and log it when it happens.",
+        "evidence": "Configuration showing standard users can't execute privileged functions; audit-log samples that capture privileged actions.",
+        "quick_win": "Confirm standard users can't install software or change system settings, and that your audit logging captures admin actions (turn on unified/admin audit logging).",
+    },
+    "3.1.8": {
+        "plain": "After a set number of wrong password tries, the account locks or slows down, so someone can't just keep guessing. A simple, standard setting.",
+        "evidence": "An account-lockout policy screenshot (threshold and duration) from AD / Entra ID / Intune.",
+        "quick_win": "Set an account-lockout threshold (commonly 5-10 attempts) in Entra ID/AD if it isn't already — it's a one-setting change.",
+    },
+    "3.1.9": {
+        "plain": "Systems that handle CUI show a use/consent banner at login stating acceptable use, that activity may be monitored, and the applicable privacy/CUI-handling notice, consistent with applicable CUI rules.",
+        "evidence": "A screenshot of the logon banner and the acceptable-use / privacy text it references.",
+        "quick_win": "Add a login/consent banner (a Group Policy or Intune setting) with standard acceptable-use, monitoring, and privacy language.",
+    },
+    "3.1.10": {
+        "plain": "Screens lock automatically after a few idle minutes and show a lock screen — not the work — so a walk-by can't read CUI on an unattended machine.",
+        "evidence": "A policy/configuration setting the inactivity-lock timeout (e.g., 15 minutes) with a pattern-hiding lock screen, applied via GPO/Intune.",
+        "quick_win": "Enforce an automatic screen lock (10-15 minutes) by policy across all machines.",
+    },
+    "3.1.11": {
+        "plain": "Sessions end automatically under defined conditions — for example, sign-out after long inactivity or a maximum session length, especially for remote and web sessions. This is more than just locking the screen.",
+        "evidence": "Configuration for session timeout/termination (VPN idle disconnect, web-app session timeout, Conditional Access sign-in frequency).",
+        "quick_win": "Set an idle-disconnect on your VPN and a session timeout / sign-in frequency on your cloud apps.",
+    },
+    "3.1.12": {
+        "plain": "All remote access into your environment goes through approved, monitored channels — you know who is connecting remotely and can see and manage those sessions. If you genuinely permit no remote access of any kind — no VPN, no remote desktop, and no reaching company systems/cloud from outside your offices — it may be marked N/A; but this is uncommon for shops using cloud email/apps, since reaching those from off-site is itself remote access. Document the basis in your SSP and the assessor must agree.",
+        "evidence": "A list of approved remote-access methods (VPN, RMM); logs/monitoring of remote sessions; Conditional Access policies governing remote sign-in.",
+        "quick_win": "Make sure remote access happens only through one approved, logged method (e.g., VPN with MFA) and turn on its connection logging.",
+    },
+    "3.1.13": {
+        "plain": "Remote connections are encrypted in transit (e.g., VPN or TLS) so the session can't be read; for CUI the encryption should use FIPS-validated cryptography. Mark N/A only if you truly permit no remote access (see 3.1.12), you document it, and the assessor agrees.",
+        "evidence": "VPN/TLS configuration showing encryption in use for remote paths, the protocol/cipher settings, and evidence the mechanism uses FIPS-validated cryptography (CMVP certificate / FIPS mode enabled).",
+        "quick_win": "Confirm every remote-access path rides an encrypted tunnel (a modern VPN or TLS) and retire any plaintext remote protocol.",
+    },
+    "3.1.14": {
+        "plain": "Remote users come in through a small number of controlled gateways (a VPN concentrator or managed access point) — not scattered direct connections to individual machines.",
+        "evidence": "A network diagram showing remote access funneled through defined gateways; firewall rules that enforce it.",
+        "quick_win": "Ensure remote access terminates at one managed gateway, and block direct inbound remote connections to workstations.",
+    },
+    "3.1.15": {
+        "plain": "Doing admin-level work or reaching security-relevant information remotely requires explicit authorization — it isn't something any remote user can do by default.",
+        "evidence": "A policy authorizing remote privileged actions; Conditional Access or privileged-access controls restricting remote admin; approval records.",
+        "quick_win": "Restrict remote admin to specific authorized accounts and devices (Conditional Access), and document who is approved.",
+    },
+    "3.1.16": {
+        "plain": "Wireless connections are approved before they're allowed — you decide which devices and users can use Wi-Fi; it isn't open. If you permit no wireless at all, mark N/A and document it.",
+        "evidence": "A wireless authorization policy; a controlled SSID with access control (802.1X or a pre-authorized device list); a separated guest network.",
+        "quick_win": "Lock corporate Wi-Fi to authorized devices/users (WPA2/3-Enterprise or a device allowlist) and split off any guest network.",
+    },
+    "3.1.17": {
+        "plain": "Wi-Fi that touches your environment uses strong authentication and encryption (WPA2/WPA3-Enterprise) — not an open network or a weak shared password. Mark N/A only if no wireless is permitted.",
+        "evidence": "Wireless configuration showing WPA2/WPA3-Enterprise (or equivalent) with authentication and encryption enabled, using FIPS-validated cryptographic modules where the wireless carries CUI.",
+        "quick_win": "Move corporate Wi-Fi to WPA2/WPA3-Enterprise with per-user/device authentication; retire WEP/WPA-Personal for anything touching CUI.",
+    },
+    "3.1.18": {
+        "plain": "Phones and tablets that connect to your systems are managed and controlled — you decide which devices connect and can enforce security on them. Mark N/A if no mobile devices are permitted to connect.",
+        "evidence": "MDM/Intune enrollment showing managed mobile devices; Conditional Access requiring a compliant device.",
+        "quick_win": "Require mobile devices to be enrolled and compliant (Intune) before they can reach email or company data.",
+    },
+    "3.1.19": {
+        "plain": "If CUI can land on a phone, tablet, or laptop, that device's storage is encrypted, so a lost or stolen device doesn't leak data.",
+        "evidence": "Encryption enforcement using FIPS-validated encryption (e.g., BitLocker XTS-AES in FIPS mode, or MDM-enforced device encryption) with a compliance report.",
+        "quick_win": "Turn on and enforce device encryption (BitLocker / mobile device encryption) via Intune and pull a compliance report.",
+    },
+    "3.1.20": {
+        "plain": "You verify and control how your systems connect to outside systems — partner networks, personal devices, third-party cloud — deciding which are allowed and what they can do. Note: this control can NOT be placed on a POA&M; it must be met at assessment.",
+        "evidence": "A policy defining permitted external connections/services; firewall or Conditional Access limits enforcing it; an approved external-systems list.",
+        "quick_win": "Write down which external systems and services are approved to connect, and block or restrict the rest — this one must be met, not deferred.",
+    },
+    "3.1.21": {
+        "plain": "You limit using company USB and portable drives on outside or uncontrolled computers (and vice versa), where they could pick up malware or leak CUI.",
+        "evidence": "A removable-media policy that addresses use on external systems; endpoint controls governing USB use.",
+        "quick_win": "Add a policy line — and an endpoint control where possible — restricting company portable drives to managed machines only.",
+    },
+    "3.1.22": {
+        "plain": "Nothing containing CUI ends up on publicly accessible systems — your website, social media, or public file shares — and someone reviews and authorizes what goes public. Note: this control can NOT be placed on a POA&M; it must be met at assessment.",
+        "evidence": "A policy and review process for public postings; evidence of who authorizes website/social content; confirmation no CUI sits on public shares.",
+        "quick_win": "Assign one person to review anything before it goes on the public website or social media, and confirm no CUI is on public shares — must be met, not deferred.",
+    },
     "3.3.1": {
         "plain": "Your systems keep records of who did what, when — and you keep those records long enough to investigate an incident months later. Default 30-day retention usually isn't enough.",
         "evidence": "Screenshot of audit log settings and retention period; a sample log pull for one user.",
