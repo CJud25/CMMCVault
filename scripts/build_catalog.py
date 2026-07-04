@@ -446,6 +446,77 @@ GUIDANCE = {
         "evidence": "The SSP itself, with a revision date within the last year.",
         "quick_win": "Start from a free SSP template and fill in your real environment — an honest draft beats a blank page in every scenario.",
     },
+    # ---- System & Communications Protection (3.13.x) — SME-reviewed batch (2026-07-04) ----
+    "3.13.1": {
+        "plain": "You have a controlled, monitored edge to your network — a real managed firewall at the internet boundary (and at key internal boundaries, like around wherever CUI lives) that controls and inspects what crosses. Not just the ISP's box on default settings.",
+        "evidence": "Firewall configuration/ruleset at the boundary; evidence of boundary monitoring/logging (firewall logs, IDS/IPS); a network diagram marking the external and key internal boundaries.",
+        "quick_win": "Confirm a managed firewall sits at your internet edge with logging on, and identify the boundary around wherever CUI lives so you can protect it specifically.",
+    },
+    "3.13.2": {
+        "plain": "Security is built into how your systems are designed and set up — you follow recognized secure-design and hardening principles (segmentation, least functionality, defense in depth) rather than bolting security on afterward. For a small shop this is largely documenting that you follow a known baseline/reference architecture.",
+        "evidence": "A documented system/security architecture, or a reference to the secure baseline you follow (e.g., CIS Benchmarks, vendor security baselines); evidence that changes consider security impact.",
+        "quick_win": "Write a short architecture note describing how your network is segmented and which hardening baseline you follow — that's the core artifact assessors look for here.",
+    },
+    "3.13.3": {
+        "plain": "The tools and interfaces used to administer systems are kept separate from the ones regular users use — admins manage systems through dedicated consoles and admin accounts, not from the same interface a standard user has.",
+        "evidence": "Evidence that management interfaces are separate from user functionality (separate admin portals, a jump host, distinct admin accounts).",
+        "quick_win": "Make sure system administration happens through dedicated admin consoles/accounts, not mixed into everyday user desktops.",
+    },
+    "3.13.4": {
+        "plain": "Shared system resources (memory, temporary storage, scratch space) don't leak leftover data from one user or process to the next. For a small shop this is mostly a matter of running current, supported, patched operating systems, which clear resources between uses by default.",
+        "evidence": "Evidence of supported/patched operating systems with default object-reuse protections in place; no shared scratch areas that expose residual data.",
+        "quick_win": "Keep systems on current, supported, patched OS versions — object-reuse protection is built in; the real risk is unsupported or unpatched systems.",
+    },
+    "3.13.5": {
+        "plain": "Anything the public can reach — a web server or a public-facing service — sits on a separate network segment (a DMZ) walled off from your internal network, so a compromise of the public thing doesn't hand over the inside.",
+        "evidence": "A network diagram showing public-facing components in a separate subnet/DMZ; firewall rules isolating that segment from the internal network.",
+        "quick_win": "If you host anything publicly reachable, put it on a separate subnet/VLAN with firewall rules blocking it from initiating connections into your internal network. If you host nothing public, document that.",
+    },
+    "3.13.6": {
+        "plain": "Your firewall blocks all traffic by default and only allows what you've explicitly permitted — both inbound and, importantly, outbound. The opposite (allow-all, block-a-few) is the common weak default this control exists to fix.",
+        "evidence": "A firewall ruleset ending in an explicit default-deny; a documented list of explicitly-permitted flows; evidence that outbound traffic is also restricted, not just inbound.",
+        "quick_win": "Add an explicit default-deny at the end of your firewall rules and review outbound rules — most shops allow all outbound, which this control expects you to tighten.",
+    },
+    "3.13.7": {
+        "plain": "When a device is connected to your network remotely (over VPN), it can't simultaneously bridge to the open internet in a way that routes around your protections — the VPN forces that device's traffic through your controls instead of out a second, uncontrolled path.",
+        "evidence": "VPN configuration enforcing full-tunnel, or otherwise preventing split tunneling, for remote devices.",
+        "quick_win": "Set your VPN to full-tunnel (or explicitly disable split tunneling) so remote sessions can't bridge your network to the open internet.",
+    },
+    "3.13.9": {
+        "plain": "Network sessions get torn down when they end or after a period of inactivity — connections don't linger open indefinitely (VPN idle timeout, server and firewall session timeouts).",
+        "evidence": "Configuration showing network/session idle timeouts (VPN, servers, firewall session tables).",
+        "quick_win": "Set idle timeouts on your VPN and key network services so idle connections drop automatically.",
+    },
+    "3.13.10": {
+        "plain": "The keys and certificates behind your encryption are managed properly — generated, stored, rotated, and retired securely — not left in default states or shared insecurely.",
+        "evidence": "A key/certificate management process, or evidence of managed keys (a certificate inventory with expiry dates, protected key storage, a rotation practice).",
+        "quick_win": "Inventory your certificates and encryption keys with their expiry dates, and confirm private keys aren't sitting in shared or unprotected locations.",
+    },
+    "3.13.12": {
+        "plain": "Cameras, microphones, and conferencing devices can't be turned on remotely without the people in the room knowing — there's a clear indication (a light or on-screen prompt) when they're active. This prevents covert activation.",
+        "evidence": "Configuration/policy preventing remote activation of cameras/mics; evidence of in-use indicators; conferencing application settings.",
+        "quick_win": "Confirm your collaboration apps show a clear in-use indicator and can't silently enable cameras/mics; set policies accordingly, or physically disable/cover devices where not needed.",
+    },
+    "3.13.13": {
+        "plain": "\"Mobile code\" — things like Office macros, JavaScript, ActiveX, and Java applets that run automatically — is controlled: you decide what's allowed to run and block risky types, especially from untrusted sources.",
+        "evidence": "Policy and technical controls for mobile code (macro-blocking policies, browser/endpoint settings restricting active content).",
+        "quick_win": "Block Office macros that come from the internet (a standard Microsoft 365 / Group Policy setting) — that's the highest-value mobile-code control for most shops.",
+    },
+    "3.13.14": {
+        "plain": "If you use internet voice/phone systems (VoIP, or Teams/Zoom calling), their use is controlled and monitored — configured securely, not left wide open. If you use no VoIP at all, record that in your SSP.",
+        "evidence": "VoIP configuration/policy showing secured, monitored use (segmentation, authentication), or SSP documentation that no VoIP is used.",
+        "quick_win": "If you use VoIP, confirm it's on a controlled/segmented setup with authentication; if you don't, write a one-line SSP note that VoIP isn't used.",
+    },
+    "3.13.15": {
+        "plain": "Communications sessions are protected so they can't be hijacked or tampered with mid-stream — which in practice comes from using authenticated, encrypted protocols (TLS, IPsec) rather than unauthenticated ones.",
+        "evidence": "Evidence that sessions use authenticated/encrypted protocols (TLS everywhere, IPsec for site-to-site); configuration disabling weak or unauthenticated protocols.",
+        "quick_win": "Enforce TLS on internal and external web/services and retire legacy unauthenticated protocols — that's what protects session authenticity in practice.",
+    },
+    "3.13.16": {
+        "plain": "CUI sitting in storage — on drives, servers, databases, and backups — is protected so someone who gets the disk or file can't read the CUI. Encryption at rest is the usual mechanism (offline or physically-secured storage is an accepted alternative where encryption isn't feasible). When you use encryption to protect CUI, it must be FIPS-validated — that requirement comes from 3.13.11.",
+        "evidence": "Evidence of encryption at rest wherever CUI is stored (BitLocker/volume encryption, database or file encryption), including backups; for the encryption used to protect CUI, the FIPS 140 CMVP validation certificate (certificate number) for the module. Where encryption isn't used, evidence of the alternative protection (e.g., secured offline storage).",
+        "quick_win": "Turn on and enforce BitLocker/volume encryption everywhere CUI is stored, including backups, and record the module's CMVP certificate number so you can show the encryption is FIPS-validated (3.13.11).",
+    },
     "3.13.8": {
         "plain": "CUI moving over networks is encrypted — TLS for web and email paths, VPN for site-to-site. If a file with CUI travels in the clear, this fails.",
         "evidence": "Configuration screenshots showing TLS enforcement / VPN settings for paths that carry CUI.",

@@ -11,7 +11,7 @@
    "max_deduction": 313,
    "floor": -203,
    "guidance_total": 110,
-   "guidance_reviewed": 35
+   "guidance_reviewed": 49
   }
  },
  "controls": [
@@ -1505,10 +1505,10 @@
    "short_title": "Monitor & protect boundary communications",
    "requirement": "Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems.",
    "guidance": {
-    "plain": "In plain terms: Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cmonitor & protect boundary communications\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "You have a controlled, monitored edge to your network \u2014 a real managed firewall at the internet boundary (and at key internal boundaries, like around wherever CUI lives) that controls and inspects what crosses. Not just the ISP's box on default settings.",
+    "evidence": "Firewall configuration/ruleset at the boundary; evidence of boundary monitoring/logging (firewall logs, IDS/IPS); a network diagram marking the external and key internal boundaries.",
+    "quick_win": "Confirm a managed firewall sits at your internet edge with logging on, and identify the boundary around wherever CUI lives so you can protect it specifically.",
+    "reviewed": true
    }
   },
   {
@@ -1522,10 +1522,10 @@
    "short_title": "Secure architecture & engineering",
    "requirement": "Employ architectural designs, software development techniques, and systems engineering principles that promote effective information security within organizational systems.",
    "guidance": {
-    "plain": "In plain terms: Employ architectural designs, software development techniques, and systems engineering principles that promote effective information security within organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201csecure architecture & engineering\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Security is built into how your systems are designed and set up \u2014 you follow recognized secure-design and hardening principles (segmentation, least functionality, defense in depth) rather than bolting security on afterward. For a small shop this is largely documenting that you follow a known baseline/reference architecture.",
+    "evidence": "A documented system/security architecture, or a reference to the secure baseline you follow (e.g., CIS Benchmarks, vendor security baselines); evidence that changes consider security impact.",
+    "quick_win": "Write a short architecture note describing how your network is segmented and which hardening baseline you follow \u2014 that's the core artifact assessors look for here.",
+    "reviewed": true
    }
   },
   {
@@ -1539,10 +1539,10 @@
    "short_title": "Separate user & admin functionality",
    "requirement": "Separate user functionality from system management functionality.",
    "guidance": {
-    "plain": "In plain terms: Separate user functionality from system management functionality. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cseparate user & admin functionality\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "The tools and interfaces used to administer systems are kept separate from the ones regular users use \u2014 admins manage systems through dedicated consoles and admin accounts, not from the same interface a standard user has.",
+    "evidence": "Evidence that management interfaces are separate from user functionality (separate admin portals, a jump host, distinct admin accounts).",
+    "quick_win": "Make sure system administration happens through dedicated admin consoles/accounts, not mixed into everyday user desktops.",
+    "reviewed": true
    }
   },
   {
@@ -1556,10 +1556,10 @@
    "short_title": "Prevent transfer via shared resources",
    "requirement": "Prevent unauthorized and unintended information transfer via shared system resources.",
    "guidance": {
-    "plain": "In plain terms: Prevent unauthorized and unintended information transfer via shared system resources. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cprevent transfer via shared resources\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Shared system resources (memory, temporary storage, scratch space) don't leak leftover data from one user or process to the next. For a small shop this is mostly a matter of running current, supported, patched operating systems, which clear resources between uses by default.",
+    "evidence": "Evidence of supported/patched operating systems with default object-reuse protections in place; no shared scratch areas that expose residual data.",
+    "quick_win": "Keep systems on current, supported, patched OS versions \u2014 object-reuse protection is built in; the real risk is unsupported or unpatched systems.",
+    "reviewed": true
    }
   },
   {
@@ -1573,10 +1573,10 @@
    "short_title": "DMZ / subnetworks for public components",
    "requirement": "Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks.",
    "guidance": {
-    "plain": "In plain terms: Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cdmz / subnetworks for public components\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Anything the public can reach \u2014 a web server or a public-facing service \u2014 sits on a separate network segment (a DMZ) walled off from your internal network, so a compromise of the public thing doesn't hand over the inside.",
+    "evidence": "A network diagram showing public-facing components in a separate subnet/DMZ; firewall rules isolating that segment from the internal network.",
+    "quick_win": "If you host anything publicly reachable, put it on a separate subnet/VLAN with firewall rules blocking it from initiating connections into your internal network. If you host nothing public, document that.",
+    "reviewed": true
    }
   },
   {
@@ -1590,10 +1590,10 @@
    "short_title": "Deny by default, allow by exception",
    "requirement": "Deny network communications traffic by default and allow network communications traffic by exception (i.e., deny all, permit by exception).",
    "guidance": {
-    "plain": "In plain terms: Deny network communications traffic by default and allow network communications traffic by exception (i.e., deny all, permit by exception). The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cdeny by default, allow by exception\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Your firewall blocks all traffic by default and only allows what you've explicitly permitted \u2014 both inbound and, importantly, outbound. The opposite (allow-all, block-a-few) is the common weak default this control exists to fix.",
+    "evidence": "A firewall ruleset ending in an explicit default-deny; a documented list of explicitly-permitted flows; evidence that outbound traffic is also restricted, not just inbound.",
+    "quick_win": "Add an explicit default-deny at the end of your firewall rules and review outbound rules \u2014 most shops allow all outbound, which this control expects you to tighten.",
+    "reviewed": true
    }
   },
   {
@@ -1607,10 +1607,10 @@
    "short_title": "Prevent split tunneling",
    "requirement": "Prevent remote devices from simultaneously establishing non-remote connections with organizational systems and communicating via some other connection to resources in external networks (i.e., split tunneling).",
    "guidance": {
-    "plain": "In plain terms: Prevent remote devices from simultaneously establishing non-remote connections with organizational systems and communicating via some other connection to resources in external networks (i.e., split tunneling). The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cprevent split tunneling\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "When a device is connected to your network remotely (over VPN), it can't simultaneously bridge to the open internet in a way that routes around your protections \u2014 the VPN forces that device's traffic through your controls instead of out a second, uncontrolled path.",
+    "evidence": "VPN configuration enforcing full-tunnel, or otherwise preventing split tunneling, for remote devices.",
+    "quick_win": "Set your VPN to full-tunnel (or explicitly disable split tunneling) so remote sessions can't bridge your network to the open internet.",
+    "reviewed": true
    }
   },
   {
@@ -1641,10 +1641,10 @@
    "short_title": "Terminate idle network connections",
    "requirement": "Terminate network connections associated with communications sessions at the end of the sessions or after a defined period of inactivity.",
    "guidance": {
-    "plain": "In plain terms: Terminate network connections associated with communications sessions at the end of the sessions or after a defined period of inactivity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cterminate idle network connections\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Network sessions get torn down when they end or after a period of inactivity \u2014 connections don't linger open indefinitely (VPN idle timeout, server and firewall session timeouts).",
+    "evidence": "Configuration showing network/session idle timeouts (VPN, servers, firewall session tables).",
+    "quick_win": "Set idle timeouts on your VPN and key network services so idle connections drop automatically.",
+    "reviewed": true
    }
   },
   {
@@ -1658,10 +1658,10 @@
    "short_title": "Cryptographic key management",
    "requirement": "Establish and manage cryptographic keys for cryptography employed in organizational systems.",
    "guidance": {
-    "plain": "In plain terms: Establish and manage cryptographic keys for cryptography employed in organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201ccryptographic key management\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "The keys and certificates behind your encryption are managed properly \u2014 generated, stored, rotated, and retired securely \u2014 not left in default states or shared insecurely.",
+    "evidence": "A key/certificate management process, or evidence of managed keys (a certificate inventory with expiry dates, protected key storage, a rotation practice).",
+    "quick_win": "Inventory your certificates and encryption keys with their expiry dates, and confirm private keys aren't sitting in shared or unprotected locations.",
+    "reviewed": true
    }
   },
   {
@@ -1692,10 +1692,10 @@
    "short_title": "Control collaborative devices",
    "requirement": "Prohibit remote activation of collaborative computing devices and provide indication of devices in use to users present at the device.",
    "guidance": {
-    "plain": "In plain terms: Prohibit remote activation of collaborative computing devices and provide indication of devices in use to users present at the device. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201ccontrol collaborative devices\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Cameras, microphones, and conferencing devices can't be turned on remotely without the people in the room knowing \u2014 there's a clear indication (a light or on-screen prompt) when they're active. This prevents covert activation.",
+    "evidence": "Configuration/policy preventing remote activation of cameras/mics; evidence of in-use indicators; conferencing application settings.",
+    "quick_win": "Confirm your collaboration apps show a clear in-use indicator and can't silently enable cameras/mics; set policies accordingly, or physically disable/cover devices where not needed.",
+    "reviewed": true
    }
   },
   {
@@ -1709,10 +1709,10 @@
    "short_title": "Control mobile code",
    "requirement": "Control and monitor the use of mobile code.",
    "guidance": {
-    "plain": "In plain terms: Control and monitor the use of mobile code. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201ccontrol mobile code\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "\"Mobile code\" \u2014 things like Office macros, JavaScript, ActiveX, and Java applets that run automatically \u2014 is controlled: you decide what's allowed to run and block risky types, especially from untrusted sources.",
+    "evidence": "Policy and technical controls for mobile code (macro-blocking policies, browser/endpoint settings restricting active content).",
+    "quick_win": "Block Office macros that come from the internet (a standard Microsoft 365 / Group Policy setting) \u2014 that's the highest-value mobile-code control for most shops.",
+    "reviewed": true
    }
   },
   {
@@ -1726,10 +1726,10 @@
    "short_title": "Control VoIP",
    "requirement": "Control and monitor the use of Voice over Internet Protocol (VoIP) technologies.",
    "guidance": {
-    "plain": "In plain terms: Control and monitor the use of Voice over Internet Protocol (VoIP) technologies. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201ccontrol voip\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "If you use internet voice/phone systems (VoIP, or Teams/Zoom calling), their use is controlled and monitored \u2014 configured securely, not left wide open. If you use no VoIP at all, record that in your SSP.",
+    "evidence": "VoIP configuration/policy showing secured, monitored use (segmentation, authentication), or SSP documentation that no VoIP is used.",
+    "quick_win": "If you use VoIP, confirm it's on a controlled/segmented setup with authentication; if you don't, write a one-line SSP note that VoIP isn't used.",
+    "reviewed": true
    }
   },
   {
@@ -1743,10 +1743,10 @@
    "short_title": "Protect session authenticity",
    "requirement": "Protect the authenticity of communications sessions.",
    "guidance": {
-    "plain": "In plain terms: Protect the authenticity of communications sessions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cprotect session authenticity\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "Communications sessions are protected so they can't be hijacked or tampered with mid-stream \u2014 which in practice comes from using authenticated, encrypted protocols (TLS, IPsec) rather than unauthenticated ones.",
+    "evidence": "Evidence that sessions use authenticated/encrypted protocols (TLS everywhere, IPsec for site-to-site); configuration disabling weak or unauthenticated protocols.",
+    "quick_win": "Enforce TLS on internal and external web/services and retire legacy unauthenticated protocols \u2014 that's what protects session authenticity in practice.",
+    "reviewed": true
    }
   },
   {
@@ -1760,10 +1760,10 @@
    "short_title": "Protect CUI at rest",
    "requirement": "Protect the confidentiality of CUI at rest.",
    "guidance": {
-    "plain": "In plain terms: Protect the confidentiality of CUI at rest. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
-    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
-    "quick_win": "Name who owns \u201cprotect cui at rest\u201d and capture one piece of evidence that it is operating today.",
-    "reviewed": false
+    "plain": "CUI sitting in storage \u2014 on drives, servers, databases, and backups \u2014 is protected so someone who gets the disk or file can't read the CUI. Encryption at rest is the usual mechanism (offline or physically-secured storage is an accepted alternative where encryption isn't feasible). When you use encryption to protect CUI, it must be FIPS-validated \u2014 that requirement comes from 3.13.11.",
+    "evidence": "Evidence of encryption at rest wherever CUI is stored (BitLocker/volume encryption, database or file encryption), including backups; for the encryption used to protect CUI, the FIPS 140 CMVP validation certificate (certificate number) for the module. Where encryption isn't used, evidence of the alternative protection (e.g., secured offline storage).",
+    "quick_win": "Turn on and enforce BitLocker/volume encryption everywhere CUI is stored, including backups, and record the module's CMVP certificate number so you can show the encryption is FIPS-validated (3.13.11).",
+    "reviewed": true
    }
   },
   {
