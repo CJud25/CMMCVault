@@ -13,6 +13,7 @@ import streamlit as st
 
 import disclosures
 from export.binder import build_binder
+from persistence import SCHEMA_VERSION, sanitize_import
 from logic.catalog import controls, load_sample, meta, poam_rules
 from logic.scoring import (
     CONDITIONAL_THRESHOLD, IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED,
@@ -157,13 +158,34 @@ with st.sidebar:
     c1.button("Load sample", on_click=load_sample_state, use_container_width=True)
     c2.button("Reset", on_click=reset_state, use_container_width=True)
     st.divider()
+
+    up = st.file_uploader("Resume: import a saved assessment (.json)", type="json",
+                          key="import_json")
+    if up is not None and not st.session_state.get("_imported_" + str(up.file_id), False):
+        try:
+            payload = json.loads(up.getvalue().decode("utf-8"))
+            state, warns = sanitize_import(payload, CAT)
+            for k, v in state.items():
+                st.session_state[k] = v
+            _clear_widget_keys()
+            st.session_state["_imported_" + str(up.file_id)] = True
+            st.session_state["_import_warnings"] = warns
+            st.rerun()
+        except (ValueError, UnicodeDecodeError):
+            st.error("That file isn't valid JSON — nothing was imported.")
+    for w in st.session_state.get("_import_warnings", [])[:8]:
+        st.caption("⚠️ " + w)
+
     export = {
+        "schema_version": SCHEMA_VERSION,
         "company": st.session_state.company,
         "exported": datetime.now().isoformat(timespec="seconds"),
-        "score": RESULT.score,
+        "score": RESULT.score,   # informational only; import recomputes and ignores this
         "statuses": st.session_state.assessment,
         "poam": st.session_state.poam,
         "evidence": st.session_state.evidence,
+        "scope": st.session_state.scope,
+        "scope_assets": st.session_state.scope_assets,
     }
     st.download_button(
         "⬇️ Export assessment (JSON)",
@@ -185,8 +207,8 @@ with st.sidebar:
         use_container_width=True,
     )
     st.caption(
-        "Demo stores nothing server-side — data lives in this browser session "
-        "only. Export before you close the tab."
+        "Session-only: nothing is stored on a server — your work lives in this "
+        "browser session. **Export before closing the tab**, and re-import to resume."
     )
 
 # --------------------------------------------------------------- header ----
@@ -615,3 +637,21 @@ with tab_about:
         "−203 floor, so the data cannot silently drift from the methodology."
     )
     st.warning(disclosures.DISCLAIMER, icon="⚖️")
+
+    st.divider()
+    st.markdown("#### About this tool & its limitations")
+    st.markdown(
+        "**What it is:** a self-assessment aid and a guided readiness conversation "
+        "tool — a self-estimate.\n\n"
+        "**What it does:** computes the SPRS score and the *compound* Conditional-"
+        "eligibility verdict (32 CFR 170.21), surfaces blockers, organizes evidence "
+        "*planning* metadata, and exports an Assessment Prep Binder.\n\n"
+        "**What it cannot do / is not:** it is not a certification, not legal advice, "
+        "not a C3PAO assessment, and confers no CMMC status. It stores nothing "
+        "(session-only). \n\n"
+        "**Current-state limits:** guidance marked *draft* is not yet expert-reviewed; "
+        "control weights are transcribed and should be spot-checked against the "
+        "official DoD methodology; self-reported fields are your claims, not verified."
+    )
+    st.info(disclosures.DATA_BOUNDARY, icon="🔒")
+    st.caption("Operating posture: " + disclosures.OPERATING_POSTURE)
