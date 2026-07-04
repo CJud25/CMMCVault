@@ -13,7 +13,7 @@ import streamlit as st
 
 import disclosures
 from export.binder import build_binder
-from persistence import SCHEMA_VERSION, sanitize_import
+from persistence import SCHEMA_VERSION, md_escape, sanitize_import
 from logic.catalog import controls, load_sample, meta, poam_rules
 from logic.scoring import (
     CONDITIONAL_THRESHOLD, IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED,
@@ -175,7 +175,7 @@ with st.sidebar:
         except (ValueError, UnicodeDecodeError):
             st.error("That file isn't valid JSON — nothing was imported.")
     for w in st.session_state.get("_import_warnings", [])[:8]:
-        st.caption("⚠️ " + w)
+        st.caption("⚠️ " + md_escape(w))
 
     export = {
         "schema_version": SCHEMA_VERSION,
@@ -214,7 +214,7 @@ with st.sidebar:
 
 # --------------------------------------------------------------- header ----
 title = st.session_state.company.strip() or "Untitled assessment"
-st.markdown(f"## {title}")
+st.markdown(f"## {md_escape(title)}")
 
 if RESULT.ssp_missing:
     st.error(
@@ -450,9 +450,10 @@ with tab_assess:
             # here; the editable register lives in its own step (P1.3).
             for e in st.session_state.evidence.get(cid, []):
                 st.caption(
-                    f"📋 **{e.get('title', 'evidence')}** — owner: {e.get('owner', '—')} · "
+                    f"📋 **{md_escape(e.get('title', 'evidence'))}** — owner: "
+                    f"{md_escape(e.get('owner', '—'))} · "
                     f"{e.get('doc_status', '?')}/{e.get('impl_status', '?')}/"
-                    f"{e.get('review_status', '?')} · {e.get('location_uri', '')}"
+                    f"{e.get('review_status', '?')} · {md_escape(e.get('location_uri', ''))}"
                 )
 
 DOC_STATUSES = ["missing", "draft", "final"]

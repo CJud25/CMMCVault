@@ -12,9 +12,18 @@ from datetime import date
 from logic.scoring import (
     IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED, allowed_statuses,
 )
-from logic.scoping import reconcile_na_statuses
+from logic.scoping import ASSET_CATEGORIES, reconcile_na_statuses
 
 SCHEMA_VERSION = 1
+
+# Markdown metacharacters that could turn an imported free-text field into a link,
+# image (remote beacon), heading, or code when rendered by st.markdown/st.caption.
+# Streamlit already blocks script/HTML; this stops Markdown-syntax phishing/beacons.
+_MD_META = re.compile(r"([`*_\[\]()#!<>|~])")
+
+
+def md_escape(value) -> str:
+    return _MD_META.sub(r"\\\1", str(value or ""))
 
 
 def _valid_date(value) -> bool:
@@ -83,7 +92,7 @@ def sanitize_import(payload: dict, catalog: list) -> tuple:
 
     # ---- scope ----
     scope = _import_scope(payload.get("scope"))
-    scope_assets = payload.get("scope_assets") if isinstance(payload.get("scope_assets"), list) else []
+    scope_assets = _import_scope_assets(payload.get("scope_assets"))
 
     # Enforce the scope-earned-N/A invariant on import: an imported file could carry
     # an N/A status the imported scope no longer earns (silent score inflation, and
@@ -134,6 +143,24 @@ def _import_evidence(raw, by_id):
         if migrated:
             out[cid] = migrated
     return out, warnings
+
+
+def _import_scope_assets(raw):
+    """Keep only well-formed asset rows; coerce fields to strings and whitelist the
+    category. Prevents a crafted file from crashing the Scope tab or bloating session."""
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        cat = item.get("category")
+        out.append({
+            "name": str(item.get("name", "") or "")[:200],
+            "category": cat if cat in ASSET_CATEGORIES else ASSET_CATEGORIES[0],
+            "description": str(item.get("description", "") or "")[:1000],
+        })
+    return out
 
 
 def _import_scope(raw):

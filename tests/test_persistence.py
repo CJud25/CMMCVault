@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from logic.catalog import controls
 from logic.scoring import NOT_IMPLEMENTED, PARTIAL_ALT, score_assessment
-from persistence import sanitize_import, sanitize_uri
+from persistence import sanitize_import, sanitize_uri, md_escape
 
 CAT = controls()
 
@@ -84,6 +84,23 @@ class TestSanitizeImport(unittest.TestCase):
         self.assertEqual(state["assessment"]["3.1.17"], NOT_IMPLEMENTED)
         self.assertEqual(score_assessment(state["assessment"], CAT).score, 100)  # -5 -5
         self.assertTrue(any("Reset N/A" in w for w in warns))
+
+    def test_md_escape_neutralizes_link_and_image_syntax(self):
+        # imported free text must not render as a markdown link/image (beacon/phish)
+        self.assertNotIn("](", md_escape("[click](https://phish.example)"))
+        self.assertNotIn("![", md_escape("![](https://attacker/px.png)"))
+        # normal punctuation stays readable
+        self.assertEqual(md_escape("Gulf Coast, Inc."), "Gulf Coast, Inc.")
+
+    def test_scope_assets_malformed_coerced(self):
+        payload = {"scope_assets": ["not-a-dict", {"name": "Server", "category": "bogus"},
+                                     {"name": "Laptop", "category": "CUI Asset"}]}
+        state, _ = sanitize_import(payload, CAT)
+        assets = state["scope_assets"]
+        self.assertEqual(len(assets), 2)                     # string item dropped
+        self.assertEqual(assets[0]["category"], "CUI Asset")  # bogus -> default
+        self.assertEqual(assets[1]["category"], "CUI Asset")
+        self.assertTrue(all(isinstance(a["name"], str) for a in assets))
 
     def test_calendar_invalid_date_dropped(self):
         # a regex-valid but calendar-invalid date must not survive to crash the app
