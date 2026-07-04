@@ -601,8 +601,18 @@ def _draft_guidance(short, req):
     }
 
 
+def _load_reviewed_batch():
+    """SME-reviewed guidance authored in family batches, kept as data (not inline
+    Python) so large reviewed sets don't bloat this file. Merged as reviewed=True."""
+    path = DATA / "guidance_reviewed_batch.json"
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
+
+
 def build():
     controls = []
+    reviewed_batch = _load_reviewed_batch()
     for cid, weight, short, req in CONTROLS:
         fam = cid.rsplit(".", 1)[0]
         special = None
@@ -613,9 +623,11 @@ def build():
         elif cid == "3.12.4":
             special = "ssp"
         if cid in GUIDANCE:
-            guidance = {**GUIDANCE[cid], "reviewed": True}   # curated
+            guidance = {**GUIDANCE[cid], "reviewed": True}          # curated (inline)
+        elif cid in reviewed_batch:
+            guidance = {**reviewed_batch[cid], "reviewed": True}    # SME-reviewed batch
         else:
-            guidance = _draft_guidance(short, req)            # generated draft
+            guidance = _draft_guidance(short, req)                  # generated draft
         controls.append({
             "id": cid,
             "family": fam,

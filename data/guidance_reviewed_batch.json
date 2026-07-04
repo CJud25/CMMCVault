@@ -1,0 +1,307 @@
+{
+ "3.2.1": {
+  "plain": "Everyone who touches your systems — shop floor, front office, and your admins — gets basic security awareness so they understand the risks (phishing, mishandling CUI) and the policies and procedures they're expected to follow. It has to actually happen and be tracked, not just exist as a document.",
+  "evidence": "The security awareness training content; a completion roster or LMS/training-platform report showing who took it and when; the policies, standards, and procedures users are made aware of.",
+  "quick_win": "Roll out a short annual security-awareness course (M365, KnowBe4, or similar) to all staff and keep a completion log that names each person and the date."
+ },
+ "3.2.2": {
+  "plain": "People with specific security-related duties — your IT admin, whoever runs backups, whoever handles incident response — get training tied to those responsibilities, above and beyond the general awareness everyone receives.",
+  "evidence": "A list of security-relevant roles and the training each requires; completion records or certificates for those individuals; training content mapped to the assigned duties.",
+  "quick_win": "Identify the handful of people with real security duties (admins, backup and incident-response owners) and record the role-specific training each has completed or is scheduled to complete."
+ },
+ "3.2.3": {
+  "plain": "Your awareness training also teaches people to recognize and report insider-threat warning signs — a coworker hoarding or exfiltrating data, unusual access, concerning behavior — and tells them exactly how to report it.",
+  "evidence": "Training materials that include an insider-threat module (indicators and reporting); completion records; the reporting procedure or channel employees are told to use.",
+  "quick_win": "Add an insider-threat segment (what the indicators are and how to report them) to your existing awareness training and track completion."
+ },
+ "3.3.2": {
+  "plain": "Your logs tie each action back to a specific individual, not a shared account, so after an event you can say exactly who did what. This depends on everyone having their own unique login — no shared 'admin' or 'shopfloor' accounts.",
+  "evidence": "Audit-log samples showing individual usernames on actions; confirmation that shared or generic accounts are eliminated (or individually attributable); the user account list backing it up.",
+  "quick_win": "Eliminate shared logins so every logged action maps to one named person, then spot-check a log to confirm actions show individual user IDs."
+ },
+ "3.3.3": {
+  "plain": "Periodically you review which events you're logging and adjust — confirming you still capture what matters and adding anything you're missing — instead of setting logging once and forgetting it.",
+  "evidence": "A documented list of the event types you log; records of a periodic review and update of that list (dates, who reviewed, what changed).",
+  "quick_win": "Write down the events you log today, then set a recurring (e.g., annual) review to confirm the list still fits your systems and current threats."
+ },
+ "3.3.4": {
+  "plain": "If your logging stops working — a log fills up, a service dies, a log agent stops reporting — someone gets alerted, so you don't go blind without realizing it.",
+  "evidence": "Configuration showing an alert fires on an audit/logging process failure (SIEM or log-agent health alert, log-volume-full alert); a sample alert or the notification setting.",
+  "quick_win": "Turn on a logging-health or failure alert in your SIEM or logging tool (or at minimum a disk-full alert on the log volume) so an outage notifies someone."
+ },
+ "3.3.5": {
+  "plain": "You don't review each system's logs in isolation — you bring logs together and correlate across them to spot suspicious activity, then act on what you find. In practice this is what a SIEM or a centralized log review provides.",
+  "evidence": "Evidence of centralized/correlated log review (SIEM dashboards, correlation rules or alerts); records of investigation and response to flagged activity; who performs the review and how often.",
+  "quick_win": "Aggregate your key logs into one place (a SIEM, or centralized Microsoft 365/Defender review) and set a few correlation alerts so cross-system activity is reviewed together, not source by source."
+ },
+ "3.3.6": {
+  "plain": "You can take raw logs and quickly filter, search, and generate readable reports on demand — without altering the original records — so investigating an event doesn't mean digging through raw log files by hand for days.",
+  "evidence": "The audit tool's search and report-generation capability (SIEM queries and reports, or the Microsoft 365 audit-log search/export); a sample generated report.",
+  "quick_win": "Confirm your logging tool can search and export a report on demand (most SIEMs and the M365 audit search can), then save one sample report as proof of the capability."
+ },
+ "3.3.7": {
+  "plain": "All your systems sync their clocks to one authoritative time source (such as NTP) so log timestamps line up across machines — which is essential for reconstructing the order of events during an investigation.",
+  "evidence": "Time-synchronization configuration pointing systems to an authoritative source (the domain-controller time hierarchy, or a trusted NTP server); evidence that timestamps are consistent across systems.",
+  "quick_win": "Point your servers and workstations at a single authoritative time source (your domain controller or a trusted NTP server) so log timestamps stay in sync."
+ },
+ "3.3.8": {
+  "plain": "Your logs and the tools that manage them are protected from tampering — ordinary users, and even most admins, can't read, alter, or delete audit records. Getting logs off the source system into a protected central store is the usual way to achieve this.",
+  "evidence": "Access-control settings on log storage and logging tools showing restricted permissions; evidence logs are forwarded to a protected/central repository; that modification and deletion are prevented or tightly restricted.",
+  "quick_win": "Forward logs to a central store where the people being logged can't edit them, and lock down file and tool permissions so audit records can't be modified or cleared by regular users."
+ },
+ "3.3.9": {
+  "plain": "Only a small, specific set of admins can manage the audit logging itself — turning logging on or off, changing what's captured, or clearing logs. Regular users and even other admins can't touch the audit configuration.",
+  "evidence": "The list of accounts or roles authorized to manage audit logging; permission settings showing audit-management rights are restricted to that subset.",
+  "quick_win": "Restrict audit and log-management rights to one or two named admins, and confirm no one else can change the logging settings or clear the logs."
+ },
+ "3.4.3": {
+  "plain": "You run changes to your systems through a process instead of making them on the fly: proposed changes (patches, new software, config or network changes) get logged, reviewed, and either approved or rejected before they happen. The log shows what changed, who asked, who decided, and when.",
+  "evidence": "A change-management policy or procedure; a change log or ticket queue with individual change records showing the request, the reviewer, the approve/disapprove decision, and the date; approval sign-offs (or CAB notes) for significant changes.",
+  "quick_win": "Start a simple change log today (a shared ticket queue or spreadsheet) and require that every significant system change is recorded there with who requested it, who approved it, and the date."
+ },
+ "3.4.4": {
+  "plain": "Before a change goes in, someone actually thinks about whether it could weaken security — opening a port, disabling a control, or introducing a new vulnerability. This is a review step inside your change process, not a separate program.",
+  "evidence": "Change records that include a security-impact note or field completed before approval; a procedure requiring security-impact analysis prior to implementation; evidence changes are validated in a test/staging environment where practical.",
+  "quick_win": "Add a \"security impact?\" line to your change form or ticket template so every change is checked for its security effect before anyone approves it."
+ },
+ "3.4.5": {
+  "plain": "Only specific, authorized people can actually make changes to your systems — both logically (who holds the admin rights to change configurations) and physically (who can get to the servers and network gear). Those restrictions are written down and enforced, not just understood.",
+  "evidence": "A documented list of who is authorized to make system changes; privileged/admin group membership showing that list is enforced; physical access controls to server and network equipment (locked room/rack, badge logs); a policy stating the change-related access restrictions.",
+  "quick_win": "Cut change/configuration rights down to a named short list of admins, confirm the servers and network gear sit behind locked physical access, and write down exactly who is allowed to make changes."
+ },
+ "3.4.6": {
+  "plain": "Your systems provide only the capabilities they actually need to do their job — unnecessary software, features, roles, and services are turned off or removed. A smaller footprint means fewer things an attacker can use.",
+  "evidence": "A hardening baseline or checklist that identifies and disables nonessential features; a documented list of the essential functions/software for each system type; configuration profiles (Intune/GPO) or CIS-benchmark settings showing nonessential capabilities are off.",
+  "quick_win": "Take your standard workstation build and disable or remove the preinstalled apps, roles, and Windows features you don't use, then bake that into your baseline so new machines start locked down."
+ },
+ "3.4.7": {
+  "plain": "This is the concrete side of least functionality: the nonessential ports, protocols, and services are actually closed or disabled, and unneeded programs are blocked from running. You know which ports/protocols/services you truly need and have shut off the rest (for example, disabling SMBv1 and Telnet, closing unused inbound ports).",
+  "evidence": "A documented list of the required/allowed ports, protocols, and services with a business justification for each; host/firewall configuration showing the others are disabled or blocked; evidence that legacy protocols (SMBv1, Telnet, etc.) are turned off.",
+  "quick_win": "Write down the ports, protocols, and services you actually need, then disable a known-bad one right now (e.g., SMBv1) and close unused inbound ports on the host firewall."
+ },
+ "3.4.8": {
+  "plain": "You control which software is allowed to run on your machines. There are two approaches: deny-by-exception (a blocklist of known-bad software — the weaker option), or the stronger deny-all / allow-by-exception model (allowlisting), where only approved software can execute and everything else is blocked by default. NIST and assessors treat allowlisting as the stronger, preferred implementation, and this is a high-value 5-point control, so an enforced allowlist is worth the effort.",
+  "evidence": "A policy stating which approach you use (and, ideally, that you allowlist); the enforcement configuration — AppLocker, Windows Defender Application Control (WDAC), or a third-party allowlisting product — showing rules set to actively enforce, not audit-only; the approved-software list the rules are built from; and logs showing execution actually being allowed or blocked.",
+  "quick_win": "Deploy AppLocker or Windows Defender Application Control, start it in audit mode to learn what legitimately runs, then move it to enforce — audit-only mode doesn't satisfy the control. Either an enforced blocklist or an enforced deny-all / allow-by-exception ruleset meets the requirement, but allowlisting is the stronger implementation and worth the effort on this 5-point control."
+ },
+ "3.4.9": {
+  "plain": "Regular users can't freely install whatever software they want. There's a rule for what may be installed and a way to enforce and watch it — in practice, standard users don't have local-admin rights (so they can't install), and you track what actually ends up on machines.",
+  "evidence": "A policy governing user-installed software; evidence that standard users lack local-admin/install rights; software inventory or monitoring from Intune/RMM/endpoint tooling that detects and reports installed applications.",
+  "quick_win": "Remove local-admin from standard user accounts so they can't install software, and use your management tool's software inventory to monitor what's installed and flag anything unexpected."
+ },
+ "3.6.2": {
+  "plain": "When you have a security incident, you track it through to closure, document what happened, and report it to the right people — internally (management/leadership) and externally. For defense contractors this external piece is specific: DFARS 252.204-7012 requires reporting a cyber incident that affects CUI to DoD through DIBNet (dibnet.dod.mil) within 72 hours of discovery.",
+  "evidence": "An incident tracking log/register showing each incident's status, handling, and dates; the documented incident reports themselves; a reporting procedure naming the internal recipients and the external path — including the DoD DIBNet 72-hour reporting requirement for incidents affecting CUI; and evidence you can actually file (a DoD-approved medium-assurance PKI certificate, which DIBNet reporting requires).",
+  "quick_win": "Stand up an incident log/register and write down the reporting steps — who is notified internally and the exact external path (report to DoD via dibnet.dod.mil within 72 hours) — then obtain the medium-assurance PKI certificate DIBNet needs now, so you're not scrambling for it during a real incident."
+ },
+ "3.6.3": {
+  "plain": "It's not enough to have an incident response plan — you exercise it. A tabletop or walkthrough where the team runs a realistic scenario surfaces the gaps (missing contacts, unclear roles, no backups) before a real incident does, and you keep a record that you tested.",
+  "evidence": "Dated records of an incident-response test or tabletop (the scenario used, who participated, the date); after-action notes or lessons learned; and any updates you made to the IR plan as a result of the test.",
+  "quick_win": "Run a one-hour tabletop this quarter walking the team through a realistic scenario (e.g., ransomware or a phished-admin account), then write down the date, who took part, and the fixes you identified."
+ },
+ "3.5.1": {
+  "plain": "Every user, every automated process acting for a user, and every device on your systems has a unique identifier so you can tell exactly who or what is connecting. No shared or anonymous IDs, and service/automation accounts are named and accounted for too.",
+  "evidence": "A user/account list from Entra ID or Active Directory showing unique per-person accounts; an inventory of service accounts and their purpose; a device inventory (Intune/RMM) showing devices are identified on the network.",
+  "quick_win": "Confirm every login account maps to one named person or one documented service/device, and rename or remove any generic shared IDs like 'shopfloor' or 'shipping'."
+ },
+ "3.5.2": {
+  "plain": "Before any user, process, or device gets access, its claimed identity is actually proven — a password, certificate, or other authenticator is verified, not just an identifier typed in. Identification (3.5.1) says who you are; authentication proves it, and it must happen first.",
+  "evidence": "Authentication configuration for systems handling CUI (Entra ID/AD password and sign-in policy); evidence that devices/services authenticate (certificates, machine accounts, API keys); no systems allowing anonymous or unauthenticated access to CUI.",
+  "quick_win": "Verify no system, share, or app that touches CUI allows blank-password or anonymous access, and that every account requires a verified credential to sign in."
+ },
+ "3.5.4": {
+  "plain": "Authentication over the network resists replay — a captured login can't simply be recorded and replayed to get in. In practice this comes free from the modern protocols you already use (Kerberos, TLS-protected logins, WS-Fed/SAML/OAuth to Entra ID), which use nonces or challenge-response; the risk is legacy protocols that don't.",
+  "evidence": "Evidence that network authentication uses replay-resistant protocols (Kerberos, TLS, modern federation to Entra ID); configuration showing legacy/weak authentication (NTLMv1, unencrypted LDAP, basic auth) is disabled.",
+  "quick_win": "Disable legacy authentication in Entra ID and turn off NTLMv1/insecure LDAP on-prem so all network logons ride replay-resistant protocols."
+ },
+ "3.5.5": {
+  "plain": "Once an account identifier is used, you don't hand that same identifier to a different person for a defined waiting period, so old activity can't be confused with a new user. Usernames and account IDs aren't recycled right away.",
+  "evidence": "A written account-management policy stating identifiers are not reused for a defined period; naming-convention documentation; evidence that departed users' identifiers are retired rather than reassigned.",
+  "quick_win": "Add a line to your account policy setting how long an identifier stays retired before reuse (a common choice is not reusing it at all, or 12+ months) and follow a unique naming convention so IDs aren't recycled."
+ },
+ "3.5.6": {
+  "plain": "Accounts that sit unused for a defined stretch get disabled — ideally automatically, but a documented recurring review works too — so dormant logins can't be quietly abused. This is separate from offboarding — it catches accounts everyone forgot about.",
+  "evidence": "Configuration or a documented procedure that disables accounts after a defined inactivity period; a report of stale/last-sign-in dates from Entra ID/AD showing action taken on inactive accounts.",
+  "quick_win": "Pull a last-sign-in report and disable accounts idle past your defined threshold (commonly 35-90 days), then set a recurring review or automation to keep doing it."
+ },
+ "3.5.7": {
+  "plain": "New passwords have to meet a minimum complexity rule and, when changed, differ from the old one by a set number of characters. The point is that passwords aren't trivially weak or barely-changed reuses.",
+  "evidence": "A password policy screenshot from Entra ID / Active Directory / Intune showing minimum length and complexity settings; the documented complexity standard.",
+  "quick_win": "Set and enforce a password policy (a solid modern baseline is a longer minimum length plus banned common/breached passwords via Entra Password Protection) so weak passwords are rejected at creation."
+ },
+ "3.5.8": {
+  "plain": "People can't cycle back to a recent old password — the system remembers a set number of past passwords and blocks their reuse. This stops the 'change it then change it right back' trick.",
+  "evidence": "Password-history / enforce-password-history setting in Entra ID / AD Group Policy showing the number of remembered generations.",
+  "quick_win": "Set the password-history value in your identity system (commonly 24 remembered passwords) so recent passwords can't be reused."
+ },
+ "3.5.9": {
+  "plain": "When you issue a temporary password — for a new hire or a reset — the user is forced to change it to their own permanent one the first time they log in. The temporary credential is never left in place as a standing password.",
+  "evidence": "Configuration or procedure requiring a forced password change at first logon (the 'user must change password at next sign-in' flag); help-desk reset process documentation.",
+  "quick_win": "Turn on 'require password change at next sign-in' for every new account and every admin-initiated reset so temporary passwords can't linger."
+ },
+ "3.5.10": {
+  "plain": "Passwords are never kept or sent in readable form — at rest they're stored only as salted one-way hashes, and in transit they only cross channels that are encrypted (for example the login page and directory traffic ride TLS). If a database or a captured packet would reveal a usable password, this fails. Where cryptography is protecting CUI, it must be FIPS-validated (3.13.11); the salted-hash and encrypted-transport mechanisms themselves should likewise use validated cryptography.",
+  "evidence": "Evidence that credential stores hash passwords (platform/IdP documentation confirming salted one-way hashing — e.g., Entra ID / Active Directory); configuration showing authentication traffic is encrypted (LDAPS instead of plain LDAP, TLS on login portals and app sign-in); confirmation that no application stores or emails passwords in plaintext, and CMVP certificate references where the cryptography protects CUI (3.13.11).",
+  "quick_win": "Hunt down and fix any place a password is stored or sent in the clear — replace plain LDAP with LDAPS, force TLS on every login page and app, and confirm no app database or spreadsheet holds plaintext passwords."
+ },
+ "3.5.11": {
+  "plain": "When someone types a password or other authenticator, the system hides it — masked dots instead of visible characters, and no error message that reveals whether the username or the password was the wrong part. This keeps shoulder-surfers and attackers from learning credentials.",
+  "evidence": "Screenshots showing password fields are masked at login; evidence that authentication failure messages are generic (they don't reveal which field was wrong); configuration of any custom login screens.",
+  "quick_win": "Confirm every login screen masks the password as it's typed and returns a generic 'sign-in failed' message rather than saying whether the username or password was incorrect."
+ },
+ "3.7.1": {
+  "plain": "You actually perform maintenance on your systems — servers, workstations, network gear — in a controlled, deliberate way rather than ad hoc. That means scheduled upkeep, following vendor and security guidance, and keeping a record of what was done and by whom.",
+  "evidence": "A maintenance policy/procedure; maintenance logs or tickets showing scheduled and performed maintenance (dates, systems, who did the work); vendor/service records.",
+  "quick_win": "Start a simple maintenance log (even a shared spreadsheet) and record the next few maintenance actions — what, when, and who — so there is a record the activity is controlled."
+ },
+ "3.7.2": {
+  "plain": "The tools, techniques, and people used to maintain your systems are controlled — you approve and monitor diagnostic/repair tools (they're a common way malware walks in), and you vet and authorize whoever performs maintenance. This applies to both in-house staff and outside technicians touching systems that handle CUI.",
+  "evidence": "A list of approved maintenance tools with approval records; a policy governing maintenance tools and personnel; records that maintenance personnel (including third parties) are authorized/vetted; monitoring of maintenance-tool use.",
+  "quick_win": "Write down which maintenance tools are approved and who is authorized to perform maintenance (including your outside IT/vendor), and require approval before any new tool or technician touches CUI systems."
+ },
+ "3.7.3": {
+  "plain": "Before any equipment that held CUI leaves your building for off-site repair or warranty service, the CUI is removed — wiped or the storage sanitized — so the vendor never receives your CUI. If a drive can't be sanitized, remove it before the unit ships.",
+  "evidence": "A sanitization policy for off-site maintenance; a log of equipment sanitized before leaving (asset, date, method, who verified); certificates or records tied to specific units sent out for service.",
+  "quick_win": "Add a rule to your maintenance process: no CUI-bearing device leaves for repair until its storage is wiped or removed, and log each instance."
+ },
+ "3.7.4": {
+  "plain": "Any media carrying diagnostic or test programs — a technician's USB stick, a vendor's utility disk, a downloaded firmware/diagnostic tool — is scanned for malicious code before it's connected to your systems. Maintenance media is a classic malware entry point, so it gets checked first, every time.",
+  "evidence": "A policy requiring malware scanning of diagnostic/test media before use; scan records or logs; endpoint controls that scan removable media on connection.",
+  "quick_win": "Require every diagnostic/test USB or disk (including a vendor's) to be malware-scanned before it touches a system, and configure endpoints to auto-scan removable media on insertion."
+ },
+ "3.7.5": {
+  "plain": "Any maintenance done remotely over an external network — a vendor or admin dialing in through RMM, VPN, or a remote-desktop tool — requires multifactor authentication to start the session, and the connection is torn down as soon as the maintenance is finished (not left open). When that remote maintenance channel protects CUI, the encryption behind it must be FIPS-validated cryptography (see 3.13.11).",
+  "evidence": "MFA enforcement on remote-maintenance/RMM/VPN access (configuration or identity-provider export); evidence sessions terminate when work is complete (session logs, idle/disconnect settings); for the encrypted channel protecting CUI, the FIPS 140 CMVP validation for the module (see 3.13.11).",
+  "quick_win": "Require MFA on every remote-maintenance path (RMM, VPN, remote desktop) and confirm sessions close out when the job is done rather than staying connected."
+ },
+ "3.7.6": {
+  "plain": "When someone does maintenance but hasn't been vetted for access to your CUI systems — an outside repair tech, a contractor without a background check — an authorized person supervises them the whole time they're on site or connected. No unescorted, unvetted hands on the equipment.",
+  "evidence": "A policy requiring supervision of maintenance personnel lacking access authorization; visitor/escort logs tied to maintenance visits; records naming the authorized supervisor for each such activity.",
+  "quick_win": "Set a standing rule that any un-vetted maintenance worker is escorted and supervised by an authorized employee for the entire visit, and log who supervised."
+ },
+ "3.9.1": {
+  "plain": "Before you give someone access to systems that hold CUI, you screen them — typically a background check appropriate to the role — so you're not handing sensitive data to an unvetted person. This applies to new hires and to anyone (including contractors) getting CUI access.",
+  "evidence": "A personnel screening policy; records that background screening was completed before CUI access was granted (dates tied to access-grant dates); onboarding checklist linking screening to access.",
+  "quick_win": "Add a screening step to onboarding so CUI-system access isn't granted until the background check is complete, and keep a record tying the two together."
+ },
+ "3.9.2": {
+  "plain": "When someone leaves or changes roles, your CUI systems are protected during and after that change — accounts are disabled promptly, credentials revoked, and company equipment and CUI recovered. The classic gap is a terminated employee whose account still works days later.",
+  "evidence": "A termination/transfer (offboarding) checklist covering account disablement, credential revocation, and equipment/CUI return; records of completed offboarding with timestamps; evidence that access was removed at or before departure.",
+  "quick_win": "Build an offboarding checklist that disables accounts and revokes access on the person's last day (or role-change date) and recovers their devices — then run it every time."
+ },
+ "3.11.1": {
+  "plain": "On a regular schedule you assess the risks to your operation from running systems that store, process, or transmit CUI — what could go wrong, how likely it is, and what the impact would be — and you write it down. 'We know our risks' in someone's head doesn't count; this is a documented, periodic assessment.",
+  "evidence": "A dated risk assessment report covering threats to CUI systems, likelihood, and impact; a defined frequency (e.g., annual and on significant change); evidence it feeds decisions (ties to your POA&M/remediation).",
+  "quick_win": "Complete a first written risk assessment from a simple template — list your CUI systems, the top threats to each, and their likelihood/impact — and set a recurring date to refresh it."
+ },
+ "3.11.3": {
+  "plain": "You fix the security weaknesses you find, prioritized by the risk they pose — the serious, exploitable holes get remediated first, on a defined timeline, rather than everything sitting untouched. This closes the loop on your scanning (3.11.2) and risk assessment (3.11.1): findings actually get acted on.",
+  "evidence": "Remediation records tied to scan/risk findings (what was fixed, when, and the risk-based priority); a remediation policy with timelines by severity; a POA&M or tracker showing open items and target dates.",
+  "quick_win": "Take your latest vulnerability scan, rank the findings by risk, and set remediation deadlines by severity (e.g., critical within X days) — then track them to closure."
+ },
+ "3.8.1": {
+  "plain": "Media that holds CUI — USB drives, external disks, backup tapes, and printed documents — is physically controlled and stored securely (a locked cabinet or a secured room), not left sitting on desks or open shelves. This covers both paper and digital media.",
+  "evidence": "A media protection policy; a description or photos of the locked storage used for CUI media and printouts; an inventory of media that contains CUI.",
+  "quick_win": "Put CUI-bearing drives and printouts in a locked cabinet or secured room today, and write down where CUI media is stored."
+ },
+ "3.8.2": {
+  "plain": "Only authorized people can reach the CUI on your media — enforced both physically (who can get to the locked storage) and logically (who can open the files). Someone without a need to know doesn't get access.",
+  "evidence": "Access permissions on the shares/folders holding CUI; a list of who has keys or badge access to the media storage; authorization records tying access to a need.",
+  "quick_win": "Review who can open the folders and drives holding CUI and who has keys to the media cabinet, and remove anyone without a genuine need."
+ },
+ "3.8.4": {
+  "plain": "Media and documents containing CUI carry the required CUI markings and any distribution or handling limitations, so anyone who handles them knows what they are and how they must be protected. Follow the CUI marking rules — the CUI banner marking, category, and any dissemination controls.",
+  "evidence": "Examples of marked media and documents (CUI banner markings, labels on drives); a marking procedure that references the CUI marking standard.",
+  "quick_win": "Start labeling CUI files and removable media with the \"CUI\" banner marking, and write a short procedure pointing to the CUI marking rules."
+ },
+ "3.8.5": {
+  "plain": "When CUI media leaves your controlled areas — hand-carried, shipped, or taken off-site — you control who has custody of it and keep a record so it stays accountable the whole way. You can say who held it and where it went.",
+  "evidence": "A transport or chain-of-custody log; shipping/tracking records for CUI media; a policy governing how media is controlled during transport.",
+  "quick_win": "Start a simple custody log for any CUI media that leaves the building (who took it, when, and where) and use trackable shipping for anything mailed."
+ },
+ "3.8.6": {
+  "plain": "CUI on digital media (USB drives, external disks, backup media) that travels outside your controlled areas is encrypted so it can't be read if the media is lost or stolen — unless it's protected another physical way, such as a locked, guarded courier. When you use encryption to protect CUI, it must be FIPS-validated — that requirement comes from 3.13.11.",
+  "evidence": "Evidence that digital media in transport is encrypted (encrypted USB / BitLocker To Go, encrypted backup media), including the module's FIPS 140 CMVP validation certificate number; or documentation of the alternative physical safeguards used instead.",
+  "quick_win": "Encrypt any USB or external drive that carries CUI off-site (e.g., BitLocker To Go), and record the module's CMVP certificate number so you can show the encryption is FIPS-validated (3.13.11)."
+ },
+ "3.8.8": {
+  "plain": "No plugging in USB sticks or portable drives that have no identifiable owner — the \"found in the parking lot\" drive is exactly what this blocks. Every portable storage device in use is one you can trace to a responsible person.",
+  "evidence": "A policy prohibiting the use of ownerless portable storage; endpoint control settings that block unknown/unapproved USB devices; an inventory tying devices to owners.",
+  "quick_win": "Add a clear policy line banning use of any USB or portable drive without an identifiable owner, and where possible enforce it with an endpoint control that blocks unknown devices."
+ },
+ "3.8.9": {
+  "plain": "Backups that contain CUI are protected wherever they're stored — on-site, off-site, or in the cloud — so anyone who reaches the backup can't read the CUI. Encryption is the usual method; when you use encryption to protect CUI, it must be FIPS-validated (that requirement comes from 3.13.11).",
+  "evidence": "Evidence that CUI backups are encrypted or otherwise access-controlled at their storage location (backup or cloud-backup encryption settings), including the FIPS 140 CMVP certificate number for the module used; a description of where backups live and who can access them.",
+  "quick_win": "Turn on encryption for your CUI backups (on-site and cloud), confirm access is restricted, and record the module's CMVP certificate number to show the encryption is FIPS-validated (3.13.11)."
+ },
+ "3.10.1": {
+  "plain": "Only authorized people can physically get to your systems and the areas that house them — the server room, network closet, and workstations handling CUI. Locks, badges, or keys keep everyone else out.",
+  "evidence": "A physical access control policy; a list of individuals authorized for sensitive areas; evidence of locks or badge readers on the server room and CUI areas; the badge/key issuance record.",
+  "quick_win": "Lock the server/network room and limit keys or badge access to the few people who need it, and write down who is authorized."
+ },
+ "3.10.2": {
+  "plain": "You physically protect and keep an eye on the facility and its supporting infrastructure (power, network cabling, HVAC where it matters) — for example alarms, cameras, or monitored entry — so intrusion or tampering gets noticed rather than going undetected.",
+  "evidence": "Evidence of facility protection and monitoring (alarm system, surveillance cameras, monitored entry logs); a description of how the facility and support infrastructure are protected.",
+  "quick_win": "Make sure the facility has working, monitored protection — an alarm and/or cameras covering entrances and the server area — and confirm it's actually monitored, not just installed."
+ },
+ "3.10.3": {
+  "plain": "Visitors — vendors, contractors, and guests — are escorted and their activity is watched while they're in areas with systems or CUI; they don't wander unaccompanied. Note: this control cannot be placed on a POA&M — it must be met at assessment, not deferred.",
+  "evidence": "A visitor policy; a visitor sign-in log; evidence of the escort practice (visitor badges/passes, escort assignments).",
+  "quick_win": "Start a visitor sign-in log and require staff to escort every visitor in sensitive areas — and because this can't go on a POA&M, close it now rather than deferring it."
+ },
+ "3.10.4": {
+  "plain": "You keep records of physical access to the areas housing systems and CUI — who entered and when. That can be badge-reader logs or a manual entry log for the server room. Note: this control cannot be placed on a POA&M — it must be met at assessment, not deferred.",
+  "evidence": "Physical access logs (badge-system reports or a manual sign-in log for controlled areas), retained over time.",
+  "quick_win": "Start keeping a physical access log for your server/network room today — a badge-reader report or a sign-in sheet — since this control can't be deferred on a POA&M."
+ },
+ "3.10.5": {
+  "plain": "Physical access devices — keys, badges, access cards, and keypad codes — are controlled and managed: you know who holds them, collect them back when someone leaves, and change codes or rekey locks when needed. Note: this control cannot be placed on a POA&M — it must be met at assessment, not deferred.",
+  "evidence": "A key/badge issuance-and-return log; a current list of who holds keys, cards, and codes; evidence that codes are changed or keys collected when someone departs.",
+  "quick_win": "Make a list of every key, badge, and door code and who holds each, and add a step to collect them back at offboarding — this one must be met, not deferred."
+ },
+ "3.10.6": {
+  "plain": "When people handle CUI away from the office — home offices or other remote sites — the same kinds of safeguards apply: secured devices, locked storage, protected connections. Remote work doesn't loosen CUI protection.",
+  "evidence": "A telework/remote-work policy covering CUI safeguards; evidence of enforced controls on remote devices (encryption, VPN, screen lock); remote-worker acknowledgments.",
+  "quick_win": "Write a short alternate-work-site policy requiring the same safeguards — encrypted device, VPN, locked storage, screen lock — for anyone handling CUI off-site. Where that encryption is what's protecting the CUI, it must be FIPS-validated (3.13.11)."
+ },
+ "3.12.1": {
+  "plain": "On a set schedule you actually check whether your security controls are working — a self-assessment against the requirements to see if each one is effective in practice, not a one-time setup you never revisit. The goal is to find your own gaps before an assessor (or an attacker) does.",
+  "evidence": "A dated self-assessment report scored against NIST SP 800-171; a defined assessment frequency (e.g., annually); notes on who performed it and how each area was checked (examine documents, interview staff, test the control).",
+  "quick_win": "Run a full self-assessment across all 110 requirements now, date it, and put next year's assessment on the calendar — this tool's scoring gives you that starting baseline."
+ },
+ "3.12.2": {
+  "plain": "For every gap your assessment turns up, you write down how you'll fix it — the specific corrective action, who owns it, and a target date — and then you work the list until items close. That fix-it list is your Plan of Action & Milestones (POA&M), and 'implement' means you're genuinely reducing deficiencies, not just logging them.",
+  "evidence": "A POA&M listing each open deficiency with a planned remediation action, a responsible owner, a target completion date, and current status; evidence that earlier items were actually closed out over time.",
+  "quick_win": "Use this tool's POA&M tab to turn each open gap into a dated action item with an owner, then start closing the cheapest ones — note that a few specific controls can't be deferred to a POA&M and must be met outright (the tool flags them)."
+ },
+ "3.12.3": {
+  "plain": "Beyond the scheduled self-assessment, you keep an eye on your controls all year — confirming patches stay current, MFA stays enforced, logs get reviewed, and scans keep running — so you catch a control that quietly broke instead of discovering it at the next annual review. Continuous means a frequency high enough to actually support decisions, not just once a year.",
+  "evidence": "A documented approach to ongoing monitoring (what you watch and how often) plus recurring proof it operates — vulnerability-scan schedules, dashboard/alert reviews, periodic log-review records, and configuration-drift checks.",
+  "quick_win": "Pick a handful of high-value signals (patch compliance, MFA coverage, AV/EDR health) and set a recurring calendar check to review them — ongoing monitoring is a cadence you keep, not a product you buy."
+ },
+ "3.14.3": {
+  "plain": "You stay plugged into security alerts and advisories — from CISA, your software and hardware vendors, and your security tools — and when one is relevant you act on it (patch, mitigate, or record why it doesn't apply to you). Receiving the email isn't the control; doing something about it is.",
+  "evidence": "Subscriptions to alert sources (CISA/US-CERT alerts, vendor security bulletins, your Defender/EDR advisory feed); a record showing a specific advisory was reviewed and what action followed.",
+  "quick_win": "Subscribe to CISA alerts and your key vendors' security bulletins, assign one person to triage them, and log the action taken on the next advisory that affects you."
+ },
+ "3.14.4": {
+  "plain": "Your anti-malware keeps itself current — engine and definition/signature updates roll out automatically and promptly as the vendor releases them — so protection isn't running on last month's threat intelligence.",
+  "evidence": "AV/EDR configuration showing automatic engine and signature updates enabled; a console report showing definition versions are current across all endpoints.",
+  "quick_win": "Confirm your AV/EDR policy is set to auto-update engine and signatures, then pull a coverage report to catch any endpoint stuck on stale definitions."
+ },
+ "3.14.5": {
+  "plain": "Two kinds of scanning are running: scheduled full scans of your systems on a regular cadence, and real-time (on-access) scanning that checks files from outside as they're downloaded, opened, or executed — so a threat is caught the moment it arrives, not just at the next weekly scan.",
+  "evidence": "AV/EDR settings showing real-time / on-access protection enabled and a periodic scheduled scan configured; scan history or reports confirming both actually run.",
+  "quick_win": "Verify real-time protection is on across every endpoint and add a scheduled periodic scan if one isn't set — both are usually a single toggle in your AV/EDR policy."
+ },
+ "3.14.6": {
+  "plain": "You watch network traffic — both what comes in and what goes out — for signs of an attack, rather than relying only on antivirus sitting on the endpoints. Outbound matters as much as inbound: malware calling home or CUI leaving the network is often the first real signal. In practice this means a firewall or security tool with intrusion detection/prevention, EDR with network detection, or a monitored log/SIEM feed that raises alerts a person actually reviews.",
+  "evidence": "Evidence of traffic monitoring covering both inbound and outbound flows — IDS/IPS enabled on the firewall, EDR network detection, or a SIEM/log pipeline with detection rules; sample alerts plus a record that someone reviews them and responds.",
+  "quick_win": "Turn on the intrusion-detection/IPS and outbound-threat features your firewall or EDR likely already includes, route their alerts to a monitored inbox, and make sure someone reviews and acts on them — unreviewed alerts don't satisfy this control."
+ },
+ "3.14.7": {
+  "plain": "You can spot when your systems are being used by someone or something that shouldn't be — a sign-in from an unexpected place, an account doing things it never normally does, activity at odd hours. This builds on your logging: you define what authorized use looks like and watch for what falls outside it.",
+  "evidence": "Evidence that you monitor for unauthorized use — identity risk / unusual-sign-in alerts (e.g., Entra ID), EDR or log-based alerts on anomalous activity, a defined notion of authorized use, and who reviews the exceptions.",
+  "quick_win": "Turn on your identity provider's risky-sign-in and unusual-activity alerts (e.g., Entra ID) and decide who reviews them — that's the fastest way to actually detect unauthorized use."
+ }
+}
