@@ -21,6 +21,9 @@ from logic.readiness import (
     LBL_MANDATORY, blocker_first_path, conditional_eligibility,
     control_labels, dashboard_summary, poam_eligible,
 )
+from logic.scoping import (
+    ASSET_CATEGORIES, conditional_na_applicable, reconcile_na_statuses,
+)
 
 st.set_page_config(
     page_title="CMMC Vault — 800-171 Self-Assessment",
@@ -64,12 +67,21 @@ def labels_for(control):
     return STATUS_LABELS_DEFAULT
 
 
+DEFAULT_SCOPE = {
+    "handles_cui": True, "remote_access_permitted": True,
+    "wireless_permitted": True, "mobile_permitted": True,
+    "confirmed_at": None,
+}
+
+
 # ---------------------------------------------------------------- state ----
 def init_state():
     ss = st.session_state
     ss.setdefault("assessment", {c["id"]: NOT_IMPLEMENTED for c in CAT})
     ss.setdefault("poam", {})       # id -> {"target_date": iso}
-    ss.setdefault("evidence", {})   # id -> [filenames]
+    ss.setdefault("evidence", {})   # id -> [register entries]
+    ss.setdefault("scope", dict(DEFAULT_SCOPE))
+    ss.setdefault("scope_assets", [])  # [{"name","category","description"}]
     ss.setdefault("company", "")
 
 
@@ -77,8 +89,10 @@ def load_sample_state():
     s = load_sample()
     st.session_state.assessment = dict(s["statuses"])
     st.session_state.poam = {k: dict(v) for k, v in s["poam"].items()}
-    st.session_state.evidence = {k: list(v) for k, v in s["evidence"].items()}
+    st.session_state.evidence = {k: [dict(e) for e in v] for k, v in s["evidence"].items()}
     st.session_state.company = s["company"]
+    st.session_state.scope = dict(s.get("scope", DEFAULT_SCOPE))
+    st.session_state.scope_assets = [dict(a) for a in s.get("scope_assets", [])]
     _clear_widget_keys()
 
 
@@ -86,6 +100,8 @@ def reset_state():
     st.session_state.assessment = {c["id"]: NOT_IMPLEMENTED for c in CAT}
     st.session_state.poam = {}
     st.session_state.evidence = {}
+    st.session_state.scope = dict(DEFAULT_SCOPE)
+    st.session_state.scope_assets = []
     st.session_state.company = ""
     _clear_widget_keys()
 
@@ -134,6 +150,8 @@ def _evidence_index():
 
 
 init_state()
+NA_APPLICABLE = conditional_na_applicable(st.session_state.scope, CAT)
+SCOPE_CONFIRMED = bool(st.session_state.scope.get("confirmed_at"))
 RESULT = score_assessment(st.session_state.assessment, CAT)
 EVIDENCE_INDEX = _evidence_index()
 ELIG = conditional_eligibility(st.session_state.assessment, CAT, RULES)
@@ -213,9 +231,66 @@ st.progress(
          "necessary, not sufficient**",
 )
 
-tab_dash, tab_assess, tab_path, tab_poam, tab_about = st.tabs(
-    ["📊 Dashboard", "📋 Assessment", "🎯 Blocker-First Readiness Path", "🗂️ POA&M", "ℹ️ Method & sources"]
+tab_dash, tab_scope, tab_assess, tab_path, tab_poam, tab_about = st.tabs(
+    ["📊 Dashboard", "🧭 Scope", "📋 Assessment", "🎯 Blocker-First Readiness Path",
+     "🗂️ POA&M", "ℹ️ Method & sources"]
 )
+
+# ----------------------------------------------------------------- scope ----
+with tab_scope:
+    st.markdown("#### Define your assessment scope first")
+    st.caption(
+        "Scope decides which requirements even apply. You must confirm scope before "
+        "marking any control 'N/A — capability not permitted' — otherwise it's too "
+        "easy to zero out a requirement for a capability you actually use."
+    )
+    if not SCOPE_CONFIRMED:
+        st.warning("Scope not confirmed yet — 'N/A' options are disabled in the "
+                   "Assessment tab until you confirm below.", icon="🧭")
+    else:
+        st.success(f"Scope confirmed {st.session_state.scope['confirmed_at']}. "
+                   f"N/A is available for: {', '.join(sorted(NA_APPLICABLE)) or '(none)'}.")
+
+    sc = st.session_state.scope
+    with st.form("scope_form"):
+        st.markdown("**Capabilities in your environment** "
+                    "(unchecking a box lets its controls be marked N/A):")
+        f_cui = st.checkbox("We process, store, or transmit CUI", value=sc["handles_cui"])
+        f_remote = st.checkbox("Remote access is permitted", value=sc["remote_access_permitted"])
+        f_wifi = st.checkbox("Wireless access is permitted", value=sc["wireless_permitted"])
+        f_mobile = st.checkbox("Mobile devices are permitted", value=sc["mobile_permitted"])
+        submitted = st.form_submit_button("✅ Confirm scope", use_container_width=True)
+    if submitted:
+        st.session_state.scope = {
+            "handles_cui": f_cui, "remote_access_permitted": f_remote,
+            "wireless_permitted": f_wifi, "mobile_permitted": f_mobile,
+            "confirmed_at": date.today().isoformat(),
+        }
+        new_assessment, reset_ids = reconcile_na_statuses(
+            st.session_state.assessment, st.session_state.scope, CAT)
+        st.session_state.assessment = new_assessment
+        _clear_widget_keys()
+        if reset_ids:
+            st.warning("Scope change reset these controls from N/A back to "
+                       "'Not implemented' (the capability is now in scope): "
+                       + ", ".join(reset_ids), icon="♻️")
+        st.rerun()
+
+    st.divider()
+    st.markdown("#### Asset inventory (minimal)")
+    st.caption("Tag each asset with its CMMC Level 2 scoping category. Do not enter "
+               "hostnames, IPs, or system identifiers — use generic names.")
+    edited = st.data_editor(
+        st.session_state.scope_assets or [{"name": "", "category": ASSET_CATEGORIES[0], "description": ""}],
+        num_rows="dynamic", use_container_width=True, key="scope_assets_editor",
+        column_config={
+            "category": st.column_config.SelectboxColumn("category", options=ASSET_CATEGORIES),
+        },
+    )
+    st.session_state.scope_assets = [r for r in edited if r.get("name")]
+    st.caption("Scope defines the boundary; an asset inventory, SSP, and network "
+               "diagram are the three artifacts assessors expect. (This tool does not "
+               "generate a network diagram — that's on your checklist.)")
 
 # ------------------------------------------------------------- dashboard ----
 with tab_dash:
@@ -315,11 +390,17 @@ with tab_assess:
                 st.caption("Readiness: " + " · ".join(lbl["tags"]))
             st.caption(c["requirement"])
             opts = allowed_statuses(c)
-            lbl = labels_for(c)
+            # Gate the "N/A — not permitted" option: only when scope earns it.
+            if NA_NOT_PERMITTED in opts and cid not in NA_APPLICABLE:
+                opts = [o for o in opts if o != NA_NOT_PERMITTED]
+                if c.get("conditional_na") and not SCOPE_CONFIRMED:
+                    st.caption("➖ Confirm scope (Scope tab) to enable 'N/A — capability "
+                               "not permitted' for this control.")
+            status_lbls = labels_for(c)
             st.radio(
                 "Status", opts,
                 index=opts.index(status) if status in opts else opts.index(NOT_IMPLEMENTED),
-                format_func=lambda s, _l=lbl: _l[s],
+                format_func=lambda s, _l=status_lbls: _l[s],
                 key=f"w_{cid}", on_change=_on_status_change, args=(cid,),
                 horizontal=False, label_visibility="collapsed",
             )
