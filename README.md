@@ -16,8 +16,27 @@ about what it can and cannot do (see
 
 ---
 
+## Live demo
+
+**Hosted demo:** https://cmmcvault-demo.streamlit.app/
+
+> ⚠️ **The hosted demo is for demonstration with the built-in sample only.**
+> **Do not enter real or sensitive organizational data into the hosted app** — no
+> control statuses, gaps, CUI, credentials, hostnames, IP addresses, or system
+> identifiers. The hosted version has no login and runs on shared public
+> infrastructure; although the app persists nothing, whatever you type lives in that
+> host's memory during your session.
+>
+> **For a real assessment, run the app locally first.** Download or clone this
+> repository, run it on a trusted machine (see [Getting started](#getting-started)),
+> and keep your work on your own computer via the JSON export. Use the hosted link for
+> demonstrations and walkthroughs only.
+
+---
+
 ## Table of contents
 
+- [Live demo](#live-demo)
 - [The core idea](#the-core-idea)
 - [What it is — and is not](#what-it-is--and-is-not)
 - [Features](#features)
@@ -106,9 +125,10 @@ The application opens in your browser. Use **Load sample** in the sidebar to exp
 the bundled example, or **Reset** to start a blank assessment.
 
 > **Operating posture.** Sessions involving a real organization's data should be run
-> **locally** (`streamlit run app.py` on a trusted machine). If you deploy the app to a
-> public or shared URL, use it to demonstrate the **sample only** — never a real
-> organization's session. See [Data handling and privacy](#data-handling-and-privacy).
+> **locally** (`streamlit run app.py` on a trusted machine). The
+> [hosted demo](#live-demo) (https://cmmcvault-demo.streamlit.app/) is for
+> demonstrating the **sample only** — never enter a real organization's data there.
+> See [Data handling and privacy](#data-handling-and-privacy).
 
 ## Guided walkthrough
 
@@ -164,7 +184,9 @@ CMMC Vault is **session-only by design.**
 - **A clear data boundary.** The interface instructs users **not** to enter real
   Controlled Unclassified Information (CUI), credentials, IP addresses, hostnames, or
   system identifiers — a contractor's control statuses and gap list are themselves
-  sensitive, so the tool asks for generic names and location pointers only.
+  sensitive, so the tool asks for generic names and location pointers only. This
+  applies everywhere, and **especially to the [hosted demo](#live-demo)**: for real
+  data, run the app locally and keep your work on your own machine.
 - **Validated imports.** An imported JSON file is sanitized before use: statuses and
   dates are validated, unknown identifiers are dropped, the embedded score is ignored
   and recomputed, unsafe link schemes and formatting are neutralized, and any status
