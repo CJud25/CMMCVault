@@ -213,6 +213,9 @@ with st.sidebar:
     )
 
 # --------------------------------------------------------------- header ----
+# Persistent demo-safety banner (always visible, above every tab).
+st.warning(disclosures.DEMO_BANNER, icon="⚠️")
+
 title = st.session_state.company.strip() or "Untitled assessment"
 st.markdown(f"## {md_escape(title)}")
 

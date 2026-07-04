@@ -39,6 +39,15 @@ DISCLAIMER = (
 
 # Data boundary + operating posture, shown in the Transparency panel and the
 # evidence step. Drawn precisely because the tool's purpose IS entering gap data.
+# Persistent top-of-page banner. Always visible so the "no real data" message reaches
+# anyone who opens the hosted demo, not just those who visit the Evidence/About tabs.
+DEMO_BANNER = (
+    "**Demo environment — do not enter real or sensitive data** (control statuses, "
+    "gaps, CUI, credentials, hostnames, or IP addresses). Nothing is saved. For a real "
+    "assessment, run this app locally on a trusted machine and keep your work on your "
+    "own computer — use **Export / import (JSON)** in the sidebar to save and resume."
+)
+
 DATA_BOUNDARY = (
     "**Do not enter real CUI, credentials, IP addresses, hostnames, system "
     "identifiers, or network details in any field.** Expected input: control "
