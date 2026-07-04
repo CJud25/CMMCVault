@@ -11,11 +11,15 @@ from datetime import date, datetime
 import pandas as pd
 import streamlit as st
 
-from logic.catalog import controls, load_sample, meta
+import disclosures
+from logic.catalog import controls, load_sample, meta, poam_rules
 from logic.scoring import (
     CONDITIONAL_THRESHOLD, IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED,
-    PARTIAL_ALT, allowed_statuses, family_rollup, fastest_path,
-    score_assessment,
+    PARTIAL_ALT, allowed_statuses, family_rollup, score_assessment,
+)
+from logic.readiness import (
+    LBL_MANDATORY, blocker_first_path, conditional_eligibility,
+    control_labels, dashboard_summary, poam_eligible,
 )
 
 st.set_page_config(
@@ -27,6 +31,7 @@ st.set_page_config(
 CAT = controls()
 BY_ID = {c["id"]: c for c in CAT}
 META = meta()
+RULES = poam_rules()
 
 STATUS_LABELS_DEFAULT = {
     IMPLEMENTED: "✅ Implemented",
@@ -110,8 +115,32 @@ def _on_poam_date(cid):
         "target_date": st.session_state[f"d_{cid}"].isoformat()}
 
 
+def _evidence_index():
+    """Distil the evidence register (session) into the plain dict the pure engine
+    consumes: control_id -> {'has_operational_final': bool}. A control is "covered"
+    only when it has a register entry that is document-final AND demonstrates
+    operation AND reviewed (a signed-but-not-operational doc does NOT count)."""
+    idx = {}
+    for cid, entries in st.session_state.get("evidence", {}).items():
+        covered = any(
+            isinstance(e, dict)
+            and e.get("doc_status") == "final"
+            and e.get("impl_status") == "demonstrates_operation"
+            and e.get("review_status") == "reviewed"
+            for e in entries
+        )
+        idx[cid] = {"has_operational_final": covered, "entries": len(entries)}
+    return idx
+
+
 init_state()
 RESULT = score_assessment(st.session_state.assessment, CAT)
+EVIDENCE_INDEX = _evidence_index()
+ELIG = conditional_eligibility(st.session_state.assessment, CAT, RULES)
+SUMMARY = dashboard_summary(st.session_state.assessment, CAT, RULES, EVIDENCE_INDEX)
+VERDICT = ("Projected: Final-ready" if SUMMARY.final_ready
+           else "Projected: Conditional-eligible" if SUMMARY.conditional_eligible
+           else "Not conditionally ready")
 
 
 # -------------------------------------------------------------- sidebar ----
@@ -156,24 +185,65 @@ if RESULT.ssp_missing:
         icon="🚫",
     )
 
+# Readiness verdict — the compound gate, NOT the raw score. This is the whole point:
+# a score at or above 88 is necessary but not sufficient for Conditional status.
+if SUMMARY.conditional_eligible:
+    st.success(f"**Score {RESULT.score} — {VERDICT}**", icon="✅")
+else:
+    st.error(f"**Score {RESULT.score} — Not conditionally ready**", icon="🛑")
+    if SUMMARY.score >= CONDITIONAL_THRESHOLD:
+        st.markdown(
+            f"You're **at or above 88**, but **{len(ELIG.blocking_ids)} open "
+            "requirement(s) cannot be deferred to a POA&M** — so you are not yet "
+            "eligible for Conditional status. Reaching 88 is necessary, not sufficient."
+        )
+st.caption(disclosures.READINESS_QUALIFIER)
+
 m1, m2, m3, m4 = st.columns(4)
 m1.metric("SPRS score", RESULT.score, help="DoD Assessment Methodology range: −203 to 110")
 m2.metric("Implemented", f"{RESULT.implemented_count}/110")
-m3.metric(f"Points to {CONDITIONAL_THRESHOLD}", RESULT.points_to_threshold,
-          help="88 (80% of 110) is the CMMC Level 2 conditional-status minimum")
-m4.metric("POA&M items", len(st.session_state.poam))
+m3.metric("Blockers (can't POA&M)", len(ELIG.blocking_ids),
+          help="Open requirements that are NOT POA&M-eligible under 32 CFR 170.21 — "
+               "they must be MET at assessment and block Conditional status regardless of score.")
+m4.metric("Projected readiness", VERDICT.replace("Projected: ", ""))
 
 st.progress(
     min(max((RESULT.score + 203) / 313, 0.0), 1.0),
-    text=f"−203 ─── 0 ─── **{CONDITIONAL_THRESHOLD} conditional threshold** ─── 110",
+    text="Score on the −203 … 110 scale · **88 is the point *floor* for Conditional — "
+         "necessary, not sufficient**",
 )
 
 tab_dash, tab_assess, tab_path, tab_poam, tab_about = st.tabs(
-    ["📊 Dashboard", "📋 Assessment", "🎯 Fastest path to 88", "🗂️ POA&M", "ℹ️ Method & sources"]
+    ["📊 Dashboard", "📋 Assessment", "🎯 Blocker-First Readiness Path", "🗂️ POA&M", "ℹ️ Method & sources"]
 )
 
 # ------------------------------------------------------------- dashboard ----
 with tab_dash:
+    st.markdown("#### Projected readiness (self-estimate)")
+    rc1, rc2, rc3 = st.columns(3)
+    rc1.metric("Score", SUMMARY.score)
+    rc2.metric("Conditional-eligible?", "Yes" if SUMMARY.conditional_eligible else "No")
+    cov = f"{SUMMARY.evidence_covered}/{SUMMARY.evidence_applicable}"
+    rc3.metric("Evidence register coverage", cov,
+               help="In-scope controls with a register entry that is document-final, "
+                    "demonstrably operational, AND reviewed.")
+
+    if ELIG.blocking_ids:
+        st.markdown("**🛑 Blockers — cannot be deferred to a POA&M (must be MET):**")
+        for cid in ELIG.blocking_ids:
+            c = BY_ID[cid]
+            w = "SSP" if c["weight"] == "NA" else f'{c["max_deduction"]} pt'
+            st.markdown(f"- **{cid}** · {w} — {c['short_title']}")
+    if SUMMARY.prime_risks:
+        with st.expander("Risks that undercut prime/customer confidence", expanded=False):
+            for r in SUMMARY.prime_risks:
+                st.markdown(f"- {r}")
+    oc1, oc2, oc3 = st.columns(3)
+    oc1.metric("Open 5-pt", SUMMARY.open_5pt)
+    oc2.metric("Open 3-pt", SUMMARY.open_3pt)
+    oc3.metric("Open 1-pt", SUMMARY.open_1pt)
+    st.divider()
+
     left, right = st.columns([3, 2], gap="large")
     with left:
         st.markdown("#### Points by control family")
@@ -209,11 +279,10 @@ with tab_dash:
                 f"<span style='color:#5b6b7a;font-size:0.85em'>{c['requirement'][:110]}…</span>",
                 unsafe_allow_html=True,
             )
-        if RESULT.points_to_threshold > 0:
+        if not SUMMARY.conditional_eligible:
             st.info(
-                f"**{RESULT.points_to_threshold} points** separate you from the "
-                f"{CONDITIONAL_THRESHOLD} threshold. The *Fastest path* tab turns "
-                "that into an ordered work plan."
+                "The **Blocker-First Readiness Path** tab turns this into an ordered "
+                "work plan — mandatory (non-deferrable) items first."
             )
 
 # ------------------------------------------------------------ assessment ----
@@ -228,6 +297,7 @@ with tab_assess:
         c for c in CAT if c["family"] == pick.split(" — ")[0]]
 
     hide_done = st.toggle("Show only open items", value=False)
+    labels = control_labels(st.session_state.assessment, CAT, RULES, EVIDENCE_INDEX)
     for c in show:
         cid = c["id"]
         status = st.session_state.assessment.get(cid, NOT_IMPLEMENTED)
@@ -238,7 +308,11 @@ with tab_assess:
         weight_txt = "SSP — required" if c["weight"] == "NA" else f'{c["weight"]} pt'
         ev_n = len(st.session_state.evidence.get(cid, []))
         badge = f" · 📎{ev_n}" if ev_n else ""
-        with st.expander(f"{icon} **{cid}** — {c['short_title']} · {weight_txt}{badge}"):
+        lbl = labels.get(cid, {})
+        blocker_badge = "  🛑" if lbl.get("primary") == LBL_MANDATORY else ""
+        with st.expander(f"{icon} **{cid}** — {c['short_title']} · {weight_txt}{badge}{blocker_badge}"):
+            if lbl.get("tags"):
+                st.caption("Readiness: " + " · ".join(lbl["tags"]))
             st.caption(c["requirement"])
             opts = allowed_statuses(c)
             lbl = labels_for(c)
@@ -267,50 +341,60 @@ with tab_assess:
                             st.session_state.poam[cid]["target_date"]),
                         key=f"d_{cid}", on_change=_on_poam_date, args=(cid,),
                     )
-            up = st.file_uploader(
-                "Attach evidence (demo: filenames only, files are not stored)",
-                accept_multiple_files=True, key=f"u_{cid}")
-            if up:
-                names = st.session_state.evidence.setdefault(cid, [])
-                for f in up:
-                    if f.name not in names:
-                        names.append(f.name)
-            if ev_n or st.session_state.evidence.get(cid):
-                st.caption("Evidence on file: " + ", ".join(
-                    st.session_state.evidence.get(cid, [])))
+            # Evidence is a metadata REGISTER (no files stored). Read-only summary
+            # here; the editable register lives in its own step (P1.3).
+            for e in st.session_state.evidence.get(cid, []):
+                st.caption(
+                    f"📋 **{e.get('title', 'evidence')}** — owner: {e.get('owner', '—')} · "
+                    f"{e.get('doc_status', '?')}/{e.get('impl_status', '?')}/"
+                    f"{e.get('review_status', '?')} · {e.get('location_uri', '')}"
+                )
 
-# ----------------------------------------------------------- fastest path ----
+# ------------------------------------------------ blocker-first readiness path ----
 with tab_path:
-    st.markdown(
-        f"#### From **{RESULT.score}** to **{CONDITIONAL_THRESHOLD}**, in point-optimal order"
-    )
+    st.markdown("#### Blocker-First Readiness Path")
     st.caption(
-        "Deductions are independent, so highest-value-first is the mathematically "
-        "optimal order by points. Real-world effort varies — treat this as the "
-        "negotiation-ready draft of your remediation plan."
+        "Not merely 'fastest to 88.' Under 32 CFR 170.21, some open requirements "
+        "**cannot be deferred to a POA&M** — they must be MET. This plan fixes the "
+        "SSP (if missing) first, then every non-deferrable blocker, then the highest-"
+        "value POA&M-eligible items until the 88-point floor is cleared. It often "
+        "**overshoots 88 — that is the honest answer.**"
     )
-    steps = fastest_path(st.session_state.assessment, CAT)
+    steps = blocker_first_path(st.session_state.assessment, CAT, RULES)
     if not steps:
-        st.success("Already at or above the threshold on every measure. 🎉")
+        st.success("No open requirements — every measure is met. Time to document it.")
     else:
         pdf_rows = []
         for i, s in enumerate(steps, 1):
             c = BY_ID[s["id"]]
+            if s["required_first"]:
+                kind = "SSP — required first"
+            elif s["mandatory"]:
+                kind = "🛑 Mandatory (can't POA&M)"
+            else:
+                kind = "POA&M-eligible"
             pdf_rows.append({
                 "Step": i,
                 "Control": s["id"],
                 "What": c["short_title"],
+                "Type": kind,
                 "Points": ("required" if s["required_first"] else f'+{s["gain"]}'),
                 "Score after": s["score_after"],
+                "Eligible after?": "✅" if s["eligible_after"] else "—",
             })
         st.dataframe(pd.DataFrame(pdf_rows), hide_index=True, use_container_width=True)
         last = steps[-1]
-        if last["reaches_target"]:
-            n = len([s for s in steps if not s["required_first"]])
+        n_mand = len([s for s in steps if s["mandatory"] and not s["required_first"]])
+        if last["eligible_after"]:
             st.success(
-                f"**{n} controls** stand between this organization and the "
-                f"{CONDITIONAL_THRESHOLD}-point threshold — projected score "
-                f"**{last['score_after']}** once complete."
+                f"Projected **Conditional-eligible** once these are complete "
+                f"(score **{last['score_after']}**) — including **{n_mand} non-deferrable "
+                "blocker(s)** that must be met no matter the point math."
+            )
+        else:
+            st.warning(
+                "This plan lists the mandatory blockers; more POA&M-eligible work may "
+                "remain to clear the 88-point floor. " + disclosures.READINESS_QUALIFIER
             )
 
 # ------------------------------------------------------------------ poam ----
@@ -324,17 +408,29 @@ with tab_poam:
     if not st.session_state.poam:
         st.info("No POA&M items yet. Flag any open control from the Assessment tab.")
     else:
-        rows = []
+        rows, ineligible = [], []
         for cid, p in sorted(st.session_state.poam.items()):
             c = BY_ID[cid]
             tgt = date.fromisoformat(p["target_date"])
+            status = st.session_state.assessment.get(cid, NOT_IMPLEMENTED)
+            elig = poam_eligible(c, status, RULES)
+            if not elig:
+                ineligible.append(cid)
             rows.append({
                 "Control": cid,
                 "Requirement (short)": c["short_title"],
                 "Points at stake": RESULT.per_control.get(cid, 0),
+                "POA&M-eligible?": "Yes" if elig else "NO — must be MET",
                 "Target date": tgt.isoformat(),
                 "Days remaining": (tgt - date.today()).days,
             })
+        if ineligible:
+            st.error(
+                "**These POA&M items are NOT eligible for a POA&M under 32 CFR 170.21 "
+                "and must be MET at assessment:** " + ", ".join(ineligible) +
+                ". Listing them on a POA&M will not make you Conditional-eligible.",
+                icon="🛑",
+            )
         pdf = pd.DataFrame(rows)
         st.dataframe(pdf, hide_index=True, use_container_width=True)
         buf = io.StringIO()
@@ -355,9 +451,28 @@ with tab_about:
         "policy in writing.\n"
         "- **3.12.4 System Security Plan:** carries no point value; without an "
         "SSP the assessment cannot be completed and no score exists.\n"
-        f"- **{CONDITIONAL_THRESHOLD}** = 80% of 110, the CMMC Level 2 "
-        "conditional-status minimum."
+        f"- **{CONDITIONAL_THRESHOLD}** = 80% of 110 is the point **floor** for "
+        "Conditional status — **necessary but not sufficient** (see below)."
     )
+    st.markdown("#### Why 88 is not enough — the compound gate (32 CFR 170.21)")
+    st.markdown(
+        "Reaching 88 lets you *seek* Conditional status, but a POA&M is permitted "
+        "only if **every** open requirement on it is POA&M-eligible:\n"
+        "- Items worth **more than 1 point are not POA&M-eligible** — except "
+        "**3.13.11** (CUI encryption) at the −3 partial (encryption in use, not "
+        "FIPS-validated).\n"
+        "- Six 1-point requirements are **never** POA&M-eligible: "
+        "**3.1.20, 3.1.22, 3.12.4 (SSP), 3.10.3, 3.10.4, 3.10.5**.\n"
+        "- POA&M items must be closed out within **180 days** of the Conditional "
+        "status date, or it expires."
+    )
+    st.markdown("#### What this tool's readiness means vs. official CMMC status")
+    st.table({
+        "This tool shows (self-estimate)": [r[0] for r in disclosures.APP_TO_CMMC_STATUS],
+        "Official CMMC meaning": [r[1] for r in disclosures.APP_TO_CMMC_STATUS],
+        "How it is actually earned": [r[2] for r in disclosures.APP_TO_CMMC_STATUS],
+    })
+    st.caption("This tool confers **none** of these statuses.")
     st.markdown("#### Data provenance")
     st.markdown(
         f"Control weights transcribed **{META['transcribed']}** from *{META['source']}*. "
@@ -365,10 +480,4 @@ with tab_about:
         "(44 × 5-pt incl. two 5/3 specials, 14 × 3-pt, 51 × 1-pt, 1 × NA) and the "
         "−203 floor, so the data cannot silently drift from the methodology."
     )
-    st.warning(
-        "This workspace is a self-assessment aid. It is not legal advice, not a "
-        "certification, and not a substitute for the official *NIST SP 800-171 "
-        "DoD Assessment Methodology* or 32 CFR Part 170. Verify results against "
-        "the official documents before posting a score to SPRS.",
-        icon="⚖️",
-    )
+    st.warning(disclosures.DISCLAIMER, icon="⚖️")
