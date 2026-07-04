@@ -1,0 +1,10 @@
+[theme]
+# Industrial steel + burnt-orange accent — reads defense-shop, not startup-cream.
+primaryColor = "#C2540A"
+backgroundColor = "#F6F7F9"
+secondaryBackgroundColor = "#E9EDF2"
+textColor = "#16212C"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
