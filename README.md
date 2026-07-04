@@ -172,9 +172,10 @@ date, or the status expires. The ruleset is stored as data in
 
 CMMC Vault is **session-only by design.**
 
-- **No server-side storage.** There is no database and no user account system. Your
-  work exists only in the current browser session; closing the tab discards it. Export
-  to JSON to save your work, and re-import to resume.
+- **No persistent storage.** There is no database and no user account system. Your
+  work is held in temporary Streamlit server memory only for the duration of your
+  session and is discarded when the session ends (on the hosted demo, that server is
+  Streamlit Community Cloud). Export to JSON to save your work, and re-import to resume.
 - **No evidence files are uploaded or stored.** The evidence register holds *metadata
   and pointers* only (a title, an owner, a location such as "SharePoint > Compliance"),
   never the evidence files themselves. (The one file the app reads is your own saved

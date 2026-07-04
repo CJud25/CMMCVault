@@ -52,8 +52,9 @@ DATA_BOUNDARY = (
     "**Do not enter real CUI, credentials, IP addresses, hostnames, system "
     "identifiers, or network details in any field.** Expected input: control "
     "statuses, scope answers, generic evidence titles, and where evidence *lives* "
-    "(a pointer, not the file). Nothing is stored on a server — this session lives "
-    "in your browser only; export before closing the tab."
+    "(a pointer, not the file). Nothing is intentionally persisted — session data is "
+    "held in temporary Streamlit server memory only for the duration of your session "
+    "and is discarded when it ends; export before closing the tab."
 )
 
 OPERATING_POSTURE = (

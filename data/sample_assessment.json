@@ -154,5 +154,49 @@
     "review_status": "unreviewed"
    }
   ]
- }
+ },
+ "scope": {
+  "handles_cui": true,
+  "remote_access_permitted": true,
+  "wireless_permitted": true,
+  "mobile_permitted": true,
+  "confirmed_at": "2026-07-04"
+ },
+ "scope_assets": [
+  {
+   "name": "Microsoft 365 (GCC) tenant",
+   "category": "CUI Asset",
+   "description": "Email, SharePoint, and Teams where CUI is stored and shared."
+  },
+  {
+   "name": "CUI file share",
+   "category": "CUI Asset",
+   "description": "On-prem server share holding contract drawings and specifications."
+  },
+  {
+   "name": "Shop-floor workstation group",
+   "category": "CUI Asset",
+   "description": "Engineering/programming PCs that open CUI drawings."
+  },
+  {
+   "name": "Perimeter firewall",
+   "category": "Security Protection Asset",
+   "description": "Boundary firewall enforcing deny-by-default and remote-access control."
+  },
+  {
+   "name": "Managed IT provider (MSP)",
+   "category": "Security Protection Asset",
+   "description": "Outsourced provider managing endpoints, patching, and monitoring."
+  },
+  {
+   "name": "CNC machine controller",
+   "category": "Specialized Asset",
+   "description": "Operational-technology controller; risk-managed, holds no CUI at rest."
+  },
+  {
+   "name": "HR / front-office laptop",
+   "category": "Out-of-Scope Asset",
+   "description": "Handles no CUI; separated from the CUI environment."
+  }
+ ]
 }

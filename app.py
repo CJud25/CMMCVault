@@ -110,9 +110,16 @@ def reset_state():
 
 
 def _clear_widget_keys():
+    # Per-control status/POA&M widget keys (prefixed), plus the data-editor and
+    # transient keys that otherwise retain stale edits/messages across Reset/Load.
+    # ('u_' is retired — the evidence file_uploader was replaced by the register.
+    #  'import_json' can't be cleared programmatically in Streamlit; leave it.
+    #  'fam_filter' is a view filter, intentionally preserved.)
     for k in list(st.session_state.keys()):
-        if k.startswith(("w_", "p_", "d_", "u_")):
+        if k.startswith(("w_", "p_", "d_")):
             del st.session_state[k]
+    for k in ("ev_editor", "scope_assets_editor", "_import_warnings"):
+        st.session_state.pop(k, None)
 
 
 def _on_status_change(cid):
@@ -208,8 +215,9 @@ with st.sidebar:
         use_container_width=True,
     )
     st.caption(
-        "Session-only: nothing is stored on a server — your work lives in this "
-        "browser session. **Export before closing the tab**, and re-import to resume."
+        "Session-only: nothing is intentionally persisted — your work is held in "
+        "temporary Streamlit server memory only for this session. **Export before "
+        "closing the tab**, and re-import to resume."
     )
 
 # --------------------------------------------------------------- header ----
@@ -503,15 +511,19 @@ with tab_ev:
             if r.get("title") and r.get("control"):
                 newev.setdefault(r["control"], []).append(
                     {k: r.get(k) for k in _EV_FIELDS})
-        st.session_state.evidence = newev
-        fresh = dashboard_summary(st.session_state.assessment, CAT, RULES, _evidence_index())
+        # If the register actually changed, persist and rerun so the top-of-page
+        # SUMMARY (and the Dashboard coverage metric) reflect it immediately rather
+        # than lagging one interaction. One extra rerun only on real change; no loop.
+        if newev != st.session_state.evidence:
+            st.session_state.evidence = newev
+            st.rerun()
         st.success(
-            f"**Evidence register coverage: {fresh.evidence_covered}/"
-            f"{fresh.evidence_applicable}** in-scope controls have an entry that is "
+            f"**Evidence register coverage: {SUMMARY.evidence_covered}/"
+            f"{SUMMARY.evidence_applicable}** in-scope controls have an entry that is "
             "document-final, demonstrably operational, AND reviewed.")
-        if fresh.controls_without_operational_evidence:
+        if SUMMARY.controls_without_operational_evidence:
             st.caption("First controls still lacking operational, reviewed evidence: "
-                       + ", ".join(fresh.controls_without_operational_evidence[:12]))
+                       + ", ".join(SUMMARY.controls_without_operational_evidence[:12]))
 
 # ------------------------------------------------ blocker-first readiness path ----
 with tab_path:

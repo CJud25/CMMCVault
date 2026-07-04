@@ -583,6 +583,35 @@ SAMPLE_EVIDENCE = {
         "review_status": "unreviewed",
     }],
 }
+# Confirmed scope for the sample. ALL capabilities are permitted, so no control earns
+# the conditional-N/A option — this is deliberate: it keeps the sample's statuses (and
+# therefore the 89-and-not-ready score) unchanged while still exercising the Scope
+# wizard's "confirmed" state (which is what un-hides the Evidence register in the UI).
+SAMPLE_SCOPE = {
+    "handles_cui": True,
+    "remote_access_permitted": True,
+    "wireless_permitted": True,
+    "mobile_permitted": True,
+    "confirmed_at": "2026-07-04",
+}
+# A believable mini asset inventory across the five CMMC L2 scoping categories.
+# Generic names only (no real hostnames/IPs) — consistent with the data boundary.
+SAMPLE_SCOPE_ASSETS = [
+    {"name": "Microsoft 365 (GCC) tenant", "category": "CUI Asset",
+     "description": "Email, SharePoint, and Teams where CUI is stored and shared."},
+    {"name": "CUI file share", "category": "CUI Asset",
+     "description": "On-prem server share holding contract drawings and specifications."},
+    {"name": "Shop-floor workstation group", "category": "CUI Asset",
+     "description": "Engineering/programming PCs that open CUI drawings."},
+    {"name": "Perimeter firewall", "category": "Security Protection Asset",
+     "description": "Boundary firewall enforcing deny-by-default and remote-access control."},
+    {"name": "Managed IT provider (MSP)", "category": "Security Protection Asset",
+     "description": "Outsourced provider managing endpoints, patching, and monitoring."},
+    {"name": "CNC machine controller", "category": "Specialized Asset",
+     "description": "Operational-technology controller; risk-managed, holds no CUI at rest."},
+    {"name": "HR / front-office laptop", "category": "Out-of-Scope Asset",
+     "description": "Handles no CUI; separated from the CUI environment."},
+]
 
 
 def _draft_guidance(short, req):
@@ -715,10 +744,28 @@ def validate_readiness(controls):
     assert not elig.eligible, "sample must be NOT conditionally eligible (the whole point)"
     assert set(elig.blocking_ids) == {"3.4.8", "3.13.6", "3.14.6", "3.1.20"}, \
         f"unexpected blockers: {elig.blocking_ids}"
+
+    # Sample scope must be confirmed, permit every capability (so it earns NO N/A and
+    # cannot shift the 89 score), and carry a valid asset inventory across categories.
+    from logic.scoping import ASSET_CATEGORIES, conditional_na_applicable  # noqa: E402
+    scope = sample.get("scope", {})
+    assert scope.get("confirmed_at"), "sample scope must be confirmed (un-hides Evidence)"
+    for cap in ("handles_cui", "remote_access_permitted", "wireless_permitted", "mobile_permitted"):
+        assert scope.get(cap) is True, f"sample scope capability {cap} must be True (preserves 89)"
+    assert conditional_na_applicable(scope, controls) == set(), \
+        "sample scope must earn no N/A option, so the 89 score can't shift"
+    assets = sample.get("scope_assets", [])
+    assert len(assets) >= 5, "sample must ship a believable asset inventory"
+    for a in assets:
+        assert a.get("name") and a.get("category") in ASSET_CATEGORIES, f"bad asset row: {a}"
+    cats = {a["category"] for a in assets}
+    assert len(cats) >= 3, "sample inventory should span multiple scoping categories"
+
     return {
         "excluded": len(excluded), "default_eligible_ones": ones - len(excl_ones),
         "sample_score": elig.score, "sample_eligible": elig.eligible,
         "sample_blockers": elig.blocking_ids,
+        "sample_assets": len(assets),
     }
 
 
@@ -737,6 +784,8 @@ def build_sample(controls):
         "statuses": statuses,
         "poam": {cid: {"target_date": d} for cid, d in SAMPLE_POAM.items()},
         "evidence": SAMPLE_EVIDENCE,
+        "scope": dict(SAMPLE_SCOPE),
+        "scope_assets": [dict(a) for a in SAMPLE_SCOPE_ASSETS],
     }
 
 
