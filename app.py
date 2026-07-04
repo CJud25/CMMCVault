@@ -427,6 +427,8 @@ with tab_assess:
             )
             if c["guidance"]:
                 g = c["guidance"]
+                if not g.get("reviewed", False):
+                    st.caption("📝 *Draft guidance — pending expert review.*")
                 st.info(
                     f"**In plain English:** {g['plain']}\n\n"
                     f"**Evidence that satisfies an assessor:** {g['evidence']}\n\n"

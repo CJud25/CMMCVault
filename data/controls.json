@@ -9,7 +9,9 @@
    "ones": 51,
    "na": 1,
    "max_deduction": 313,
-   "floor": -203
+   "floor": -203,
+   "guidance_total": 110,
+   "guidance_reviewed": 14
   }
  },
  "controls": [
@@ -26,7 +28,8 @@
    "guidance": {
     "plain": "Every account on your systems belongs to a specific, approved person \u2014 no shared logins, no ghosts. If you can't say who 'shopfloor2' is, this control isn't met.",
     "evidence": "User list export from Microsoft 365 / Active Directory with a quarterly review sign-off; onboarding/offboarding checklist.",
-    "quick_win": "Export your user list today and disable every account you can't match to a current employee."
+    "quick_win": "Export your user list today and disable every account you can't match to a current employee.",
+    "reviewed": true
    }
   },
   {
@@ -39,7 +42,12 @@
    "conditional_na": false,
    "short_title": "Limit access to permitted functions",
    "requirement": "Limit system access to the types of transactions and functions that authorized users are permitted to execute.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit system access to the types of transactions and functions that authorized users are permitted to execute. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit access to permitted functions\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.3",
@@ -51,7 +59,12 @@
    "conditional_na": false,
    "short_title": "Control CUI flow",
    "requirement": "Control the flow of CUI in accordance with approved authorizations.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control the flow of CUI in accordance with approved authorizations. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol cui flow\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.4",
@@ -63,7 +76,12 @@
    "conditional_na": false,
    "short_title": "Separation of duties",
    "requirement": "Separate the duties of individuals to reduce the risk of malevolent activity without collusion.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Separate the duties of individuals to reduce the risk of malevolent activity without collusion. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cseparation of duties\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.5",
@@ -75,7 +93,12 @@
    "conditional_na": false,
    "short_title": "Least privilege",
    "requirement": "Employ the principle of least privilege, including for specific security functions and privileged accounts.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Employ the principle of least privilege, including for specific security functions and privileged accounts. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cleast privilege\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.6",
@@ -87,7 +110,12 @@
    "conditional_na": false,
    "short_title": "Non-privileged accounts for daily work",
    "requirement": "Use non-privileged accounts or roles when accessing nonsecurity functions.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Use non-privileged accounts or roles when accessing nonsecurity functions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cnon-privileged accounts for daily work\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.7",
@@ -99,7 +127,12 @@
    "conditional_na": false,
    "short_title": "Block & log privileged functions",
    "requirement": "Prevent non-privileged users from executing privileged functions and capture the execution of such functions in audit logs.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prevent non-privileged users from executing privileged functions and capture the execution of such functions in audit logs. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cblock & log privileged functions\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.8",
@@ -111,7 +144,12 @@
    "conditional_na": false,
    "short_title": "Limit failed logons",
    "requirement": "Limit unsuccessful logon attempts.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit unsuccessful logon attempts. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit failed logons\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.9",
@@ -123,7 +161,12 @@
    "conditional_na": false,
    "short_title": "Privacy & security notices",
    "requirement": "Provide privacy and security notices consistent with applicable CUI rules.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Provide privacy and security notices consistent with applicable CUI rules. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprivacy & security notices\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.10",
@@ -135,7 +178,12 @@
    "conditional_na": false,
    "short_title": "Session lock",
    "requirement": "Use session lock with pattern-hiding displays to prevent access and viewing of data after a period of inactivity.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Use session lock with pattern-hiding displays to prevent access and viewing of data after a period of inactivity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csession lock\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.11",
@@ -147,7 +195,12 @@
    "conditional_na": false,
    "short_title": "Auto-terminate sessions",
    "requirement": "Terminate (automatically) a user session after a defined condition.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Terminate (automatically) a user session after a defined condition. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cauto-terminate sessions\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.12",
@@ -159,7 +212,12 @@
    "conditional_na": true,
    "short_title": "Monitor & control remote access",
    "requirement": "Monitor and control remote access sessions.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Monitor and control remote access sessions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmonitor & control remote access\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.13",
@@ -171,7 +229,12 @@
    "conditional_na": true,
    "short_title": "Encrypt remote access sessions",
    "requirement": "Employ cryptographic mechanisms to protect the confidentiality of remote access sessions.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Employ cryptographic mechanisms to protect the confidentiality of remote access sessions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cencrypt remote access sessions\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.14",
@@ -183,7 +246,12 @@
    "conditional_na": false,
    "short_title": "Route remote access via control points",
    "requirement": "Route remote access via managed access control points.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Route remote access via managed access control points. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201croute remote access via control points\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.15",
@@ -195,7 +263,12 @@
    "conditional_na": false,
    "short_title": "Authorize remote privileged commands",
    "requirement": "Authorize remote execution of privileged commands and remote access to security-relevant information.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Authorize remote execution of privileged commands and remote access to security-relevant information. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cauthorize remote privileged commands\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.16",
@@ -207,7 +280,12 @@
    "conditional_na": true,
    "short_title": "Authorize wireless access",
    "requirement": "Authorize wireless access prior to allowing such connections.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Authorize wireless access prior to allowing such connections. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cauthorize wireless access\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.17",
@@ -219,7 +297,12 @@
    "conditional_na": true,
    "short_title": "Protect wireless (authn + encryption)",
    "requirement": "Protect wireless access using authentication and encryption.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect wireless access using authentication and encryption. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect wireless (authn + encryption)\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.18",
@@ -231,7 +314,12 @@
    "conditional_na": true,
    "short_title": "Control mobile device connections",
    "requirement": "Control connection of mobile devices.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control connection of mobile devices. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol mobile device connections\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.19",
@@ -243,7 +331,12 @@
    "conditional_na": false,
    "short_title": "Encrypt CUI on mobile devices",
    "requirement": "Encrypt CUI on mobile devices and mobile computing platforms.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Encrypt CUI on mobile devices and mobile computing platforms. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cencrypt cui on mobile devices\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.20",
@@ -255,7 +348,12 @@
    "conditional_na": false,
    "short_title": "Control connections to external systems",
    "requirement": "Verify and control/limit connections to and use of external systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Verify and control/limit connections to and use of external systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol connections to external systems\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.21",
@@ -267,7 +365,12 @@
    "conditional_na": false,
    "short_title": "Limit portable storage on external systems",
    "requirement": "Limit use of portable storage devices on external systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit use of portable storage devices on external systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit portable storage on external systems\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.1.22",
@@ -279,7 +382,12 @@
    "conditional_na": false,
    "short_title": "Control CUI on public systems",
    "requirement": "Control CUI posted or processed on publicly accessible systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control CUI posted or processed on publicly accessible systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol cui on public systems\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.2.1",
@@ -291,7 +399,12 @@
    "conditional_na": false,
    "short_title": "Security awareness for all users",
    "requirement": "Ensure that managers, systems administrators, and users of organizational systems are made aware of the security risks associated with their activities and of the applicable policies, standards, and procedures related to the security of those systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Ensure that managers, systems administrators, and users of organizational systems are made aware of the security risks associated with their activities and of the applicable policies, standards, and procedures related to the security of those systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csecurity awareness for all users\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.2.2",
@@ -303,7 +416,12 @@
    "conditional_na": false,
    "short_title": "Role-based security training",
    "requirement": "Ensure that personnel are trained to carry out their assigned information security-related duties and responsibilities.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Ensure that personnel are trained to carry out their assigned information security-related duties and responsibilities. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201crole-based security training\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.2.3",
@@ -315,7 +433,12 @@
    "conditional_na": false,
    "short_title": "Insider-threat awareness",
    "requirement": "Provide security awareness training on recognizing and reporting potential indicators of insider threat.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Provide security awareness training on recognizing and reporting potential indicators of insider threat. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cinsider-threat awareness\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.1",
@@ -330,7 +453,8 @@
    "guidance": {
     "plain": "Your systems keep records of who did what, when \u2014 and you keep those records long enough to investigate an incident months later. Default 30-day retention usually isn't enough.",
     "evidence": "Screenshot of audit log settings and retention period; a sample log pull for one user.",
-    "quick_win": "Turn on Microsoft 365 unified audit logging and extend retention as far as your license allows."
+    "quick_win": "Turn on Microsoft 365 unified audit logging and extend retention as far as your license allows.",
+    "reviewed": true
    }
   },
   {
@@ -343,7 +467,12 @@
    "conditional_na": false,
    "short_title": "Trace actions to individual users",
    "requirement": "Ensure that the actions of individual system users can be uniquely traced to those users, so they can be held accountable for their actions.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Ensure that the actions of individual system users can be uniquely traced to those users, so they can be held accountable for their actions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ctrace actions to individual users\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.3",
@@ -355,7 +484,12 @@
    "conditional_na": false,
    "short_title": "Review & update logged events",
    "requirement": "Review and update logged events.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Review and update logged events. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201creview & update logged events\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.4",
@@ -367,7 +501,12 @@
    "conditional_na": false,
    "short_title": "Alert on audit logging failure",
    "requirement": "Alert in the event of an audit logging process failure.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Alert in the event of an audit logging process failure. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201calert on audit logging failure\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.5",
@@ -379,7 +518,12 @@
    "conditional_na": false,
    "short_title": "Correlate audit review & response",
    "requirement": "Correlate audit record review, analysis, and reporting processes for investigation and response to indications of unlawful, unauthorized, suspicious, or unusual activity.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Correlate audit record review, analysis, and reporting processes for investigation and response to indications of unlawful, unauthorized, suspicious, or unusual activity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccorrelate audit review & response\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.6",
@@ -391,7 +535,12 @@
    "conditional_na": false,
    "short_title": "Audit reduction & reporting",
    "requirement": "Provide audit record reduction and report generation to support on-demand analysis and reporting.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Provide audit record reduction and report generation to support on-demand analysis and reporting. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201caudit reduction & reporting\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.7",
@@ -403,7 +552,12 @@
    "conditional_na": false,
    "short_title": "Synchronized time stamps",
    "requirement": "Provide a system capability that compares and synchronizes internal system clocks with an authoritative source to generate time stamps for audit records.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Provide a system capability that compares and synchronizes internal system clocks with an authoritative source to generate time stamps for audit records. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csynchronized time stamps\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.8",
@@ -415,7 +569,12 @@
    "conditional_na": false,
    "short_title": "Protect audit info & tools",
    "requirement": "Protect audit information and audit logging tools from unauthorized access, modification, and deletion.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect audit information and audit logging tools from unauthorized access, modification, and deletion. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect audit info & tools\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.3.9",
@@ -427,7 +586,12 @@
    "conditional_na": false,
    "short_title": "Limit audit management to few admins",
    "requirement": "Limit management of audit logging functionality to a subset of privileged users.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit management of audit logging functionality to a subset of privileged users. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit audit management to few admins\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.1",
@@ -442,7 +606,8 @@
    "guidance": {
     "plain": "A written inventory of every computer, server, and piece of software you own, plus a documented 'standard build' for how a new machine gets set up.",
     "evidence": "Asset inventory (export from Intune/RMM counts); a one-page standard configuration document.",
-    "quick_win": "Export the device list from whatever management tool you have \u2014 that's the skeleton of your inventory."
+    "quick_win": "Export the device list from whatever management tool you have \u2014 that's the skeleton of your inventory.",
+    "reviewed": true
    }
   },
   {
@@ -458,7 +623,8 @@
    "guidance": {
     "plain": "You don't run machines on factory defaults \u2014 there's a hardening checklist (disable what you don't use, enforce screen lock, etc.) and it's actually applied.",
     "evidence": "Group Policy / Intune configuration profiles; a hardening checklist referencing a benchmark like CIS.",
-    "quick_win": "Adopt a published small-business hardening baseline instead of writing your own from scratch."
+    "quick_win": "Adopt a published small-business hardening baseline instead of writing your own from scratch.",
+    "reviewed": true
    }
   },
   {
@@ -471,7 +637,12 @@
    "conditional_na": false,
    "short_title": "Track & approve system changes",
    "requirement": "Track, review, approve or disapprove, and log changes to organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Track, review, approve or disapprove, and log changes to organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ctrack & approve system changes\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.4",
@@ -483,7 +654,12 @@
    "conditional_na": false,
    "short_title": "Analyze security impact of changes",
    "requirement": "Analyze the security impact of changes prior to implementation.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Analyze the security impact of changes prior to implementation. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201canalyze security impact of changes\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.5",
@@ -495,7 +671,12 @@
    "conditional_na": false,
    "short_title": "Access restrictions for changes",
    "requirement": "Define, document, approve, and enforce physical and logical access restrictions associated with changes to organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Define, document, approve, and enforce physical and logical access restrictions associated with changes to organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201caccess restrictions for changes\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.6",
@@ -507,7 +688,12 @@
    "conditional_na": false,
    "short_title": "Least functionality",
    "requirement": "Employ the principle of least functionality by configuring organizational systems to provide only essential capabilities.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Employ the principle of least functionality by configuring organizational systems to provide only essential capabilities. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cleast functionality\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.7",
@@ -519,7 +705,12 @@
    "conditional_na": false,
    "short_title": "Restrict nonessential programs/ports/services",
    "requirement": "Restrict, disable, or prevent the use of nonessential programs, functions, ports, protocols, and services.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Restrict, disable, or prevent the use of nonessential programs, functions, ports, protocols, and services. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201crestrict nonessential programs/ports/services\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.8",
@@ -531,7 +722,12 @@
    "conditional_na": false,
    "short_title": "Application allowlisting / denylisting",
    "requirement": "Apply deny-by-exception (blacklisting) policy to prevent the use of unauthorized software or deny-all, permit-by-exception (whitelisting) policy to allow the execution of authorized software.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Apply deny-by-exception (blacklisting) policy to prevent the use of unauthorized software or deny-all, permit-by-exception (whitelisting) policy to allow the execution of authorized software. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201capplication allowlisting / denylisting\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.4.9",
@@ -543,7 +739,12 @@
    "conditional_na": false,
    "short_title": "Control user-installed software",
    "requirement": "Control and monitor user-installed software.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control and monitor user-installed software. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol user-installed software\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.1",
@@ -555,7 +756,12 @@
    "conditional_na": false,
    "short_title": "Identify users, processes, devices",
    "requirement": "Identify system users, processes acting on behalf of users, and devices.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Identify system users, processes acting on behalf of users, and devices. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cidentify users, processes, devices\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.2",
@@ -567,7 +773,12 @@
    "conditional_na": false,
    "short_title": "Authenticate before access",
    "requirement": "Authenticate (or verify) the identities of users, processes, or devices, as a prerequisite to allowing access to organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Authenticate (or verify) the identities of users, processes, or devices, as a prerequisite to allowing access to organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cauthenticate before access\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.3",
@@ -582,7 +793,8 @@
    "guidance": {
     "plain": "Multifactor authentication for everyone \u2014 not just email. Partial credit exists: MFA for admins and remote users only loses 3 points instead of 5. Full credit requires the general workforce too.",
     "evidence": "MFA status export from your identity provider showing per-user enforcement.",
-    "quick_win": "Enforce MFA for admin and remote accounts this week (that alone moves you from \u22125 to \u22123), then roll out to everyone."
+    "quick_win": "Enforce MFA for admin and remote accounts this week (that alone moves you from \u22125 to \u22123), then roll out to everyone.",
+    "reviewed": true
    }
   },
   {
@@ -595,7 +807,12 @@
    "conditional_na": false,
    "short_title": "Replay-resistant authentication",
    "requirement": "Employ replay-resistant authentication mechanisms for network access to privileged and non-privileged accounts.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Employ replay-resistant authentication mechanisms for network access to privileged and non-privileged accounts. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201creplay-resistant authentication\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.5",
@@ -607,7 +824,12 @@
    "conditional_na": false,
    "short_title": "Prevent identifier reuse",
    "requirement": "Prevent reuse of identifiers for a defined period.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prevent reuse of identifiers for a defined period. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprevent identifier reuse\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.6",
@@ -619,7 +841,12 @@
    "conditional_na": false,
    "short_title": "Disable inactive identifiers",
    "requirement": "Disable identifiers after a defined period of inactivity.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Disable identifiers after a defined period of inactivity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cdisable inactive identifiers\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.7",
@@ -631,7 +858,12 @@
    "conditional_na": false,
    "short_title": "Password complexity",
    "requirement": "Enforce a minimum password complexity and change of characters when new passwords are created.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Enforce a minimum password complexity and change of characters when new passwords are created. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cpassword complexity\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.8",
@@ -643,7 +875,12 @@
    "conditional_na": false,
    "short_title": "Prohibit password reuse",
    "requirement": "Prohibit password reuse for a specified number of generations.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prohibit password reuse for a specified number of generations. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprohibit password reuse\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.9",
@@ -655,7 +892,12 @@
    "conditional_na": false,
    "short_title": "Temporary passwords",
    "requirement": "Allow temporary password use for system logons with an immediate change to a permanent password.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Allow temporary password use for system logons with an immediate change to a permanent password. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ctemporary passwords\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.10",
@@ -667,7 +909,12 @@
    "conditional_na": false,
    "short_title": "Cryptographically protect passwords",
    "requirement": "Store and transmit only cryptographically-protected passwords.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Store and transmit only cryptographically-protected passwords. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccryptographically protect passwords\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.5.11",
@@ -679,7 +926,12 @@
    "conditional_na": false,
    "short_title": "Obscure authentication feedback",
    "requirement": "Obscure feedback of authentication information.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Obscure feedback of authentication information. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cobscure authentication feedback\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.6.1",
@@ -694,7 +946,8 @@
    "guidance": {
     "plain": "When something bad happens, you have a written plan: who's in charge, who you call, how you contain it, how you recover. A plan that exists only in someone's head scores zero.",
     "evidence": "A written incident response plan with named roles; notes from at least one walkthrough or tabletop exercise.",
-    "quick_win": "Draft a two-page IR plan from a free template and put real names and phone numbers in it."
+    "quick_win": "Draft a two-page IR plan from a free template and put real names and phone numbers in it.",
+    "reviewed": true
    }
   },
   {
@@ -707,7 +960,12 @@
    "conditional_na": false,
    "short_title": "Track, document & report incidents",
    "requirement": "Track, document, and report incidents to designated officials and/or authorities both internal and external to the organization.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Track, document, and report incidents to designated officials and/or authorities both internal and external to the organization. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ctrack, document & report incidents\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.6.3",
@@ -719,7 +977,12 @@
    "conditional_na": false,
    "short_title": "Test incident response",
    "requirement": "Test the organizational incident response capability.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Test the organizational incident response capability. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ctest incident response\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.1",
@@ -731,7 +994,12 @@
    "conditional_na": false,
    "short_title": "Perform system maintenance",
    "requirement": "Perform maintenance on organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Perform maintenance on organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cperform system maintenance\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.2",
@@ -743,7 +1011,12 @@
    "conditional_na": false,
    "short_title": "Control maintenance tools & personnel",
    "requirement": "Provide controls on the tools, techniques, mechanisms, and personnel used to conduct system maintenance.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Provide controls on the tools, techniques, mechanisms, and personnel used to conduct system maintenance. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol maintenance tools & personnel\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.3",
@@ -755,7 +1028,12 @@
    "conditional_na": false,
    "short_title": "Sanitize equipment for off-site maintenance",
    "requirement": "Ensure equipment removed for off-site maintenance is sanitized of any CUI.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Ensure equipment removed for off-site maintenance is sanitized of any CUI. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csanitize equipment for off-site maintenance\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.4",
@@ -767,7 +1045,12 @@
    "conditional_na": false,
    "short_title": "Check maintenance media for malware",
    "requirement": "Check media containing diagnostic and test programs for malicious code before the media are used in organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Check media containing diagnostic and test programs for malicious code before the media are used in organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccheck maintenance media for malware\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.5",
@@ -779,7 +1062,12 @@
    "conditional_na": false,
    "short_title": "MFA for nonlocal maintenance",
    "requirement": "Require multifactor authentication to establish nonlocal maintenance sessions via external network connections and terminate such connections when nonlocal maintenance is complete.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Require multifactor authentication to establish nonlocal maintenance sessions via external network connections and terminate such connections when nonlocal maintenance is complete. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmfa for nonlocal maintenance\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.7.6",
@@ -791,7 +1079,12 @@
    "conditional_na": false,
    "short_title": "Supervise unescorted maintenance personnel",
    "requirement": "Supervise the maintenance activities of maintenance personnel without required access authorization.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Supervise the maintenance activities of maintenance personnel without required access authorization. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csupervise unescorted maintenance personnel\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.1",
@@ -803,7 +1096,12 @@
    "conditional_na": false,
    "short_title": "Protect media containing CUI",
    "requirement": "Protect (i.e., physically control and securely store) system media containing CUI, both paper and digital.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect (i.e., physically control and securely store) system media containing CUI, both paper and digital. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect media containing cui\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.2",
@@ -815,7 +1113,12 @@
    "conditional_na": false,
    "short_title": "Limit access to CUI on media",
    "requirement": "Limit access to CUI on system media to authorized users.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit access to CUI on system media to authorized users. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit access to cui on media\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.3",
@@ -830,7 +1133,8 @@
    "guidance": {
     "plain": "Before a computer, drive, or copier leaves your building \u2014 sold, recycled, returned off lease \u2014 the data on it is wiped or the drive is destroyed, and you keep a record.",
     "evidence": "Wipe/destruction log; certificates of destruction from your recycler.",
-    "quick_win": "Start a simple disposal log today; ask your recycler for certificates going forward."
+    "quick_win": "Start a simple disposal log today; ask your recycler for certificates going forward.",
+    "reviewed": true
    }
   },
   {
@@ -843,7 +1147,12 @@
    "conditional_na": false,
    "short_title": "Mark media with CUI markings",
    "requirement": "Mark media with necessary CUI markings and distribution limitations.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Mark media with necessary CUI markings and distribution limitations. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmark media with cui markings\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.5",
@@ -855,7 +1164,12 @@
    "conditional_na": false,
    "short_title": "Control media during transport",
    "requirement": "Control access to media containing CUI and maintain accountability for media during transport outside of controlled areas.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control access to media containing CUI and maintain accountability for media during transport outside of controlled areas. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol media during transport\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.6",
@@ -867,7 +1181,12 @@
    "conditional_na": false,
    "short_title": "Encrypt CUI on media in transport",
    "requirement": "Implement cryptographic mechanisms to protect the confidentiality of CUI stored on digital media during transport unless otherwise protected by alternative physical safeguards.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Implement cryptographic mechanisms to protect the confidentiality of CUI stored on digital media during transport unless otherwise protected by alternative physical safeguards. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cencrypt cui on media in transport\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.7",
@@ -882,7 +1201,8 @@
    "guidance": {
     "plain": "USB sticks and external drives don't just get plugged in freely. You either block removable media by policy and technical control, or you control which specific devices are allowed.",
     "evidence": "Endpoint policy screenshot showing removable-media restrictions; written removable media policy.",
-    "quick_win": "If you can't manage USB devices yet, block them outright \u2014 blocked is compliant."
+    "quick_win": "If you can't manage USB devices yet, block them outright \u2014 blocked is compliant.",
+    "reviewed": true
    }
   },
   {
@@ -895,7 +1215,12 @@
    "conditional_na": false,
    "short_title": "Prohibit unowned portable storage",
    "requirement": "Prohibit the use of portable storage devices when such devices have no identifiable owner.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prohibit the use of portable storage devices when such devices have no identifiable owner. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprohibit unowned portable storage\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.8.9",
@@ -907,7 +1232,12 @@
    "conditional_na": false,
    "short_title": "Protect backups of CUI",
    "requirement": "Protect the confidentiality of backup CUI at storage locations.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect the confidentiality of backup CUI at storage locations. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect backups of cui\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.9.1",
@@ -919,7 +1249,12 @@
    "conditional_na": false,
    "short_title": "Screen individuals before access",
    "requirement": "Screen individuals prior to authorizing access to organizational systems containing CUI.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Screen individuals prior to authorizing access to organizational systems containing CUI. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cscreen individuals before access\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.9.2",
@@ -931,7 +1266,12 @@
    "conditional_na": false,
    "short_title": "Protect CUI during personnel actions",
    "requirement": "Ensure that organizational systems containing CUI are protected during and after personnel actions such as terminations and transfers.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Ensure that organizational systems containing CUI are protected during and after personnel actions such as terminations and transfers. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect cui during personnel actions\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.1",
@@ -943,7 +1283,12 @@
    "conditional_na": false,
    "short_title": "Limit physical access",
    "requirement": "Limit physical access to organizational systems, equipment, and the respective operating environments to authorized individuals.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Limit physical access to organizational systems, equipment, and the respective operating environments to authorized individuals. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201climit physical access\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.2",
@@ -955,7 +1300,12 @@
    "conditional_na": false,
    "short_title": "Protect & monitor the facility",
    "requirement": "Protect and monitor the physical facility and support infrastructure for organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect and monitor the physical facility and support infrastructure for organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect & monitor the facility\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.3",
@@ -967,7 +1317,12 @@
    "conditional_na": false,
    "short_title": "Escort & monitor visitors",
    "requirement": "Escort visitors and monitor visitor activity.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Escort visitors and monitor visitor activity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cescort & monitor visitors\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.4",
@@ -979,7 +1334,12 @@
    "conditional_na": false,
    "short_title": "Physical access audit logs",
    "requirement": "Maintain audit logs of physical access.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Maintain audit logs of physical access. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cphysical access audit logs\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.5",
@@ -991,7 +1351,12 @@
    "conditional_na": false,
    "short_title": "Manage physical access devices",
    "requirement": "Control and manage physical access devices.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control and manage physical access devices. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmanage physical access devices\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.10.6",
@@ -1003,7 +1368,12 @@
    "conditional_na": false,
    "short_title": "Safeguard CUI at alternate work sites",
    "requirement": "Enforce safeguarding measures for CUI at alternate work sites.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Enforce safeguarding measures for CUI at alternate work sites. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csafeguard cui at alternate work sites\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.11.1",
@@ -1015,7 +1385,12 @@
    "conditional_na": false,
    "short_title": "Periodic risk assessments",
    "requirement": "Periodically assess the risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals, resulting from the operation of organizational systems and the associated processing, storage, or transmission of CUI.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Periodically assess the risk to organizational operations (including mission, functions, image, or reputation), organizational assets, and individuals, resulting from the operation of organizational systems and the associated processing, storage, or transmission of CUI. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cperiodic risk assessments\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.11.2",
@@ -1030,7 +1405,8 @@
    "guidance": {
     "plain": "Something regularly scans your systems for known security holes, and you look at the results. 'Our IT guy keeps an eye on things' is not a scan.",
     "evidence": "Recent vulnerability scan reports with dates; a note on scan frequency.",
-    "quick_win": "Microsoft Defender's built-in vulnerability management or a free scanner tier gets you a first real report this week."
+    "quick_win": "Microsoft Defender's built-in vulnerability management or a free scanner tier gets you a first real report this week.",
+    "reviewed": true
    }
   },
   {
@@ -1043,7 +1419,12 @@
    "conditional_na": false,
    "short_title": "Remediate vulnerabilities",
    "requirement": "Remediate vulnerabilities in accordance with risk assessments.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Remediate vulnerabilities in accordance with risk assessments. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cremediate vulnerabilities\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.12.1",
@@ -1055,7 +1436,12 @@
    "conditional_na": false,
    "short_title": "Periodic security control assessment",
    "requirement": "Periodically assess the security controls in organizational systems to determine if the controls are effective in their application.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Periodically assess the security controls in organizational systems to determine if the controls are effective in their application. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cperiodic security control assessment\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.12.2",
@@ -1067,7 +1453,12 @@
    "conditional_na": false,
    "short_title": "Plans of action (POA&M)",
    "requirement": "Develop and implement plans of action designed to correct deficiencies and reduce or eliminate vulnerabilities in organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Develop and implement plans of action designed to correct deficiencies and reduce or eliminate vulnerabilities in organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cplans of action (poa&m)\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.12.3",
@@ -1079,7 +1470,12 @@
    "conditional_na": false,
    "short_title": "Continuous control monitoring",
    "requirement": "Monitor security controls on an ongoing basis to ensure the continued effectiveness of the controls.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Monitor security controls on an ongoing basis to ensure the continued effectiveness of the controls. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontinuous control monitoring\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.12.4",
@@ -1094,7 +1490,8 @@
    "guidance": {
     "plain": "The System Security Plan is the master document describing your environment and how each requirement is met. Under the DoD methodology, without an SSP there is no score at all \u2014 the assessment cannot be completed.",
     "evidence": "The SSP itself, with a revision date within the last year.",
-    "quick_win": "Start from a free SSP template and fill in your real environment \u2014 an honest draft beats a blank page in every scenario."
+    "quick_win": "Start from a free SSP template and fill in your real environment \u2014 an honest draft beats a blank page in every scenario.",
+    "reviewed": true
    }
   },
   {
@@ -1107,7 +1504,12 @@
    "conditional_na": false,
    "short_title": "Monitor & protect boundary communications",
    "requirement": "Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Monitor, control, and protect communications (i.e., information transmitted or received by organizational systems) at the external boundaries and key internal boundaries of organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmonitor & protect boundary communications\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.2",
@@ -1119,7 +1521,12 @@
    "conditional_na": false,
    "short_title": "Secure architecture & engineering",
    "requirement": "Employ architectural designs, software development techniques, and systems engineering principles that promote effective information security within organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Employ architectural designs, software development techniques, and systems engineering principles that promote effective information security within organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201csecure architecture & engineering\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.3",
@@ -1131,7 +1538,12 @@
    "conditional_na": false,
    "short_title": "Separate user & admin functionality",
    "requirement": "Separate user functionality from system management functionality.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Separate user functionality from system management functionality. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cseparate user & admin functionality\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.4",
@@ -1143,7 +1555,12 @@
    "conditional_na": false,
    "short_title": "Prevent transfer via shared resources",
    "requirement": "Prevent unauthorized and unintended information transfer via shared system resources.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prevent unauthorized and unintended information transfer via shared system resources. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprevent transfer via shared resources\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.5",
@@ -1155,7 +1572,12 @@
    "conditional_na": false,
    "short_title": "DMZ / subnetworks for public components",
    "requirement": "Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cdmz / subnetworks for public components\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.6",
@@ -1167,7 +1589,12 @@
    "conditional_na": false,
    "short_title": "Deny by default, allow by exception",
    "requirement": "Deny network communications traffic by default and allow network communications traffic by exception (i.e., deny all, permit by exception).",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Deny network communications traffic by default and allow network communications traffic by exception (i.e., deny all, permit by exception). The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cdeny by default, allow by exception\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.7",
@@ -1179,7 +1606,12 @@
    "conditional_na": false,
    "short_title": "Prevent split tunneling",
    "requirement": "Prevent remote devices from simultaneously establishing non-remote connections with organizational systems and communicating via some other connection to resources in external networks (i.e., split tunneling).",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prevent remote devices from simultaneously establishing non-remote connections with organizational systems and communicating via some other connection to resources in external networks (i.e., split tunneling). The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprevent split tunneling\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.8",
@@ -1194,7 +1626,8 @@
    "guidance": {
     "plain": "CUI moving over networks is encrypted \u2014 TLS for web and email paths, VPN for site-to-site. If a file with CUI travels in the clear, this fails.",
     "evidence": "Configuration screenshots showing TLS enforcement / VPN settings for paths that carry CUI.",
-    "quick_win": "Force TLS on your email connectors and require the VPN for any remote path that touches CUI."
+    "quick_win": "Force TLS on your email connectors and require the VPN for any remote path that touches CUI.",
+    "reviewed": true
    }
   },
   {
@@ -1207,7 +1640,12 @@
    "conditional_na": false,
    "short_title": "Terminate idle network connections",
    "requirement": "Terminate network connections associated with communications sessions at the end of the sessions or after a defined period of inactivity.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Terminate network connections associated with communications sessions at the end of the sessions or after a defined period of inactivity. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cterminate idle network connections\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.10",
@@ -1219,7 +1657,12 @@
    "conditional_na": false,
    "short_title": "Cryptographic key management",
    "requirement": "Establish and manage cryptographic keys for cryptography employed in organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Establish and manage cryptographic keys for cryptography employed in organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccryptographic key management\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.11",
@@ -1234,7 +1677,8 @@
    "guidance": {
     "plain": "Where encryption protects CUI, the cryptographic module must be FIPS-validated \u2014 using a strong algorithm isn't enough; the module needs a CMVP certificate. Partial credit: encryption in use but not FIPS-validated loses 3 points instead of 5.",
     "evidence": "List of encryption in use with CMVP certificate numbers (e.g., BitLocker in FIPS mode).",
-    "quick_win": "Inventory where CUI is encrypted today, then check each product's FIPS validation status on the NIST CMVP database."
+    "quick_win": "Inventory where CUI is encrypted today, then check each product's FIPS validation status on the NIST CMVP database.",
+    "reviewed": true
    }
   },
   {
@@ -1247,7 +1691,12 @@
    "conditional_na": false,
    "short_title": "Control collaborative devices",
    "requirement": "Prohibit remote activation of collaborative computing devices and provide indication of devices in use to users present at the device.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Prohibit remote activation of collaborative computing devices and provide indication of devices in use to users present at the device. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol collaborative devices\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.13",
@@ -1259,7 +1708,12 @@
    "conditional_na": false,
    "short_title": "Control mobile code",
    "requirement": "Control and monitor the use of mobile code.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control and monitor the use of mobile code. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol mobile code\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.14",
@@ -1271,7 +1725,12 @@
    "conditional_na": false,
    "short_title": "Control VoIP",
    "requirement": "Control and monitor the use of Voice over Internet Protocol (VoIP) technologies.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Control and monitor the use of Voice over Internet Protocol (VoIP) technologies. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201ccontrol voip\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.15",
@@ -1283,7 +1742,12 @@
    "conditional_na": false,
    "short_title": "Protect session authenticity",
    "requirement": "Protect the authenticity of communications sessions.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect the authenticity of communications sessions. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect session authenticity\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.13.16",
@@ -1295,7 +1759,12 @@
    "conditional_na": false,
    "short_title": "Protect CUI at rest",
    "requirement": "Protect the confidentiality of CUI at rest.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Protect the confidentiality of CUI at rest. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cprotect cui at rest\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.14.1",
@@ -1310,7 +1779,8 @@
    "guidance": {
     "plain": "Security patches get applied on a schedule with deadlines \u2014 not 'when we get around to it.' You can show when a given patch landed.",
     "evidence": "Patch compliance report from your update tool; written patching cadence with deadlines.",
-    "quick_win": "Set automatic updates with a defined maximum deferral and export your first compliance report."
+    "quick_win": "Set automatic updates with a defined maximum deferral and export your first compliance report.",
+    "reviewed": true
    }
   },
   {
@@ -1326,7 +1796,8 @@
    "guidance": {
     "plain": "Anti-malware runs on every machine, it's centrally visible, and nobody can quietly turn it off.",
     "evidence": "Coverage report from your AV/EDR console showing all endpoints protected and current.",
-    "quick_win": "Pull the coverage report and chase the stragglers \u2014 the gap machines are the whole risk."
+    "quick_win": "Pull the coverage report and chase the stragglers \u2014 the gap machines are the whole risk.",
+    "reviewed": true
    }
   },
   {
@@ -1339,7 +1810,12 @@
    "conditional_na": false,
    "short_title": "Monitor security alerts & act",
    "requirement": "Monitor system security alerts and advisories and take action in response.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Monitor system security alerts and advisories and take action in response. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmonitor security alerts & act\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.14.4",
@@ -1351,7 +1827,12 @@
    "conditional_na": false,
    "short_title": "Update malware protection",
    "requirement": "Update malicious code protection mechanisms when new releases are available.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Update malicious code protection mechanisms when new releases are available. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cupdate malware protection\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.14.5",
@@ -1363,7 +1844,12 @@
    "conditional_na": false,
    "short_title": "Periodic & real-time scans",
    "requirement": "Perform periodic scans of organizational systems and real-time scans of files from external sources as files are downloaded, opened, or executed.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Perform periodic scans of organizational systems and real-time scans of files from external sources as files are downloaded, opened, or executed. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cperiodic & real-time scans\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.14.6",
@@ -1375,7 +1861,12 @@
    "conditional_na": false,
    "short_title": "Monitor traffic for attacks",
    "requirement": "Monitor organizational systems, including inbound and outbound communications traffic, to detect attacks and indicators of potential attacks.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Monitor organizational systems, including inbound and outbound communications traffic, to detect attacks and indicators of potential attacks. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cmonitor traffic for attacks\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   },
   {
    "id": "3.14.7",
@@ -1387,7 +1878,12 @@
    "conditional_na": false,
    "short_title": "Identify unauthorized use",
    "requirement": "Identify unauthorized use of organizational systems.",
-   "guidance": null
+   "guidance": {
+    "plain": "In plain terms: Identify unauthorized use of organizational systems. The test isn't whether it's written down \u2014 it's whether it actually happens and you can show it.",
+    "evidence": "A policy or configuration establishing this requirement, plus a record that shows it operating (a screenshot, export, or log).",
+    "quick_win": "Name who owns \u201cidentify unauthorized use\u201d and capture one piece of evidence that it is operating today.",
+    "reviewed": false
+   }
   }
  ]
 }

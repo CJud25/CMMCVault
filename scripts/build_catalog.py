@@ -408,6 +408,22 @@ SAMPLE_EVIDENCE = {
 }
 
 
+def _draft_guidance(short, req):
+    """Conservative, requirement-grounded DRAFT guidance for controls not yet given
+    curated, expert-reviewed text. Deliberately generic — it paraphrases the
+    requirement and asks for operating evidence, so it never fabricates specifics.
+    Marked reviewed=False; the UI badges it 'pending expert review'."""
+    return {
+        "plain": (f"In plain terms: {req} The test isn't whether it's written down — "
+                  "it's whether it actually happens and you can show it."),
+        "evidence": ("A policy or configuration establishing this requirement, plus a "
+                     "record that shows it operating (a screenshot, export, or log)."),
+        "quick_win": (f"Name who owns “{short.lower()}” and capture one piece "
+                      "of evidence that it is operating today."),
+        "reviewed": False,
+    }
+
+
 def build():
     controls = []
     for cid, weight, short, req in CONTROLS:
@@ -419,6 +435,10 @@ def build():
             special = "fips"
         elif cid == "3.12.4":
             special = "ssp"
+        if cid in GUIDANCE:
+            guidance = {**GUIDANCE[cid], "reviewed": True}   # curated
+        else:
+            guidance = _draft_guidance(short, req)            # generated draft
         controls.append({
             "id": cid,
             "family": fam,
@@ -429,7 +449,7 @@ def build():
             "conditional_na": cid in CONDITIONAL_NA,
             "short_title": short,
             "requirement": req,
-            "guidance": GUIDANCE.get(cid),
+            "guidance": guidance,
         })
     return controls
 
@@ -456,9 +476,19 @@ def validate(controls):
     for cid in CONDITIONAL_NA:
         c = next(x for x in controls if x["id"] == cid)
         assert c["weight"] == 5, f"{cid} conditional-NA control should be 5-point"
+    # Guidance coverage: every control must have non-empty plain/evidence/quick_win.
+    reviewed = 0
+    for c in controls:
+        g = c.get("guidance")
+        assert g, f"{c['id']}: missing guidance"
+        for key in ("plain", "evidence", "quick_win"):
+            assert g.get(key), f"{c['id']}: guidance '{key}' is empty"
+        if g.get("reviewed"):
+            reviewed += 1
     return {
         "fives": len(fives), "threes": len(threes), "ones": len(ones),
         "na": len(nas), "max_deduction": max_deduction, "floor": floor,
+        "guidance_total": len(controls), "guidance_reviewed": reviewed,
     }
 
 
