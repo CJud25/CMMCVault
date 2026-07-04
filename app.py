@@ -12,6 +12,7 @@ import pandas as pd
 import streamlit as st
 
 import disclosures
+from export.binder import build_binder
 from logic.catalog import controls, load_sample, meta, poam_rules
 from logic.scoring import (
     CONDITIONAL_THRESHOLD, IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED,
@@ -19,7 +20,7 @@ from logic.scoring import (
 )
 from logic.readiness import (
     LBL_MANDATORY, blocker_first_path, conditional_eligibility,
-    control_labels, dashboard_summary, poam_eligible,
+    control_labels, dashboard_summary, evidence_index_from_register, poam_eligible,
 )
 from logic.scoping import (
     ASSET_CATEGORIES, conditional_na_applicable, reconcile_na_statuses,
@@ -132,21 +133,7 @@ def _on_poam_date(cid):
 
 
 def _evidence_index():
-    """Distil the evidence register (session) into the plain dict the pure engine
-    consumes: control_id -> {'has_operational_final': bool}. A control is "covered"
-    only when it has a register entry that is document-final AND demonstrates
-    operation AND reviewed (a signed-but-not-operational doc does NOT count)."""
-    idx = {}
-    for cid, entries in st.session_state.get("evidence", {}).items():
-        covered = any(
-            isinstance(e, dict)
-            and e.get("doc_status") == "final"
-            and e.get("impl_status") == "demonstrates_operation"
-            and e.get("review_status") == "reviewed"
-            for e in entries
-        )
-        idx[cid] = {"has_operational_final": covered, "entries": len(entries)}
-    return idx
+    return evidence_index_from_register(st.session_state.get("evidence", {}))
 
 
 init_state()
@@ -183,6 +170,18 @@ with st.sidebar:
         data=json.dumps(export, indent=2),
         file_name="800-171-self-assessment.json",
         mime="application/json",
+        use_container_width=True,
+    )
+    st.download_button(
+        "📄 Assessment Prep Binder (.docx)",
+        data=build_binder(
+            org_name=st.session_state.company, catalog=CAT,
+            assessment=st.session_state.assessment, rules=RULES,
+            evidence=st.session_state.evidence, poam=st.session_state.poam,
+            today=date.today(),
+        ),
+        file_name="CMMC-Assessment-Prep-Binder.docx",
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         use_container_width=True,
     )
     st.caption(

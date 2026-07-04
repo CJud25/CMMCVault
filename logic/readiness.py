@@ -40,6 +40,25 @@ def _is_open(control: dict, status: str) -> bool:
     return status not in (IMPLEMENTED, NA_NOT_PERMITTED)
 
 
+def evidence_index_from_register(register: dict) -> dict:
+    """Distil an evidence REGISTER (control_id -> [entries]) into the plain index the
+    engine consumes: control_id -> {'has_operational_final': bool, 'entries': int}.
+    A control counts as covered ONLY when an entry is document-final AND demonstrates
+    operation AND reviewed — a signed-but-not-operational document does not count.
+    Shared by the UI and the binder so the two never disagree."""
+    idx = {}
+    for cid, entries in (register or {}).items():
+        covered = any(
+            isinstance(e, dict)
+            and e.get("doc_status") == "final"
+            and e.get("impl_status") == "demonstrates_operation"
+            and e.get("review_status") == "reviewed"
+            for e in entries
+        )
+        idx[cid] = {"has_operational_final": covered, "entries": len(entries)}
+    return idx
+
+
 def poam_eligible(control: dict, status: str, rules: dict) -> bool:
     """Can this control, in this status, be placed on a POA&M for Conditional status?
 
