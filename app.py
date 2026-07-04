@@ -231,9 +231,9 @@ st.progress(
          "necessary, not sufficient**",
 )
 
-tab_dash, tab_scope, tab_assess, tab_path, tab_poam, tab_about = st.tabs(
-    ["📊 Dashboard", "🧭 Scope", "📋 Assessment", "🎯 Blocker-First Readiness Path",
-     "🗂️ POA&M", "ℹ️ Method & sources"]
+tab_dash, tab_scope, tab_assess, tab_ev, tab_path, tab_poam, tab_about = st.tabs(
+    ["📊 Dashboard", "🧭 Scope", "📋 Assessment", "📎 Evidence",
+     "🎯 Blocker-First Readiness Path", "🗂️ POA&M", "ℹ️ Method & sources"]
 )
 
 # ----------------------------------------------------------------- scope ----
@@ -430,6 +430,60 @@ with tab_assess:
                     f"{e.get('doc_status', '?')}/{e.get('impl_status', '?')}/"
                     f"{e.get('review_status', '?')} · {e.get('location_uri', '')}"
                 )
+
+DOC_STATUSES = ["missing", "draft", "final"]
+IMPL_STATUSES = ["documented_only", "partially_operational", "demonstrates_operation"]
+REVIEW_STATUSES = ["unreviewed", "reviewed"]
+_EV_FIELDS = ("title", "owner", "location_uri", "doc_status", "impl_status", "review_status")
+
+# -------------------------------------------------------------- evidence ----
+with tab_ev:
+    st.markdown("#### Evidence register")
+    st.info(disclosures.DATA_BOUNDARY, icon="🔒")
+    if not SCOPE_CONFIRMED:
+        st.warning("Confirm your assessment scope first (🧭 Scope tab) — evidence "
+                   "planning comes after you've defined the boundary.", icon="🧭")
+    else:
+        st.caption(
+            "Track WHAT evidence each control needs, WHERE it lives, WHO owns it, and "
+            "three separate things: is the **document** final, does it **demonstrate "
+            "operation** (a signed-but-unimplemented policy is NOT operational), and "
+            "has it been **reviewed**. No files are stored — this is a register of pointers."
+        )
+        rows = []
+        for cid, entries in st.session_state.evidence.items():
+            for e in entries:
+                rows.append({"control": cid, **{k: e.get(k) for k in _EV_FIELDS}})
+        if not rows:
+            rows = [{"control": "3.1.1", "title": "", "owner": "", "location_uri": "",
+                     "doc_status": "missing", "impl_status": "documented_only",
+                     "review_status": "unreviewed"}]
+        edited = st.data_editor(
+            rows, num_rows="dynamic", use_container_width=True, key="ev_editor",
+            column_config={
+                "control": st.column_config.SelectboxColumn(
+                    "control", options=[c["id"] for c in CAT], required=True),
+                "location_uri": st.column_config.TextColumn(
+                    "location (pointer, not the file)"),
+                "doc_status": st.column_config.SelectboxColumn("document", options=DOC_STATUSES),
+                "impl_status": st.column_config.SelectboxColumn("implementation", options=IMPL_STATUSES),
+                "review_status": st.column_config.SelectboxColumn("review", options=REVIEW_STATUSES),
+            },
+        )
+        newev = {}
+        for r in edited:
+            if r.get("title") and r.get("control"):
+                newev.setdefault(r["control"], []).append(
+                    {k: r.get(k) for k in _EV_FIELDS})
+        st.session_state.evidence = newev
+        fresh = dashboard_summary(st.session_state.assessment, CAT, RULES, _evidence_index())
+        st.success(
+            f"**Evidence register coverage: {fresh.evidence_covered}/"
+            f"{fresh.evidence_applicable}** in-scope controls have an entry that is "
+            "document-final, demonstrably operational, AND reviewed.")
+        if fresh.controls_without_operational_evidence:
+            st.caption("First controls still lacking operational, reviewed evidence: "
+                       + ", ".join(fresh.controls_without_operational_evidence[:12]))
 
 # ------------------------------------------------ blocker-first readiness path ----
 with tab_path:
