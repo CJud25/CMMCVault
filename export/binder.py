@@ -1,7 +1,7 @@
 """Assessment Prep Binder — a pure docx generator.
 
 Named "Assessment Prep Binder" deliberately: it is material you bring TO an
-assessment, not proof you passed one. It reuses the SAME dashboard_summary the UI
+assessment, not proof of any outcome. It reuses the SAME dashboard_summary the UI
 shows, so the exported verdict can never disagree with the screen.
 
 PURE: takes plain data, returns docx bytes. No Streamlit, no disk I/O, no network.

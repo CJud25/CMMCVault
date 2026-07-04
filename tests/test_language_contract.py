@@ -1,0 +1,87 @@
+"""Language-contract test — no user-facing string may imply a CMMC outcome the tool
+cannot confer. See docs/language-contract.md.
+
+Scans: app.py, disclosures.py, export/binder.py, README.md, docs/*.md, and the
+rendered guidance text (plain/evidence/quick_win) in data/controls.json. Verbatim
+NIST requirement text is authoritative source language and is out of scope.
+"""
+
+import json
+import re
+import sys
+import unittest
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+# Terms that must never appear unless negated/disclaimed.
+FORBIDDEN = [
+    "certified", "certification", "compliant",
+    "guaranteed", "audit-approved", "assessor-approved", "attestation",
+    "cmmc level 2 package",
+]
+# Bare "passing/pass the assessment" style claims.
+FORBIDDEN_PHRASES = ["you pass", "you will pass", "guaranteed to pass",
+                     "you are certified", "you're certified", "officially certified",
+                     "fully compliant", "now compliant"]
+
+NEGATION = re.compile(
+    r"\b(not|no|never|isn'?t|aren'?t|cannot|can'?t|without|confers no|nothing)\b",
+    re.IGNORECASE)
+
+# Exact user-facing lines that are known-good despite containing a flagged word.
+ALLOWLIST = set()
+
+
+def _lines_from(path: Path):
+    for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        yield i, line
+
+
+def _guidance_strings():
+    payload = json.loads((ROOT / "data" / "controls.json").read_text(encoding="utf-8"))
+    for c in payload["controls"]:
+        g = c.get("guidance") or {}
+        for key in ("plain", "evidence", "quick_win"):
+            if g.get(key):
+                yield f"controls.json:{c['id']}.{key}", g[key]
+
+
+def _violations(label, text):
+    low = text.lower()
+    hits = []
+    if NEGATION.search(text):
+        return hits  # negation/disclaimer context is allowed for FORBIDDEN terms
+    for term in FORBIDDEN:
+        if term in low and text.strip() not in ALLOWLIST:
+            hits.append((label, term, text.strip()[:120]))
+    return hits
+
+
+def _phrase_violations(label, text):
+    low = text.lower()
+    return [(label, p, text.strip()[:120]) for p in FORBIDDEN_PHRASES if p in low]
+
+
+class TestLanguageContract(unittest.TestCase):
+    def test_no_forbidden_claims(self):
+        violations = []
+        source_files = ["app.py", "disclosures.py", "export/binder.py", "README.md"]
+        # docs/, EXCEPT the contract itself (it names the forbidden terms by design).
+        source_files += [str(p.relative_to(ROOT)) for p in (ROOT / "docs").glob("*.md")
+                         if p.name != "language-contract.md"]
+        for rel in source_files:
+            p = ROOT / rel
+            for i, line in _lines_from(p):
+                violations += _violations(f"{rel}:{i}", line)
+                violations += _phrase_violations(f"{rel}:{i}", line)
+        for label, text in _guidance_strings():
+            violations += _violations(label, text)
+            violations += _phrase_violations(label, text)
+        msg = "\n".join(f"  {lbl}: {term!r} in: {snippet}" for lbl, term, snippet in violations)
+        self.assertEqual(violations, [], f"\nForbidden language found:\n{msg}")
+
+
+if __name__ == "__main__":
+    unittest.main()

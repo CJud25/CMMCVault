@@ -328,7 +328,7 @@ GUIDANCE = {
     "3.8.7": {
         "plain": "USB sticks and external drives don't just get plugged in freely. You either block removable media by policy and technical control, or you control which specific devices are allowed.",
         "evidence": "Endpoint policy screenshot showing removable-media restrictions; written removable media policy.",
-        "quick_win": "If you can't manage USB devices yet, block them outright — blocked is compliant.",
+        "quick_win": "If you can't manage USB devices yet, block them outright — blocking fully satisfies this control.",
     },
     "3.11.2": {
         "plain": "Something regularly scans your systems for known security holes, and you look at the results. 'Our IT guy keeps an eye on things' is not a scan.",

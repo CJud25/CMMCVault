@@ -14,7 +14,7 @@ APP_TO_CMMC_STATUS = [
      "Close the blockers first; a self-estimate, not a status."),
     ("Projected: Conditional-eligible",
      "Conditional CMMC Status",
-     "Earned only by an assessment with a compliant POA&M recorded in SPRS."),
+     "Earned only by an assessment with a qualifying POA&M recorded in SPRS."),
     ("Projected: Final-ready",
      "Final CMMC Status",
      "Earned only when all requirements are met and affirmed in SPRS "
