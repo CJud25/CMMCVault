@@ -439,8 +439,12 @@ with tab_assess:
             )
             if c["guidance"]:
                 g = c["guidance"]
+                # Inert today: all 110 shipped controls carry source-checked guidance
+                # (reviewed=True), so this badge never renders. Retained so any future
+                # un-reviewed addition is flagged; text matches the honest About-tab
+                # framing ("source-checked", not "expert-reviewed").
                 if not g.get("reviewed", False):
-                    st.caption("📝 *Draft guidance — pending expert review.*")
+                    st.caption("📝 *Draft guidance — not yet source-checked.*")
                 st.info(
                     f"**In plain English:** {g['plain']}\n\n"
                     f"**Evidence that satisfies an assessor:** {g['evidence']}\n\n"
@@ -537,7 +541,20 @@ with tab_path:
     )
     steps = blocker_first_path(st.session_state.assessment, CAT, RULES)
     if not steps:
-        st.success("No open requirements — every measure is met. Time to document it.")
+        # blocker_first_path returns [] in TWO different states: (a) nothing is open,
+        # and (b) you are already Conditional-eligible (score >= 88, no non-deferrable
+        # blockers) but POA&M-eligible items are still open. Only (a) is "every measure
+        # is met" — conflating them prints a false all-clear in the exact Conditional-
+        # but-not-Final state this tool exists to teach.
+        if RESULT.open_count == 0:
+            st.success("No open requirements — every measure is met. Time to document it.")
+        else:
+            st.info(
+                "**Conditionally eligible** — every remaining open requirement is "
+                "POA&M-eligible, so none blocks *Conditional* status. They must still be "
+                "**MET and closed out within 180 days of the Conditional status date** "
+                "for **Final** status. See the POA&M tab to plan the closeout."
+            )
     else:
         pdf_rows = []
         for i, s in enumerate(steps, 1):
@@ -653,8 +670,10 @@ with tab_about:
         "- Items worth **more than 1 point are not POA&M-eligible** — except "
         "**3.13.11** (CUI encryption) at the −3 partial (encryption in use, not "
         "FIPS-validated).\n"
-        "- Six 1-point requirements are **never** POA&M-eligible: "
-        "**3.1.20, 3.1.22, 3.12.4 (SSP), 3.10.3, 3.10.4, 3.10.5**.\n"
+        "- Five 1-point requirements are **never** POA&M-eligible "
+        "(**3.1.20, 3.1.22, 3.10.3, 3.10.4, 3.10.5**), and the non-scored but "
+        "mandatory **SSP (3.12.4)** likewise cannot be deferred to a POA&M "
+        "(without it no valid score exists at all).\n"
         "- POA&M items must be closed out within **180 days** of the Conditional "
         "status date, or it expires."
     )
@@ -685,9 +704,11 @@ with tab_about:
         "**What it cannot do / is not:** it is not a certification, not legal advice, "
         "not a C3PAO assessment, and confers no CMMC status. It stores nothing "
         "(session-only). \n\n"
-        "**Current-state limits:** guidance marked *draft* is not yet expert-reviewed; "
-        "control weights are transcribed and should be spot-checked against the "
-        "official DoD methodology; self-reported fields are your claims, not verified."
+        "**Current-state limits:** the plain-language control guidance is a "
+        "source-checked editorial pass against NIST SP 800-171 and the DoD "
+        "methodology — not a licensed-professional or C3PAO sign-off; control weights "
+        "are transcribed and should be spot-checked against the official DoD "
+        "methodology; self-reported fields are your claims, not verified."
     )
     st.info(disclosures.DATA_BOUNDARY, icon="🔒")
     st.caption("Operating posture: " + disclosures.OPERATING_POSTURE)

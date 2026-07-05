@@ -98,6 +98,11 @@ def fastest_path(assessment: dict, catalog: list[dict],
     point count. Returns steps with running projected score. If the SSP is
     missing it is forced to step 1 regardless of point value, because no
     valid score exists without it.
+
+    NOTE: the app uses readiness.blocker_first_path (which respects POA&M
+    eligibility) for its "Blocker-First Readiness Path". This pure "fastest to 88"
+    ordering is retained for reference and unit tests; it is intentionally NOT
+    wired into the UI.
     """
     result = score_assessment(assessment, catalog)
     by_id = {c["id"]: c for c in catalog}
