@@ -1,5 +1,7 @@
 # CMMC Vault
 
+[![CI](https://github.com/CJud25/CMMCVault/actions/workflows/ci.yml/badge.svg)](https://github.com/CJud25/CMMCVault/actions/workflows/ci.yml)
+
 A session-only web application that helps small U.S. defense contractors understand
 their readiness for **CMMC Level 2** by scoring a **NIST SP 800-171** self-assessment
 the way the Department of Defense does — and, more importantly, by making one easily
