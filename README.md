@@ -65,6 +65,7 @@ streamlit run app.py
 - [The compound eligibility gate](#the-compound-eligibility-gate-32-cfr-17021)
 - [Data handling and privacy](#data-handling-and-privacy)
 - [Accuracy, provenance, and the guidance content](#accuracy-provenance-and-the-guidance-content)
+- [Regulatory framework and freshness](#regulatory-framework-and-freshness)
 - [Architecture](#architecture)
 - [Project structure](#project-structure)
 - [Testing and verification](#testing-and-verification)
@@ -235,6 +236,56 @@ CMMC Vault is **session-only by design.**
   `data/controls.json` against the official DoD source document, run
   `python scripts/build_catalog.py --check`, and have a qualified professional validate
   conclusions that will inform a contract decision.
+
+## Regulatory framework and freshness
+
+_Last reviewed: 2026-07-05._
+
+**Framework versions this build encodes.** The catalog and scoring engine are built
+against a specific, pinned set of source documents — not "CMMC in general":
+
+- **NIST SP 800-171 Revision 2** — the 110 security requirements and the requirement
+  text quoted in the guidance.
+- **NIST SP 800-171 DoD Assessment Methodology, Version 1.2.1 (2020-06-24), Annex A** —
+  the SPRS point weights (5 / 3 / 1) and the −203 to 110 score range.
+- **NIST SP 800-171A** — the assessment objectives the plain-English guidance is
+  written against.
+- **32 CFR 170.21** (the CMMC Program rule, i.e. "CMMC 2.0") — the CMMC Level 2
+  **self-assessment** eligibility rules and the POA&M / Conditional-status gate
+  (`data/poam_eligibility.json`, verified 2026-07-04).
+
+This is a **readiness self-estimate** and **not** a certification, an official
+assessment, or a CMMC status of any kind (see [Disclaimer](#disclaimer)).
+
+**Verify against the official sources.** Before relying on any result, confirm this
+build against the authoritative documents from their official publishers — not this
+repository and not any third-party mirror:
+
+- **NIST SP 800-171 Rev 2** and **SP 800-171A** — the NIST Computer Security Resource
+  Center (`csrc.nist.gov`), which hosts the official PDFs.
+- **NIST SP 800-171 DoD Assessment Methodology** — the DoD / DCMA DIBCAC source PDF.
+- **32 CFR Part 170** (CMMC Program) — the official Code of Federal Regulations
+  (`ecfr.gov`) and the DoD CIO CMMC pages.
+
+**What you MUST re-verify before any high-stakes use** (a contract decision, an SPRS
+submission, or a C3PAO engagement):
+
+- Whether a **newer revision** of NIST SP 800-171 (for example, Rev 3) or an updated
+  DoD Assessment Methodology has superseded the versions above, and whether it changes
+  any requirement, point weight, or the score range this tool assumes.
+- Whether **32 CFR Part 170** has been amended since 2026-07-04 in a way that changes
+  the ≥ 88 threshold, the list of never-deferrable requirements, or the 180-day
+  Conditional→Final clock.
+- The per-requirement weights in `data/controls.json` and the eligibility ruleset in
+  `data/poam_eligibility.json`, spot-checked against the official PDFs — then re-run
+  `python scripts/build_catalog.py --check`.
+
+**Update cadence.** These references are **not** auto-updated; the tool makes no
+outbound calls and cannot detect an amended regulation. This note is dated so it is
+obvious when it was last reconciled. Re-check the sources above at least **quarterly**,
+and immediately whenever DoD or NIST announces a change to the CMMC Program or to
+SP 800-171. Treat any result as potentially stale until the source versions have been
+re-confirmed for your assessment date.
 
 ## Architecture
 
