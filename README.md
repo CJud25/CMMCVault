@@ -71,7 +71,7 @@ eligible**.
 
 CMMC Vault makes that concrete. The bundled sample organization scores exactly **89**
 and is still **"Not conditionally ready,"** because three 5-point requirements and one
-of the six never-deferrable 1-point requirements are open. Every feature in the tool
+of the five never-deferrable 1-point requirements are open. Every feature in the tool
 exists to explain that gap and turn it into an ordered plan of work.
 
 ## What it is — and is not

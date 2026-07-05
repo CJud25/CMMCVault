@@ -10,8 +10,10 @@ Per 32 CFR 170.21 a POA&M is permitted only if:
   2. every open (NOT MET) requirement placed on the POA&M is worth <= 1 point,
      EXCEPT SC.L2-3.13.11 (CUI encryption) when encryption is employed but not
      FIPS-validated (the -3 partial), which MAY be POA&M'd, AND
-  3. none of six named 1-point requirements are open:
-     AC.L2-3.1.20, AC.L2-3.1.22, CA.L2-3.12.4 (SSP), PE.L2-3.10.3/4/5.
+  3. none of five named 1-point requirements are open (AC.L2-3.1.20, AC.L2-3.1.22,
+     PE.L2-3.10.3/4/5), and the non-scored but mandatory SSP (CA.L2-3.12.4) is present
+     — the SSP is excluded for a separate reason (no valid score exists without it),
+     not because it is a 1-point requirement.
 
 So a contractor can sit at exactly 89 and still be ineligible. This module makes
 that compound gate first-class. It is PURE: no Streamlit, no I/O; `today` is a

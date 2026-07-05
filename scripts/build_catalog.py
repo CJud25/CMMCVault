@@ -616,9 +616,13 @@ SAMPLE_SCOPE_ASSETS = [
 
 def _draft_guidance(short, req):
     """Conservative, requirement-grounded DRAFT guidance for controls not yet given
-    curated, expert-reviewed text. Deliberately generic — it paraphrases the
+    curated, source-checked text. Deliberately generic — it paraphrases the
     requirement and asks for operating evidence, so it never fabricates specifics.
-    Marked reviewed=False; the UI badges it 'pending expert review'."""
+    Marked reviewed=False; the UI badges it 'not yet source-checked'.
+
+    Currently INERT: all 110 shipped controls are covered by GUIDANCE or the reviewed
+    batch (reviewed=True), so this fallback never fires at build time. Retained only to
+    gracefully handle a future control added without curated/reviewed guidance."""
     return {
         "plain": (f"In plain terms: {req} The test isn't whether it's written down — "
                   "it's whether it actually happens and you can show it."),
@@ -656,6 +660,8 @@ def build():
         elif cid in reviewed_batch:
             guidance = {**reviewed_batch[cid], "reviewed": True}    # SME-reviewed batch
         else:
+            # Inert today (all 110 controls are covered above); safe default for any
+            # future control added without curated/reviewed guidance.
             guidance = _draft_guidance(short, req)                  # generated draft
         controls.append({
             "id": cid,
