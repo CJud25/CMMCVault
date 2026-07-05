@@ -16,6 +16,24 @@ conversations. It is **not** a compliance platform, and it is deliberately trans
 about what it can and cannot do (see
 [What it is — and is not](#what-it-is--and-is-not)).
 
+**63 tests** · **98% coverage** of the core logic modules (`logic/` — scoring,
+readiness, scoping, catalog), measured with `pytest --cov`. See
+[Testing and verification](#testing-and-verification).
+
+**Run it in 3 commands:**
+
+```bash
+git clone https://github.com/CJud25/CMMCVault.git && cd CMMCVault
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+> Run the app **locally** for any real assessment; the [hosted demo](#live-demo) is
+> for the built-in **sample only** (see the safety note below).
+
+<!-- TODO(chris): capture screenshot -->
+![CMMC Vault dashboard: the sample organization scoring 89 and "Not conditionally ready," with its blocking requirements listed](docs/img/hero-dashboard.png)
+
 ---
 
 ## Live demo
