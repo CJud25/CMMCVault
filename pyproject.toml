@@ -1,0 +1,7 @@
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+# E501 (line length) is advisory here: some transcribed catalog/guidance lines and
+# data literals run long by design. Everything else in the default rule set applies.
+ignore = ["E501"]

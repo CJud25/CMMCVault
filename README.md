@@ -1,5 +1,7 @@
 # CMMC Vault
 
+[![CI](https://github.com/CJud25/CMMCVault/actions/workflows/ci.yml/badge.svg)](https://github.com/CJud25/CMMCVault/actions/workflows/ci.yml)
+
 A session-only web application that helps small U.S. defense contractors understand
 their readiness for **CMMC Level 2** by scoring a **NIST SP 800-171** self-assessment
 the way the Department of Defense does — and, more importantly, by making one easily
@@ -13,6 +15,23 @@ CMMC Vault is a focused, session-only teaching tool for guided readiness
 conversations. It is **not** a compliance platform, and it is deliberately transparent
 about what it can and cannot do (see
 [What it is — and is not](#what-it-is--and-is-not)).
+
+**63 tests** · **98% coverage** of the core logic modules (`logic/` — scoring,
+readiness, scoping, catalog), measured with `pytest --cov`. See
+[Testing and verification](#testing-and-verification).
+
+**Run it in 3 commands:**
+
+```bash
+git clone https://github.com/CJud25/CMMCVault.git && cd CMMCVault
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+> Run the app **locally** for any real assessment; the [hosted demo](#live-demo) is
+> for the built-in **sample only** (see the safety note below).
+
+![CMMC Vault dashboard: the sample organization scoring 89 and "Not conditionally ready," with its blocking requirements listed](docs/img/hero-dashboard.png)
 
 ---
 
@@ -42,9 +61,11 @@ about what it can and cannot do (see
 - [Features](#features)
 - [Getting started](#getting-started)
 - [Guided walkthrough](#guided-walkthrough)
+- [Screens](#screens)
 - [The compound eligibility gate](#the-compound-eligibility-gate-32-cfr-17021)
 - [Data handling and privacy](#data-handling-and-privacy)
 - [Accuracy, provenance, and the guidance content](#accuracy-provenance-and-the-guidance-content)
+- [Regulatory framework and freshness](#regulatory-framework-and-freshness)
 - [Architecture](#architecture)
 - [Project structure](#project-structure)
 - [Testing and verification](#testing-and-verification)
@@ -150,6 +171,15 @@ A 60-second demonstration centered on the sample organization:
 6. **Assessment Prep Binder** (sidebar). Generates the `.docx` package a contractor
    brings *to* an assessment.
 
+## Screens
+
+| | |
+|---|---|
+| ![Blocker-First Readiness Path — the shortest set of fixes to clear the compound gate](docs/img/blocker-first-path.png) | ![Method & sources — how each control is scored and cited](docs/img/method-sources.png) |
+| **Blocker-First Readiness Path** — the exact requirements that must be *met* (not POA&M-deferred) before the sample org becomes eligible | **Method & sources** — every control's scoring weight and citation, kept auditable |
+
+_Sample data only. The hero above shows the sample organization at score 89 — above the 88 floor yet **not** conditionally ready, because four requirements cannot be deferred to a POA&M._
+
 ## The compound eligibility gate (32 CFR 170.21)
 
 For **Conditional** CMMC status, a POA&M is permitted only if **all** of the following
@@ -216,6 +246,56 @@ CMMC Vault is **session-only by design.**
   `python scripts/build_catalog.py --check`, and have a qualified professional validate
   conclusions that will inform a contract decision.
 
+## Regulatory framework and freshness
+
+_Last reviewed: 2026-07-05._
+
+**Framework versions this build encodes.** The catalog and scoring engine are built
+against a specific, pinned set of source documents — not "CMMC in general":
+
+- **NIST SP 800-171 Revision 2** — the 110 security requirements and the requirement
+  text quoted in the guidance.
+- **NIST SP 800-171 DoD Assessment Methodology, Version 1.2.1 (2020-06-24), Annex A** —
+  the SPRS point weights (5 / 3 / 1) and the −203 to 110 score range.
+- **NIST SP 800-171A** — the assessment objectives the plain-English guidance is
+  written against.
+- **32 CFR 170.21** (the CMMC Program rule, i.e. "CMMC 2.0") — the CMMC Level 2
+  **self-assessment** eligibility rules and the POA&M / Conditional-status gate
+  (`data/poam_eligibility.json`, verified 2026-07-04).
+
+This is a **readiness self-estimate** and **not** a certification, an official
+assessment, or a CMMC status of any kind (see [Disclaimer](#disclaimer)).
+
+**Verify against the official sources.** Before relying on any result, confirm this
+build against the authoritative documents from their official publishers — not this
+repository and not any third-party mirror:
+
+- **NIST SP 800-171 Rev 2** and **SP 800-171A** — the NIST Computer Security Resource
+  Center (`csrc.nist.gov`), which hosts the official PDFs.
+- **NIST SP 800-171 DoD Assessment Methodology** — the DoD / DCMA DIBCAC source PDF.
+- **32 CFR Part 170** (CMMC Program) — the official Code of Federal Regulations
+  (`ecfr.gov`) and the DoD CIO CMMC pages.
+
+**What you MUST re-verify before any high-stakes use** (a contract decision, an SPRS
+submission, or a C3PAO engagement):
+
+- Whether a **newer revision** of NIST SP 800-171 (for example, Rev 3) or an updated
+  DoD Assessment Methodology has superseded the versions above, and whether it changes
+  any requirement, point weight, or the score range this tool assumes.
+- Whether **32 CFR Part 170** has been amended since 2026-07-04 in a way that changes
+  the ≥ 88 threshold, the list of never-deferrable requirements, or the 180-day
+  Conditional→Final clock.
+- The per-requirement weights in `data/controls.json` and the eligibility ruleset in
+  `data/poam_eligibility.json`, spot-checked against the official PDFs — then re-run
+  `python scripts/build_catalog.py --check`.
+
+**Update cadence.** These references are **not** auto-updated; the tool makes no
+outbound calls and cannot detect an amended regulation. This note is dated so it is
+obvious when it was last reconciled. Re-check the sources above at least **quarterly**,
+and immediately whenever DoD or NIST announces a change to the CMMC Program or to
+SP 800-171. Treat any result as potentially stale until the source versions have been
+re-confirmed for your assessment date.
+
 ## Architecture
 
 The design keeps a small, well-tested core pure and free of framework dependencies,
@@ -271,8 +351,13 @@ tests/                      unittest suites (see below)
 ## Testing and verification
 
 ```bash
-python -m unittest discover tests -v        # full suite
+python -m unittest discover tests -v        # full suite (63 tests, no extra deps)
 python scripts/build_catalog.py --check     # data-integrity + sample verdict
+
+# Optional — reproduce the coverage figure and lint (dev tools; also what CI runs):
+pip install pytest pytest-cov ruff
+python -m pytest --cov=logic -q             # 63 tests; ~98% coverage of logic/
+ruff check .
 ```
 
 The suite covers the scoring engine, the compound eligibility gate, scope logic, the

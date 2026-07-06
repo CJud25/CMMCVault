@@ -10,7 +10,7 @@ import re
 from datetime import date
 
 from logic.scoring import (
-    IMPLEMENTED, NA_NOT_PERMITTED, NOT_IMPLEMENTED, allowed_statuses,
+    NOT_IMPLEMENTED, allowed_statuses,
 )
 from logic.scoping import ASSET_CATEGORIES, reconcile_na_statuses
 
