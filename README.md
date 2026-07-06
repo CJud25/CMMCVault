@@ -351,8 +351,13 @@ tests/                      unittest suites (see below)
 ## Testing and verification
 
 ```bash
-python -m unittest discover tests -v        # full suite
+python -m unittest discover tests -v        # full suite (63 tests, no extra deps)
 python scripts/build_catalog.py --check     # data-integrity + sample verdict
+
+# Optional — reproduce the coverage figure and lint (dev tools; also what CI runs):
+pip install pytest pytest-cov ruff
+python -m pytest --cov=logic -q             # 63 tests; ~98% coverage of logic/
+ruff check .
 ```
 
 The suite covers the scoring engine, the compound eligibility gate, scope logic, the
