@@ -31,7 +31,6 @@ streamlit run app.py
 > Run the app **locally** for any real assessment; the [hosted demo](#live-demo) is
 > for the built-in **sample only** (see the safety note below).
 
-<!-- TODO(chris): capture screenshot -->
 ![CMMC Vault dashboard: the sample organization scoring 89 and "Not conditionally ready," with its blocking requirements listed](docs/img/hero-dashboard.png)
 
 ---
@@ -62,6 +61,7 @@ streamlit run app.py
 - [Features](#features)
 - [Getting started](#getting-started)
 - [Guided walkthrough](#guided-walkthrough)
+- [Screens](#screens)
 - [The compound eligibility gate](#the-compound-eligibility-gate-32-cfr-17021)
 - [Data handling and privacy](#data-handling-and-privacy)
 - [Accuracy, provenance, and the guidance content](#accuracy-provenance-and-the-guidance-content)
@@ -170,6 +170,15 @@ A 60-second demonstration centered on the sample organization:
    document / implementation / review status.
 6. **Assessment Prep Binder** (sidebar). Generates the `.docx` package a contractor
    brings *to* an assessment.
+
+## Screens
+
+| | |
+|---|---|
+| ![Blocker-First Readiness Path — the shortest set of fixes to clear the compound gate](docs/img/blocker-first-path.png) | ![Method & sources — how each control is scored and cited](docs/img/method-sources.png) |
+| **Blocker-First Readiness Path** — the exact requirements that must be *met* (not POA&M-deferred) before the sample org becomes eligible | **Method & sources** — every control's scoring weight and citation, kept auditable |
+
+_Sample data only. The hero above shows the sample organization at score 89 — above the 88 floor yet **not** conditionally ready, because four requirements cannot be deferred to a POA&M._
 
 ## The compound eligibility gate (32 CFR 170.21)
 
