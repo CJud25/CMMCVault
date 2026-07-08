@@ -16,9 +16,15 @@ conversations. It is **not** a compliance platform, and it is deliberately trans
 about what it can and cannot do (see
 [What it is — and is not](#what-it-is--and-is-not)).
 
-**63 tests** · **98% coverage** of the core logic modules (`logic/` — scoring,
+**66 tests** · **98% coverage** of the core logic modules (`logic/` — scoring,
 readiness, scoping, catalog), measured with `pytest --cov`. See
 [Testing and verification](#testing-and-verification).
+
+**Ships with a companion field manual:** the
+**[CMMC Level 2 Survival Guide (PDF)](docs/CMMC_Level_2_Survival_Guide.pdf)** — 39
+pages of plain-English CMMC that walk the same rules this app enforces, kept in
+agreement with the app's ruleset by a test. See
+[The Survival Guide](#the-survival-guide-companion-field-manual).
 
 **Run it in 3 commands:**
 
@@ -62,6 +68,7 @@ streamlit run app.py
 - [Getting started](#getting-started)
 - [Guided walkthrough](#guided-walkthrough)
 - [Screens](#screens)
+- [The Survival Guide (companion field manual)](#the-survival-guide-companion-field-manual)
 - [The compound eligibility gate](#the-compound-eligibility-gate-32-cfr-17021)
 - [Data handling and privacy](#data-handling-and-privacy)
 - [Accuracy, provenance, and the guidance content](#accuracy-provenance-and-the-guidance-content)
@@ -179,6 +186,45 @@ A 60-second demonstration centered on the sample organization:
 | **Blocker-First Readiness Path** — the exact requirements that must be *met* (not POA&M-deferred) before the sample org becomes eligible | **Method & sources** — every control's scoring weight and citation, kept auditable |
 
 _Sample data only. The hero above shows the sample organization at score 89 — above the 88 floor yet **not** conditionally ready, because four requirements cannot be deferred to a POA&M._
+
+## The Survival Guide (companion field manual)
+
+**[CMMC Level 2 Survival Guide — Plain-English Edition (PDF)](docs/CMMC_Level_2_Survival_Guide.pdf)**
+· 39 pages · July 2026 · prepared by Chris Judkins
+
+CMMC Vault and the Survival Guide are two halves of the same preparation kit. The
+app is the calculator: it scores a self-assessment the way DoD does and applies the
+compound eligibility gate. The guide is the trail map: it explains, in plain
+English, the journey those numbers live in — eight waypoints from "what even is
+CUI?" through scoping, the paper trail, all 110 requirements, scoring, the POA&M
+gate, and SPRS, to the day a C3PAO assessor walks through the door.
+
+| | CMMC Vault (this app) | Survival Guide (the PDF) |
+| --- | --- | --- |
+| **Role** | Interactive: score yourself, see what blocks eligibility, organize evidence, generate the prep binder | Narrative: understand what CUI is, how scoping works, what each requirement means, and what an assessment is actually like |
+| **The "89 problem"** | The bundled sample scores 89 and is still not conditionally ready — the app names the blockers | Waypoints 5–6 walk the same worked example and the 32 CFR 170.21 rules that produce it |
+| **The ruleset** | `data/controls.json` + `data/poam_eligibility.json`, asserted on every build | The same 5/3/1 weights, the two partial-credit cases, and the never-POA&M six, cited to source |
+
+**The app and the guide are kept in agreement by a test.** All 110 point values and
+POA&M-eligibility flags in the guide's family tables are asserted against this
+repository's `data/controls.json` and `data/poam_eligibility.json` by
+`tests/test_guide_consistency.py`: the same 44 five-point weights (including the two
+partial-credit cases), 14 three-point, 51 one-point, the unscored SSP, and the six
+never-POA&M requirements. If the guide and the app ever disagree about a rule, the
+build fails.
+
+**Provenance and honesty.** The guide was prepared by Chris Judkins with AI
+assistance against the same pinned sources as the app (32 CFR Part 170, NIST SP
+800-171 Rev 2 / 800-171A, DoD Assessment Methodology v1.2.1, the CMMC Level 2
+Assessment and Scoping Guides v2.13, and DFARS 252.204-7012/-7019/-7020/-7021), and
+passed three structured adversarial review rounds — source-checked editorial passes,
+**not** a sign-off by a licensed CMMC professional or C3PAO. Like the app, it is a
+learning and preparation aid: **not** legal advice, **not** an official DoD
+publication, and it confers no CMMC status (see [Disclaimer](#disclaimer)).
+
+**Reproducible like everything else here.** The HTML source and the render pipeline
+live in [`docs/guide-src/`](docs/guide-src/) — see the README there to regenerate
+the PDF.
 
 ## The compound eligibility gate (32 CFR 170.21)
 
@@ -345,25 +391,27 @@ scripts/
   build_catalog.py          Builds + validates the catalog (run with --check)
 docs/
   language-contract.md      Forbidden/approved wording, enforced by a test
+  CMMC_Level_2_Survival_Guide.pdf  The companion field manual (39 pages)
+  guide-src/                Guide HTML source + render pipeline (see its README)
 tests/                      unittest suites (see below)
 ```
 
 ## Testing and verification
 
 ```bash
-python -m unittest discover tests -v        # full suite (63 tests, no extra deps)
+python -m unittest discover tests -v        # full suite (66 tests, no extra deps)
 python scripts/build_catalog.py --check     # data-integrity + sample verdict
 
 # Optional — reproduce the coverage figure and lint (dev tools; also what CI runs):
 pip install pytest pytest-cov ruff
-python -m pytest --cov=logic -q             # 63 tests; ~98% coverage of logic/
+python -m pytest --cov=logic -q             # 66 tests; ~98% coverage of logic/
 ruff check .
 ```
 
 The suite covers the scoring engine, the compound eligibility gate, scope logic, the
-binder, import validation and sanitization, and the language contract. The build check
-independently verifies the catalog distribution, the eligibility ruleset, and the
-89-but-not-ready sample verdict.
+binder, import validation and sanitization, the language contract, and the Survival
+Guide's agreement with the app's ruleset. The build check independently verifies the
+catalog distribution, the eligibility ruleset, and the 89-but-not-ready sample verdict.
 
 ## Current limitations
 
