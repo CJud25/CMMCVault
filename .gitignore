@@ -5,3 +5,9 @@ samples/
 .streamlit/secrets.toml
 .coverage
 .pytest_cache/
+
+# Survival Guide render artifacts (docs/guide-src/): the published PDF lives in docs/
+docs/guide-src/node_modules/
+docs/guide-src/package.json
+docs/guide-src/package-lock.json
+docs/guide-src/*.pdf

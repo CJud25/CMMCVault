@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The CMMC Level 2 Survival Guide</title>
+<style>
+  :root{
+    --paper:#FAF7F0; --ink:#1B2A38; --navy:#24455F; --navy-deep:#16283B;
+    --orange:#C65A1E; --orange-soft:#F4E3D3;
+    --good:#2F6B3F; --good-soft:#E7EFE4;
+    --bad:#A03123; --bad-soft:#F3E2DC;
+    --muted:#5C6672; --line:#C9C2B4; --tint:#F1EBDE;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--paper);}
+  body{font-family:'Segoe UI',Calibri,Arial,sans-serif; font-size:9.6pt; line-height:1.55; color:var(--ink);}
+  .head{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed;}
+
+  /* ---------- page structure ---------- */
+  section{break-before:page;}
+  section.flow{break-before:auto;}
+  .no-break{break-inside:avoid;}
+  p{margin:0 0 7pt 0;}
+  ul,ol{margin:0 0 8pt 16pt;}
+  li{margin-bottom:3pt;}
+  strong{color:var(--navy-deep);}
+  em{color:var(--muted); font-style:italic;}
+
+  /* ---------- typography ---------- */
+  .kicker{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    text-transform:uppercase; letter-spacing:2.4px; font-size:8pt; color:var(--orange); margin-bottom:4pt;}
+  h1{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    font-size:26pt; line-height:1.08; text-transform:uppercase; color:var(--navy-deep); letter-spacing:.4px;}
+  h2{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    font-size:15.5pt; text-transform:uppercase; letter-spacing:.6px; color:var(--navy-deep); margin:0 0 8pt 0;}
+  h3{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    font-size:11.5pt; text-transform:uppercase; letter-spacing:.5px; color:var(--navy); margin:10pt 0 5pt 0;}
+  h4{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    font-size:10pt; letter-spacing:.4px; color:var(--ink); margin:8pt 0 3pt 0; text-transform:uppercase;}
+  .lead{font-size:10.6pt; color:#33404d;}
+  code,.mono{font-family:Consolas,'Courier New',monospace; font-size:8.6pt;}
+
+  /* ---------- waypoint headers ---------- */
+  .wp{display:flex; align-items:center; gap:10pt; border-bottom:2.5px solid var(--navy-deep);
+    padding-bottom:7pt; margin-bottom:10pt;}
+  .wp .num{flex:0 0 auto; width:34pt; height:34pt; border-radius:50%; background:var(--navy-deep); color:#fff;
+    font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700; font-size:17pt;
+    display:flex; align-items:center; justify-content:center;}
+  .wp .num.alt{background:var(--orange);}
+  .wp .wtitle h2{margin:0;}
+  .wp .wtitle .sub{font-size:9pt; color:var(--muted); margin-top:1pt;}
+
+  /* ---------- callouts ---------- */
+  .callout{border:1px solid var(--line); border-left:5px solid var(--navy); background:#fff;
+    padding:7pt 10pt; margin:9pt 0; break-inside:avoid; border-radius:0 3px 3px 0;}
+  .callout .tag{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    text-transform:uppercase; letter-spacing:1.6px; font-size:7.6pt; display:block; margin-bottom:3pt;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.marker{border-left-color:var(--navy); background:#F4F1E9;} .callout.marker .tag{color:var(--navy);}
+  .callout.watch{border-left-color:var(--orange); background:var(--orange-soft);} .callout.watch .tag{color:var(--orange);}
+  .callout.prove{border-left-color:var(--good); background:var(--good-soft);} .callout.prove .tag{color:var(--good);}
+  .callout.trap{border-left-color:var(--bad); background:var(--bad-soft);} .callout.trap .tag{color:var(--bad);}
+
+  /* ---------- good / bad panels ---------- */
+  .gb{display:flex; gap:10pt; margin:9pt 0; break-inside:avoid;}
+  .gb>div{flex:1; border:1px solid var(--line); background:#fff; padding:7pt 9pt; border-radius:3px;}
+  .gb .good{border-top:4px solid var(--good);}
+  .gb .bad{border-top:4px solid var(--bad);}
+  .gb .lbl{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    text-transform:uppercase; letter-spacing:1.4px; font-size:7.6pt; margin-bottom:4pt;}
+  .gb .good .lbl{color:var(--good);} .gb .bad .lbl{color:var(--bad);}
+  .gb ul{margin:0 0 0 13pt;} .gb li{margin-bottom:3.5pt; font-size:9pt;}
+
+  /* ---------- tables ---------- */
+  table{border-collapse:collapse; width:100%; margin:8pt 0; background:#fff;}
+  th{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    text-transform:uppercase; letter-spacing:1px; font-size:7.6pt; color:#fff; background:var(--navy-deep);
+    padding:4pt 6pt; text-align:left;}
+  td{padding:3.6pt 6pt; border-bottom:1px solid #E3DDCF; font-size:8.7pt; vertical-align:top;}
+  tr:nth-child(even) td{background:#FBF9F3;}
+  tr{break-inside:avoid;}
+  table.ctl td{font-size:8.3pt; padding:3pt 5pt;}
+  table.ctl .id{font-family:Consolas,monospace; font-size:8pt; white-space:nowrap; color:var(--navy-deep); font-weight:600;}
+  .pts{display:inline-block; min-width:16pt; text-align:center; border-radius:2px; color:#fff;
+    font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-weight:700; font-size:7.8pt; padding:1pt 3pt;}
+  .p5{background:var(--bad);} .p3{background:var(--orange);} .p1{background:#5C6672;}
+  .pS{background:var(--navy-deep);} .pP{background:linear-gradient(135deg,var(--orange) 50%,var(--bad) 50%);}
+  .never{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-weight:700; font-size:7.4pt; color:var(--bad);
+    text-transform:uppercase; letter-spacing:.5px; white-space:nowrap;}
+  .ok-poam{color:var(--good); font-size:8pt;} .no-poam{color:var(--muted); font-size:8pt;}
+
+  /* ---------- family blocks ---------- */
+  .fam{break-before:page;}
+  .fam.share{break-before:auto; margin-top:14pt;}
+  .fam-head{display:flex; align-items:center; gap:8pt; margin-bottom:5pt;}
+  .fam-chip{flex:0 0 auto; width:30pt; height:30pt; background:var(--navy-deep); color:#fff; border-radius:3px;
+    display:flex; align-items:center; justify-content:center; font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif;
+    font-stretch:condensed; font-weight:700; font-size:12.5pt; letter-spacing:.5px;}
+  .fam-head .ft h3{margin:0; font-size:12.5pt; color:var(--navy-deep);}
+  .fam-head .ft .nick{font-size:8.6pt; color:var(--orange); font-weight:600;}
+  .fam-cols{display:flex; gap:10pt; margin:8pt 0 6pt 0;}
+  .fam-cols>div{flex:1; border-radius:4px; padding:7pt 9pt 5pt 9pt; break-inside:avoid;}
+  .fam-cols div.show{background:var(--good-soft); border:1px solid #BFD2BA; border-top:4px solid var(--good);}
+  .fam-cols div.path{background:var(--orange-soft); border:1px solid #E3C6AB; border-top:4px solid var(--orange);}
+  .fam-cols div.show h4,.fam-cols div.path h4{margin:0 0 5pt 0; font-size:9.6pt; letter-spacing:1.2px;}
+  .fam-cols div.show h4{color:var(--good);} .fam-cols div.path h4{color:var(--orange);}
+  .fam-cols div.show h4::before{content:"✓ ";} .fam-cols div.path h4::before{content:"→ ";}
+  .fam-cols div.show ul{list-style:none; margin:0;}
+  .fam-cols div.show ul li{position:relative; padding-left:12pt; margin-bottom:3pt;}
+  .fam-cols div.show ul li::before{content:"✓"; position:absolute; left:0; top:0; color:var(--good); font-weight:700;}
+  .fam-cols div.path ol{list-style:none; margin:0; counter-reset:step;}
+  .fam-cols div.path ol li{counter-increment:step; position:relative; padding-left:15.5pt; margin-bottom:3pt;}
+  .fam-cols div.path ol li::before{content:counter(step); position:absolute; left:0; top:1.5pt; width:10.5pt; height:10.5pt;
+    border-radius:50%; background:var(--orange); color:#fff; font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif;
+    font-weight:700; font-size:7.2pt; text-align:center; line-height:10.5pt;}
+  .fam .mini{font-size:8.8pt;}
+  .fam .mini ul,.fam .mini ol{margin-left:13pt;} .fam .mini li{margin-bottom:2.5pt;}
+
+  /* ---------- misc ---------- */
+  .cols2{column-count:2; column-gap:16pt;}
+  .fig{margin:10pt 0; break-inside:avoid; text-align:center;}
+  .fig .cap{font-size:8pt; color:var(--muted); margin-top:3pt; text-align:left; border-top:1px solid var(--line);
+    padding-top:3pt; font-style:italic;}
+  .bignum{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    font-size:22pt; color:var(--orange); line-height:1;}
+  .numcard{display:flex; flex-wrap:wrap; gap:8pt; margin:10pt 0;}
+  .numcard>div{flex:1 1 30%; min-width:150pt; border:1px solid var(--line); background:#fff; padding:8pt 10pt;
+    border-radius:3px; break-inside:avoid; border-top:3px solid var(--navy);}
+  .numcard .nc-what{font-size:8.6pt; color:var(--ink); margin-top:2pt;}
+  .footer-note{font-size:8pt; color:var(--muted); border-top:1px solid var(--line); padding-top:5pt; margin-top:12pt;}
+  .toc td{font-size:9.4pt; padding:4.5pt 6pt;}
+  .toc .id{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-weight:700; color:var(--orange); white-space:nowrap;}
+
+  /* ---------- cover ---------- */
+  .cover{height:9.35in; display:flex; flex-direction:column; border:3px solid var(--navy-deep); padding:.45in .5in;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 34px, rgba(36,69,95,.045) 34px 68px),
+      var(--paper);}
+  .cover .topline{display:flex; justify-content:space-between; align-items:center;
+    font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    text-transform:uppercase; letter-spacing:2.6px; font-size:8.4pt; color:var(--navy);
+    border-bottom:1.5px solid var(--navy-deep); padding-bottom:8pt;}
+  .cover .mid{flex:1; display:flex; flex-direction:column; justify-content:center;}
+  .cover h1.big{font-size:47pt; line-height:1.0; margin:10pt 0 4pt 0;}
+  .cover h1.big .orange{color:var(--orange);}
+  .cover .subtitle{font-size:12.5pt; color:#33404d; max-width:5.9in; margin-top:10pt;}
+  .cover .byline{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:600;
+    text-transform:uppercase; letter-spacing:2.2px; font-size:9pt; color:var(--navy); margin-top:14pt;}
+  .cover .byline .repo{color:var(--muted); letter-spacing:1.2px; text-transform:none; font-weight:400;}
+  .cover .stamp{align-self:flex-start; margin-top:22pt; border:2.5px solid var(--orange); color:var(--orange);
+    font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed; font-weight:700;
+    text-transform:uppercase; letter-spacing:2.5px; font-size:10.5pt; padding:5pt 12pt; transform:rotate(-2.4deg);
+    border-radius:3px; background:rgba(250,247,240,.85);}
+  .cover .bottom{border-top:1.5px solid var(--navy-deep); padding-top:9pt; display:flex;
+    justify-content:space-between; font-size:8.3pt; color:var(--muted);}
+  .cover .facts{display:flex; gap:22pt; margin-top:26pt;}
+  .cover .facts .f .n{font-family:Bahnschrift,'Arial Narrow',Arial,sans-serif; font-stretch:condensed;
+    font-weight:700; font-size:24pt; color:var(--navy-deep); line-height:1;}
+  .cover .facts .f .t{font-size:7.8pt; text-transform:uppercase; letter-spacing:1.4px; color:var(--muted); margin-top:2pt;}
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="flow">
+  <div class="cover">
+    <div class="topline"><span>Field Manual · For Small Defense Contractors</span><span>Plain-English Edition · July 2026</span></div>
+    <div class="mid">
+      <div class="kicker" style="font-size:10pt; letter-spacing:3px;">Prove it or lose it</div>
+      <h1 class="big">The CMMC<br>Level 2<br><span class="orange">Survival Guide</span></h1>
+      <p class="subtitle">Everything a small IT or cybersecurity federal contractor needs to understand, implement,
+        and <strong>prove</strong> the 110 security requirements of NIST SP 800-171 — for the self-assessment,
+        and for the day a C3PAO assessor walks through your door.</p>
+      <div class="byline">Prepared by Chris Judkins &nbsp;<span class="repo">· companion to CMMC Vault · github.com/CJud25/CMMCVault</span></div>
+      <div class="facts">
+        <div class="f"><div class="n">110</div><div class="t">Requirements</div></div>
+        <div class="f"><div class="n">14</div><div class="t">Families</div></div>
+        <div class="f"><div class="n">320</div><div class="t">Assessment objectives</div></div>
+        <div class="f"><div class="n">88</div><div class="t">Minimum conditional score</div></div>
+        <div class="f"><div class="n">180</div><div class="t">Days to close a POA&amp;M</div></div>
+      </div>
+      <div class="stamp">You don't get credit for being safe — only for being able to show it</div>
+    </div>
+    <div class="bottom">
+      <span>A learning &amp; preparation aid — not legal advice, not an official DoD publication, and it confers no CMMC status.</span>
+      <span>Sources: 32 CFR Part 170 · NIST SP 800-171 Rev 2 / 800-171A · CMMC L2 Guides v2.13</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW TO USE ================= -->
+<section>
+  <div class="kicker">Before you start</div>
+  <h2>How to use this guide</h2>
+  <p class="lead">CMMC feels like a wall of federal prose. It isn't. It is one idea repeated 110 times:
+    <strong>decide a rule, follow the rule, and keep proof that the rule is really happening.</strong>
+    This guide walks that idea down a single trail — eight waypoints from "what even is CUI?" to
+    "the assessor just left, now what?"</p>
+
+  <h3>Who each part is for</h3>
+  <table>
+    <tr><th style="width:32%">If you are…</th><th>Read…</th></tr>
+    <tr><td><strong>The owner / executive</strong></td><td>The 60-second briefing, the journey map, Waypoints 5–7 (scoring, POA&amp;M, SPRS), and "Ten ways teams get hurt." You sign the affirmation — understand what you're signing.</td></tr>
+    <tr><td><strong>The IT / security lead</strong></td><td>Everything. Waypoint 4 (the 14 families) is your build list; the evidence chapter is your proof standard.</td></tr>
+    <tr><td><strong>The office manager / HR / facilities</strong></td><td>Waypoint 4 families PS, PE, AT, and MP — people, doors, training, and paper. Plus the employee card at the back.</td></tr>
+    <tr><td><strong>Every employee</strong></td><td>The one-page employee card near the end. Six rules. That's it — post it in the break room.</td></tr>
+  </table>
+
+  <h3>The three boxes to watch for</h3>
+  <div class="callout marker"><span class="tag">■ Trail marker</span>
+    <p>Orientation: what this step is and why it exists. Read these and you'll always know where you are.</p></div>
+  <div class="callout watch"><span class="tag">▲ Watch out</span>
+    <p>A hazard that regularly hurts small contractors. Each one is drawn from the way assessments actually go wrong — not theory.</p></div>
+  <div class="callout prove"><span class="tag">✓ Prove it</span>
+    <p>The evidence an assessor will ask for. If a section leaves you with nothing to put in a folder, re-read it — every requirement ends in proof.</p></div>
+
+  <div class="callout trap"><span class="tag">✗ Honesty box — what this guide is, and is not</span>
+    <p><strong>It is</strong> a plain-language learning and preparation aid, written against the official sources listed on the
+    last page and reviewed for accuracy. <strong>It is not</strong> legal advice, an official DoD or Cyber AB publication, a
+    substitute for the CMMC Assessment Guides, or a promise of any assessment outcome. No document can guarantee a result —
+    only your implementation can. It confers no CMMC status; a CMMC status is granted only through an assessment recorded in
+    SPRS. Where this guide and an official document disagree, the official document wins.</p></div>
+
+  <h3>Meet the cast</h3>
+  <table>
+    <tr><th style="width:26%">Name</th><th>Who they are in this story</th></tr>
+    <tr><td><strong>You (the OSA)</strong></td><td>The "Organization Seeking Assessment." Your company, your systems, your evidence.</td></tr>
+    <tr><td><strong>DoD</strong></td><td>Writes the rules (32 CFR Part 170, DFARS clauses) and owns the CUI you're protecting.</td></tr>
+    <tr><td><strong>C3PAO</strong></td><td>CMMC Third-Party Assessment Organization — the accredited company that performs your Level 2 certification assessment. Found on the Cyber AB Marketplace.</td></tr>
+    <tr><td><strong>Cyber AB</strong></td><td>The accreditation body that authorizes C3PAOs and credentials assessors.</td></tr>
+    <tr><td><strong>DIBCAC</strong></td><td>The Defense Contract Management Agency's assessment arm. Runs Level 3 assessments and some government-led reviews.</td></tr>
+    <tr><td><strong>SPRS</strong></td><td>Supplier Performance Risk System — the DoD database where your score, status, and affirmations live. Contracting officers check it.</td></tr>
+  </table>
+</section>
+
+<!-- ================= 60 SECOND BRIEFING ================= -->
+<section>
+  <div class="kicker">Orientation</div>
+  <h2>The 60-second briefing</h2>
+  <p class="lead"><strong>CMMC</strong> (Cybersecurity Maturity Model Certification) is the Department of Defense's way of
+  making one thing checkable: <em>if we hand you sensitive information, can you actually protect it — and can you prove it?</em></p>
+
+  <p>Two kinds of information drive everything:</p>
+  <table>
+    <tr><th style="width:18%">Term</th><th style="width:47%">Plain meaning</th><th>Example</th></tr>
+    <tr><td><strong>FCI</strong></td><td>Federal Contract Information — non-public info provided by or created for the government under contract. Almost every federal contractor has some.</td><td>A statement of work, contract emails, delivery schedules.</td></tr>
+    <tr><td><strong>CUI</strong></td><td>Controlled Unclassified Information — unclassified, but sensitive enough that a law, regulation, or government-wide policy requires protecting it. This is what Level 2 exists for.</td><td>Controlled technical drawings, export-controlled specs, some program and sustainment data.</td></tr>
+  </table>
+
+  <div class="fig">
+    <svg viewBox="0 0 700 205" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="CMMC levels ladder">
+      <!-- steps -->
+      <rect x="10" y="130" width="215" height="62" rx="4" fill="#fff" stroke="#24455F" stroke-width="1.6"/>
+      <rect x="242" y="72" width="215" height="120" rx="4" fill="#F4E3D3" stroke="#C65A1E" stroke-width="2.2"/>
+      <rect x="474" y="18" width="215" height="174" rx="4" fill="#fff" stroke="#24455F" stroke-width="1.6"/>
+      <!-- L1 -->
+      <text x="24" y="150" font-size="15" font-weight="700" fill="#16283B">LEVEL 1</text>
+      <text x="24" y="165" font-size="10.5" fill="#33404d">Protects FCI · 15 requirements</text>
+      <text x="24" y="179" font-size="10.5" fill="#33404d">Annual self-assessment</text>
+      <!-- L2 -->
+      <text x="256" y="94" font-size="15" font-weight="700" fill="#C65A1E">LEVEL 2 — YOU ARE HERE</text>
+      <text x="256" y="111" font-size="10.5" fill="#33404d">Protects CUI · 110 requirements</text>
+      <text x="256" y="125" font-size="10.5" fill="#33404d">(NIST SP 800-171 Rev 2)</text>
+      <text x="256" y="143" font-size="10.5" fill="#33404d">Self-assessment for some contracts;</text>
+      <text x="256" y="157" font-size="10.5" fill="#33404d">C3PAO certification for most.</text>
+      <text x="256" y="175" font-size="10.5" fill="#33404d">Every 3 years + annual affirmation</text>
+      <!-- L3 -->
+      <text x="488" y="40" font-size="15" font-weight="700" fill="#16283B">LEVEL 3</text>
+      <text x="488" y="57" font-size="10.5" fill="#33404d">For the most critical programs</text>
+      <text x="488" y="75" font-size="10.5" fill="#33404d">Level 2 certification first, plus</text>
+      <text x="488" y="89" font-size="10.5" fill="#33404d">enhanced requirements from</text>
+      <text x="488" y="103" font-size="10.5" fill="#33404d">NIST SP 800-172.</text>
+      <text x="488" y="121" font-size="10.5" fill="#33404d">Assessed by the government</text>
+      <text x="488" y="135" font-size="10.5" fill="#33404d">(DCMA DIBCAC).</text>
+    </svg>
+    <div class="cap">Figure 1 — The three CMMC levels. The contract tells you which level applies; CUI on your systems means Level 2.</div>
+  </div>
+
+  <h3>The four contract clauses that put you here</h3>
+  <table>
+    <tr><th style="width:26%">DFARS clause</th><th>What it obligates you to do</th></tr>
+    <tr><td class="mono">252.204-7012</td><td>Safeguard covered defense information using NIST SP 800-171; report cyber incidents to DoD within <strong>72 hours</strong> via DIBNet; cloud services holding that data must meet <strong>FedRAMP Moderate</strong> (or equivalency).</td></tr>
+    <tr><td class="mono">252.204-7019</td><td>Have a current (within 3 years) SP 800-171 self-assessment score <strong>posted in SPRS</strong> to be considered for award.</td></tr>
+    <tr><td class="mono">252.204-7020</td><td>Give the government access to verify that score, and flow the requirement down to subcontractors.</td></tr>
+    <tr><td class="mono">252.204-7021</td><td>Hold the specified <strong>CMMC level</strong> as a condition of award — this is the clause that makes CMMC contractual.</td></tr>
+  </table>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — when does CMMC actually hit your contracts?</span>
+    <p>CMMC is phasing in. The program rule (32 CFR Part 170) took effect in December 2024, and under the acquisition rule
+    the CMMC clause began appearing in new DoD solicitations in <strong>late 2025</strong> — starting with self-assessment
+    requirements (Phase 1 — though DoD may require certification in some early solicitations at its discretion), then adding
+    C3PAO certification requirements broadly in later phases over roughly the following three years until full implementation. Two practical consequences: check every new solicitation for the -7021 clause and its
+    specified level, and <strong>don't wait for the clause to appear</strong> — by the time it's in a solicitation you want
+    to bid, it is too late to start a months-long readiness effort.</p></div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — subcontractors are not exempt</span>
+    <p>If a prime flows CUI down to you, you need your own Level 2 status — your own scope, your own SSP, your own score in
+    SPRS. "The prime handles compliance" is a sentence that ends bids. Ask your prime, in writing, what data you will receive
+    and what level your subcontract requires.</p></div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — the one rule under all 110 rules</span>
+    <p>Assessors grade each requirement <strong>MET</strong>, <strong>NOT MET</strong>, or <strong>N/A</strong> — and MET means
+    <em>every one</em> of that requirement's assessment objectives (there are 320 across the 110 requirements) is satisfied with
+    real, final evidence. Saying "we're secure" earns nothing. Showing a policy, a screenshot of the live setting, and a record
+    of it actually happening — that earns MET. That's the whole game.</p></div>
+</section>
+
+<!-- ================= JOURNEY MAP ================= -->
+<section>
+  <div class="kicker">The route</div>
+  <h2>The whole journey on one page</h2>
+
+  <div class="fig">
+    <svg viewBox="0 0 700 330" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="Journey map with eight waypoints">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#C65A1E"/>
+        </marker>
+      </defs>
+      <!-- trail -->
+      <path d="M60,60 H370 Q420,60 420,105 T370,150 H130 Q80,150 80,195 T130,240 H560" fill="none" stroke="#C65A1E" stroke-width="3" stroke-dasharray="7 6" marker-end="url(#arr)"/>
+      <!-- waypoint helper -->
+      <g font-size="10.5" fill="#33404d">
+        <!-- 1 -->
+        <circle cx="60" cy="60" r="16" fill="#16283B"/><text x="60" y="65" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+        <text x="60" y="30" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">FIND YOUR CUI</text>
+        <text x="60" y="43" text-anchor="middle" font-size="9">what are we protecting?</text>
+        <!-- 2 -->
+        <circle cx="215" cy="60" r="16" fill="#16283B"/><text x="215" y="65" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+        <text x="215" y="30" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">DRAW THE BUBBLE</text>
+        <text x="215" y="43" text-anchor="middle" font-size="9">scope the assessment</text>
+        <!-- 3 -->
+        <circle cx="370" cy="60" r="16" fill="#16283B"/><text x="370" y="65" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+        <text x="370" y="30" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">BUILD THE PAPER TRAIL</text>
+        <text x="370" y="43" text-anchor="middle" font-size="9">SSP, policies, inventory</text>
+        <!-- 4 -->
+        <circle cx="300" cy="150" r="16" fill="#C65A1E"/><text x="300" y="155" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+        <text x="300" y="185" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">WORK THE 14 FAMILIES</text>
+        <text x="300" y="198" text-anchor="middle" font-size="9">implement + collect evidence (the long middle)</text>
+        <!-- 5 -->
+        <circle cx="130" cy="240" r="16" fill="#16283B"/><text x="130" y="245" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+        <text x="130" y="275" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">SCORE YOURSELF</text>
+        <text x="130" y="288" text-anchor="middle" font-size="9">110 minus what's not met</text>
+        <!-- 6 -->
+        <circle cx="280" cy="240" r="16" fill="#16283B"/><text x="280" y="245" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">6</text>
+        <text x="280" y="275" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">POA&amp;M THE REST</text>
+        <text x="280" y="288" text-anchor="middle" font-size="9">only what the rules allow</text>
+        <!-- 7 -->
+        <circle cx="425" cy="240" r="16" fill="#16283B"/><text x="425" y="245" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">7</text>
+        <text x="425" y="275" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">POST TO SPRS + AFFIRM</text>
+        <text x="425" y="288" text-anchor="middle" font-size="9">make it official</text>
+        <!-- 8 -->
+        <circle cx="560" cy="240" r="16" fill="#C65A1E"/><text x="560" y="245" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">8</text>
+        <text x="560" y="275" text-anchor="middle" font-weight="700" fill="#16283B" font-size="11.5">THE C3PAO ASSESSMENT</text>
+        <text x="560" y="288" text-anchor="middle" font-size="9">certify, then maintain for 3 years</text>
+      </g>
+    </svg>
+    <div class="cap">Figure 2 — Eight waypoints. Steps 1–3 are thinking and writing. Step 4 is the long middle. Steps 5–8 are proving.</div>
+  </div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — how long does this really take?</span>
+    <p>For a small business starting from a typical IT setup, closing the gap to Level 2 commonly takes
+    <strong>months to a year or more</strong>, depending on how much CUI you touch and how tightly you scope. The single
+    biggest schedule lever is Waypoint 2: a small, well-fenced CUI environment can cut the work dramatically. Start before the
+    contract that needs it — C3PAO calendars also book out.</p></div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — the order matters</span>
+    <p>Teams that start buying security tools before they've drawn the bubble (Waypoint 2) end up securing everything,
+    proving nothing, and paying twice. Scope first. Write second. Implement third. Prove always.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 1 ================= -->
+<section>
+  <div class="wp"><div class="num">1</div><div class="wtitle">
+    <h2>Find your CUI</h2><div class="sub">You cannot protect — or scope — what you haven't located.</div></div></div>
+
+  <p class="lead">CUI is unclassified information the government says must be protected because a law, regulation, or
+  government-wide policy requires it. Your contract, its attachments (look for DD Form 254 on classified-adjacent work,
+  CUI markings, and Section H/I clauses), and the customer's program office tell you what CUI you'll receive or create.
+  The official catalog of categories is the <strong>National Archives (NARA) CUI Registry</strong>.</p>
+
+  <h3>Where CUI actually hides in a small shop</h3>
+  <ul>
+    <li><strong>Email</strong> — the #1 hiding place. Attachments from the prime or program office land here first.</li>
+    <li><strong>File shares and cloud drives</strong> — "Projects\Navy\drawings" folders that grew organically.</li>
+    <li><strong>Engineering tools</strong> — CAD files, source code repositories, test data, build servers.</li>
+    <li><strong>Laptops and home offices</strong> — synced copies, downloads, and USB "temporary" copies.</li>
+    <li><strong>Paper</strong> — printed drawings, travelers on the shop floor, binders from site visits.</li>
+    <li><strong>Backups</strong> — every copy of CUI is CUI, including the ones your backup tool made at 2 a.m.</li>
+  </ul>
+
+  <div class="gb">
+    <div class="good"><div class="lbl">✓ What good looks like</div>
+      <ul>
+        <li>A short written statement: "We receive export-controlled technical data from [prime] under contract [#]; it arrives by [method] and lives in [locations]."</li>
+        <li>A data-flow sketch: how CUI enters, where it's stored, who touches it, how it leaves.</li>
+        <li>Someone owns the question — one named person can answer "where is our CUI?" in one minute.</li>
+      </ul>
+    </div>
+    <div class="bad"><div class="lbl">✗ What gets you hurt</div>
+      <ul>
+        <li>"We probably don't have CUI." (Said while a folder called <span class="mono">ITAR_drawings</span> sits on the shared drive.)</li>
+        <li>Treating <em>everything</em> as CUI "to be safe" — you just tripled your scope and your cost.</li>
+        <li>Nobody can say which contract requires what — so nobody can say what's in scope.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout prove"><span class="tag">✓ Prove it — what goes in the folder</span>
+    <p>The contract clause pages, your CUI identification memo, the data-flow sketch, and (if you generate CUI) how you mark
+    it — CUI banner markings, category markings, and a designation indicator on documents you create. Expect to be asked,
+    early in the assessment, "walk me through how CUI enters your company." Have the one-minute answer rehearsed.</p></div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — FCI-only means Level 1, not Level 0</span>
+    <p>If you truly handle no CUI, Level 2 may not apply to you — but FCI still puts you in Level 1's 15 requirements with an
+    annual self-assessment and affirmation. Confirm against the contract before spending on the wrong level.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 2 ================= -->
+<section>
+  <div class="wp"><div class="num">2</div><div class="wtitle">
+    <h2>Draw the bubble (scoping)</h2><div class="sub">The assessment boundary decides what gets assessed — and what you pay.</div></div></div>
+
+  <p class="lead">Before a single control is marked, you must define the <strong>CMMC Assessment Scope</strong>: every asset
+  that processes, stores, or transmits CUI, plus everything that protects those assets. The official Level 2 Scoping Guide
+  sorts every asset you own into five buckets:</p>
+
+  <table>
+    <tr><th style="width:22%">Asset category</th><th style="width:42%">Plain meaning</th><th>What you must do</th></tr>
+    <tr><td><strong>CUI Assets</strong></td><td>Systems that process, store, or transmit CUI.</td><td>Inventory, diagram, describe in the SSP, assess against all applicable requirements.</td></tr>
+    <tr><td><strong>Security Protection Assets</strong></td><td>Things that protect the CUI environment: firewall, identity provider, EDR, SIEM, backup system, the MSP's management tools.</td><td>Inventory, diagram, describe in the SSP, assess for the security functions they provide.</td></tr>
+    <tr><td><strong>Contractor Risk Managed Assets</strong></td><td>Could touch CUI but are not intended to, because your policies and controls keep them away.</td><td>Inventory, diagram, document the risk-based treatment in the SSP; be ready to justify it.</td></tr>
+    <tr><td><strong>Specialized Assets</strong></td><td>IoT, OT, test equipment, government-furnished equipment — things that can't be secured like a normal computer.</td><td>Inventory, diagram, describe in the SSP; manage by risk-based policy.</td></tr>
+    <tr><td><strong>Out-of-Scope Assets</strong></td><td>Physically or logically separated; <em>cannot</em> touch CUI and don't protect CUI assets.</td><td>Be ready to show <em>why</em> they truly can't. Separation must be real, not aspirational.</td></tr>
+  </table>
+
+  <div class="fig">
+    <svg viewBox="0 0 700 300" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="Scoping diagram">
+      <!-- scope boundary -->
+      <rect x="12" y="34" width="470" height="252" rx="10" fill="none" stroke="#C65A1E" stroke-width="2.6"/>
+      <text x="24" y="24" font-size="12.5" font-weight="700" fill="#C65A1E">THE BUBBLE — CMMC ASSESSMENT SCOPE</text>
+      <!-- CUI assets -->
+      <rect x="30" y="52" width="210" height="128" rx="5" fill="#F4E3D3" stroke="#C65A1E" stroke-width="1.5"/>
+      <text x="42" y="72" font-size="11" font-weight="700" fill="#16283B">CUI ASSETS</text>
+      <text x="42" y="92" font-size="10" fill="#33404d">• CUI file share / enclave</text>
+      <text x="42" y="108" font-size="10" fill="#33404d">• Engineering workstations</text>
+      <text x="42" y="124" font-size="10" fill="#33404d">• Email (CUI mailboxes)</text>
+      <text x="42" y="140" font-size="10" fill="#33404d">• Backup copies of the above</text>
+      <text x="42" y="164" font-size="9" fill="#5C6672" font-style="italic">Assessed against all applicable controls</text>
+      <!-- SPA -->
+      <rect x="258" y="52" width="208" height="128" rx="5" fill="#fff" stroke="#24455F" stroke-width="1.5"/>
+      <text x="270" y="72" font-size="11" font-weight="700" fill="#16283B">SECURITY PROTECTION ASSETS</text>
+      <text x="270" y="92" font-size="10" fill="#33404d">• Firewall / VPN gateway</text>
+      <text x="270" y="108" font-size="10" fill="#33404d">• Identity provider + MFA</text>
+      <text x="270" y="124" font-size="10" fill="#33404d">• EDR / antivirus console, SIEM</text>
+      <text x="270" y="140" font-size="10" fill="#33404d">• MSP management tooling</text>
+      <text x="270" y="164" font-size="9" fill="#5C6672" font-style="italic">In scope for what they protect</text>
+      <!-- CRMA / specialized -->
+      <rect x="30" y="196" width="210" height="74" rx="5" fill="none" stroke="#5C6672" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text x="42" y="216" font-size="11" font-weight="700" fill="#33404d">CONTRACTOR RISK MANAGED</text>
+      <text x="42" y="233" font-size="10" fill="#33404d">• Front-office PCs kept away from</text>
+      <text x="42" y="247" font-size="10" fill="#33404d">&#160;&#160;CUI by policy + controls</text>
+      <rect x="258" y="196" width="208" height="74" rx="5" fill="none" stroke="#5C6672" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <text x="270" y="216" font-size="11" font-weight="700" fill="#33404d">SPECIALIZED ASSETS</text>
+      <text x="270" y="233" font-size="10" fill="#33404d">• CNC machine / lab test rig</text>
+      <text x="270" y="247" font-size="10" fill="#33404d">• Documented, risk-managed</text>
+      <!-- out of scope -->
+      <rect x="512" y="52" width="176" height="218" rx="5" fill="#EFEBE0" stroke="#5C6672" stroke-width="1.4"/>
+      <text x="524" y="72" font-size="11" font-weight="700" fill="#33404d">OUT OF SCOPE</text>
+      <text x="524" y="92" font-size="10" fill="#33404d">• Guest Wi-Fi (separate VLAN,</text>
+      <text x="524" y="106" font-size="10" fill="#33404d">&#160;&#160;no path to CUI)</text>
+      <text x="524" y="124" font-size="10" fill="#33404d">• Marketing laptop blocked</text>
+      <text x="524" y="138" font-size="10" fill="#33404d">&#160;&#160;from the enclave</text>
+      <text x="524" y="160" font-size="9.5" font-weight="700" fill="#A03123">Only if you can PROVE</text>
+      <text x="524" y="174" font-size="9.5" font-weight="700" fill="#A03123">the separation is real</text>
+      <text x="524" y="196" font-size="9" fill="#5C6672" font-style="italic">VLAN configs, firewall rules,</text>
+      <text x="524" y="209" font-size="9" fill="#5C6672" font-style="italic">and access lists are the proof</text>
+    </svg>
+    <div class="cap">Figure 3 — A typical small-contractor scope. Everything inside the orange line appears in your SSP, inventory, and network diagram.</div>
+  </div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — the enclave strategy</span>
+    <p>The cheapest Level 2 is a <strong>small</strong> Level 2. Instead of certifying your whole flat network, fence CUI into
+    a dedicated enclave — a segmented network zone, a GCC High tenant, or a purpose-built secure workspace — and let the rest
+    of the company stay ordinary. Smaller bubble, fewer assets, fewer interviews, less evidence, lower cost. Segmentation must
+    be enforced (firewall rules, VLANs, access control), not just drawn.</p></div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — clouds and outside helpers are in your story</span>
+    <p>If a cloud service <strong>stores, processes, or transmits CUI</strong> (email, file sharing, project tools), DFARS
+    252.204-7012 requires it to meet <strong>FedRAMP Moderate or equivalency</strong> — commercial consumer tiers usually
+    don't. If an <strong>MSP or other External Service Provider</strong> manages your environment, their access and tooling
+    are part of your assessment: document in the SSP what they do, and get a written <strong>shared responsibility
+    matrix</strong> saying who does which control. "Our IT guy handles that" is not a control.</p></div>
+
+  <div class="callout prove"><span class="tag">✓ Prove it — the scoping pack</span>
+    <p>Asset inventory sorted into the five categories; a network diagram showing the boundary and data flows; the SSP scope
+    section; evidence that separation works (VLAN/firewall configs, screenshots of blocked access). This pack is the first
+    thing a C3PAO reviews — it decides whether the assessment can even be planned.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 3 ================= -->
+<section>
+  <div class="wp"><div class="num">3</div><div class="wtitle">
+    <h2>Build the paper trail</h2><div class="sub">Three documents carry the whole assessment: the SSP, your policies, and the POA&amp;M.</div></div></div>
+
+  <h3>1 · The System Security Plan (SSP) — the master document</h3>
+  <p>The SSP is the story of your CUI environment in writing: what the system is, where its boundary sits, how each of the
+  110 requirements is implemented (or why one doesn't apply), and who is responsible. Assessors read it <em>first</em> and
+  test your reality against it.</p>
+  <div class="callout trap"><span class="tag">✗ Trap — no SSP, no assessment</span>
+    <p>The SSP (requirement 3.12.4) is special. Under the DoD scoring methodology it carries no point value — because
+    <strong>if the SSP is missing, the assessment cannot be conducted at all</strong>. It can never be put on a POA&amp;M.
+    Some checklists show it as a 1-point item; treat that as a footnote. The real value of the SSP is "everything."</p></div>
+  <p><strong>A workable small-business SSP contains:</strong> system description and boundary (with diagram) · environment
+  of operation · the asset inventory by scoping category · for each requirement, 2–6 sentences on <em>how</em> it's met,
+  <em>where</em> it's configured, and <em>who</em> owns it · connections to other systems and ESPs · N/A justifications ·
+  a revision history showing it's maintained, with a defined update frequency.</p>
+
+  <h3>2 · Policies and procedures — the rules you promise to follow</h3>
+  <p>A <strong>policy</strong> says what must happen ("All remote access requires MFA"). A <strong>procedure</strong> says how
+  it happens here ("New hires get MFA enrolled by IT during onboarding, ticket type X"). <strong>Evidence</strong> shows it
+  happened ("Enrollment report, dated, all 23 users"). You need all three layers, and they must agree with each other.</p>
+
+  <div class="gb">
+    <div class="good"><div class="lbl">✓ A policy an assessor believes</div>
+      <ul>
+        <li>Approved and signed by leadership, with a date and version number.</li>
+        <li>Says who, what, and how often — in numbers ("review access quarterly"), not vibes ("periodically as needed").</li>
+        <li>Matches reality. The screen lock policy says 15 minutes; the GPO says 15 minutes.</li>
+      </ul>
+    </div>
+    <div class="bad"><div class="lbl">✗ A policy that falls apart</div>
+      <ul>
+        <li>Watermarked DRAFT, unsigned, or "template" language still saying <span class="mono">[Company Name]</span>.</li>
+        <li>Downloaded the week before the assessment; no one interviewed has read it.</li>
+        <li>Promises things you don't do — a policy you violate is worse than none: it proves the control isn't operating.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>3 · The POA&amp;M — your honest to-do list</h3>
+  <p>The Plan of Action &amp; Milestones lists every NOT MET requirement with an owner, the fix, milestones, and a completion
+  date. It is a managed promise, not a parking lot — Waypoint 6 covers the strict rules about what may sit on it and for how
+  long.</p>
+
+  <h3>The evidence binder — one folder per family</h3>
+  <div class="no-break">
+  <p>Set the structure up <em>now</em> so evidence lands in the right place all year:</p>
+  <table>
+    <tr><th style="width:34%">Folder</th><th>What lives inside</th></tr>
+    <tr><td class="mono">01_Scope_and_SSP\</td><td>SSP, network diagram, asset inventory, data-flow sketch</td></tr>
+    <tr><td class="mono">02_Policies\</td><td>Signed policies and procedures, version history</td></tr>
+    <tr><td class="mono">AC\ … SI\ (14 folders)</td><td>Per-family proof: configuration exports, screenshots (named + dated), reports, sample tickets, logs, review records</td></tr>
+    <tr><td class="mono">POAM\</td><td>The living POA&amp;M and closure evidence for each finished item</td></tr>
+    <tr><td class="mono">SPRS\</td><td>Score worksheet, submission confirmations, affirmation records</td></tr>
+  </table>
+  </div>
+  <div class="callout prove"><span class="tag">✓ Prove it — the two-part proof rule</span>
+    <p>For every requirement, aim for <strong>(1) the rule written down</strong> and <strong>(2) the rule happening</strong> —
+    a live setting, plus one real example (a ticket, a log line, a completed record). One screenshot of a checkbox proves a
+    moment; a dated policy + the setting + a worked example proves a practice.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 4 INTRO ================= -->
+<section>
+  <div class="wp"><div class="num alt">4</div><div class="wtitle">
+    <h2>Work the 14 families</h2><div class="sub">The field guide: every requirement, in plain words, with its point value and POA&amp;M status.</div></div></div>
+
+  <p class="lead">All 110 requirements sort into 14 families. The next pages give each family a card: what it means in plain
+  English, what you must be able to show, a pathway to get there, and a table of every requirement in the family.</p>
+
+  <h3>How to read the tables</h3>
+  <table>
+    <tr><th style="width:24%">Column</th><th>Meaning</th></tr>
+    <tr><td><strong>ID</strong></td><td>The NIST SP 800-171 number. CMMC documents write it long-form — <span class="mono">3.1.1</span> appears as <span class="mono">AC.L2-3.1.1</span>. Same requirement.</td></tr>
+    <tr><td><strong>Points</strong></td><td>What you lose from your score of 110 while it's NOT MET: <span class="pts p5">5</span> = critical basics, <span class="pts p3">3</span> = significant, <span class="pts p1">1</span> = still mandatory. <span class="pts pP">3/5</span> = partial-credit special case. <span class="pts pS">SSP</span> = unscored showstopper.</td></tr>
+    <tr><td><strong>POA&amp;M?</strong></td><td>Whether the item could sit on a POA&amp;M at assessment time (Waypoint 6): <span class="ok-poam">✓ eligible</span> (1-point items), <span class="no-poam">✗ no — must be MET</span> (3- and 5-point items, with one partial exception), or <span class="never">NEVER</span> (the six that block Conditional status outright).</td></tr>
+  </table>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — every point value in one glance</span>
+    <p>Of the 110: <strong>44 requirements are worth 5 points</strong> (including the two partial-credit cases at full weight),
+    <strong>14 are worth 3</strong>, <strong>51 are worth 1</strong>, and the <strong>SSP is unscored</strong> — it simply must
+    exist. Lose everything and the score bottoms out at −203. The 5-pointers are DoD's list of "this failing is how breaches
+    happen" — work them first.</p></div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — "MET" is objective-by-objective</span>
+    <p>Each requirement breaks into assessment objectives (320 in total, listed in NIST SP 800-171A and the CMMC Assessment
+    Guide). A requirement is MET only when <em>every applicable objective</em> is satisfied. 3.1.1 alone has six objectives —
+    identifying users, processes, and devices, <em>and</em> limiting access to each. Check the objectives, not the title.</p></div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — the honest order of work</span>
+    <p>1) Anything on the <strong>never-POA&amp;M list</strong> (3.1.20, 3.1.22, 3.10.3, 3.10.4, 3.10.5 — and the SSP itself).
+    2) The <strong>5-pointers</strong>. 3) The <strong>3-pointers</strong>. 4) The 1-pointers. This order clears eligibility
+    blockers first and buys the most score per hour of work.</p></div>
+</section>
+
+<!-- ================= FAMILIES ================= -->
+
+<!-- AC -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">AC</div><div class="ft">
+    <h3>Access Control — 22 requirements</h3><div class="nick">"Who may enter, which rooms, with which keys."</div></div></div>
+  <p class="mini">Decide who is allowed into your systems, what each person can do once inside, and how outside connections
+  (remote, wireless, mobile, portable media, public posting) are controlled. AC is the biggest family and carries seven
+  5-pointers — it is where most score lives.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A current user list with roles, and an approval record for each account.</li>
+      <li>Live settings: permissions by role, remote access via VPN/gateway with encryption, Wi-Fi with WPA2/WPA3-Enterprise or equivalent, session lock.</li>
+      <li>Rules for USB drives, mobile devices, and a review step before anything is posted publicly.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Export the full account list; delete or disable what you can't justify.</li>
+      <li>Map roles → permissions; remove "everyone is admin."</li>
+      <li>Force all remote access through one managed, encrypted gate.</li>
+      <li>Lock down Wi-Fi, mobile devices, and USB by written rule + technical control.</li>
+      <li>Name who may approve public posts, and add a CUI check to that step.</li>
+      <li>Centralize session-lock and lockout settings (GPO/MDM) so they can't drift machine by machine.</li>
+      <li>Run a quarterly access review — one hour, re-approve every account and permission, keep the minutes.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.1.1</td><td>Authorized access control</td><td>Only approved people, programs, and devices get in.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.2</td><td>Transaction &amp; function control</td><td>People can only use the functions their job needs.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.3</td><td>Control CUI flow</td><td>CUI travels only on approved paths.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.4</td><td>Separation of duties</td><td>Split powerful jobs so no one person holds every key step.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.5</td><td>Least privilege</td><td>Give the smallest key ring that still does the job.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.6</td><td>Non-privileged account use</td><td>Admins use normal accounts for normal work.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.7</td><td>Privileged functions</td><td>Non-admins can't run admin commands; admin actions are logged.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.8</td><td>Unsuccessful logon attempts</td><td>Too many wrong passwords locks or slows the account.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.9</td><td>Privacy &amp; security notices</td><td>Show the required warning banner at login.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.10</td><td>Session lock</td><td>Idle screens lock and hide what was showing.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.11</td><td>Session termination</td><td>Sessions end automatically on defined conditions.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.12</td><td>Control remote access</td><td>Remote sessions are permitted, controlled, and monitored.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.13</td><td>Remote access confidentiality</td><td>Remote sessions are encrypted.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.14</td><td>Remote access routing</td><td>Remote traffic enters only through managed access points.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.15</td><td>Privileged remote access</td><td>Remote admin work needs specific authorization.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.16</td><td>Wireless access authorization</td><td>Wi-Fi access points are approved before use.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.17</td><td>Wireless access protection</td><td>Wi-Fi requires authentication and encryption.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.18</td><td>Mobile device connection</td><td>Phones/tablets that connect are identified, authorized, logged.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.19</td><td>Encrypt CUI on mobile</td><td>CUI on mobile devices/platforms is encrypted.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.1.20</td><td>External connections</td><td>Outside systems you use are identified, verified, and limited.</td><td><span class="pts p1">1</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+    <tr><td class="id">3.1.21</td><td>Portable storage on external systems</td><td>Company CUI on thumb drives used outside is limited by rule.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.1.22</td><td>Control public information</td><td>A review step keeps CUI off websites and social posts.</td><td><span class="pts p1">1</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+  </table>
+</section>
+
+<!-- AT + AU -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">AT</div><div class="ft">
+    <h3>Awareness &amp; Training — 3 requirements</h3><div class="nick">"Practice before the game."</div></div></div>
+  <p class="mini">People can't follow rules they've never heard. Everyone gets security awareness training; people with
+  security duties get role-based training; everyone learns to spot insider threat indicators.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Training content (slides, LMS course) covering CUI handling and your actual policies.</li>
+      <li>Completion records with names and dates — including new hires and annual refreshers.</li>
+      <li>Role-based material for admins and security staff; insider-threat content for all.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Pick a delivery method (LMS, recorded session, documented in-person).</li>
+      <li>Add company-specific content: your CUI, your rules, your reporting path.</li>
+      <li>Set the cadence in policy (e.g., at hire + annually) and track completions.</li>
+      <li>Between annual cycles, run a short refresher or a phishing exercise and record who took part.</li>
+      <li>Write security duties into job descriptions so role-based training (3.2.2) has a clear "who."</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.2.1</td><td>Role-based risk awareness</td><td>Everyone knows the security risks of their own job.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.2.2</td><td>Role-based training</td><td>People are trained for their assigned security duties.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.2.3</td><td>Insider threat awareness</td><td>People can recognize and report insider-threat warning signs.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+
+  <div class="fam-head" style="margin-top:14pt;"><div class="fam-chip">AU</div><div class="ft">
+    <h3>Audit &amp; Accountability — 9 requirements</h3><div class="nick">"The security camera notebook."</div></div></div>
+  <p class="mini">Keep logs good enough to answer <em>who did what, where, and when</em> — and actually look at them. Logs must
+  trace actions to individuals, survive tampering, share one clock, and alert someone if logging breaks.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A written list of what events you log and how long you keep them.</li>
+      <li>Live log collection (SIEM or centralized logs) with correlation across sources.</li>
+      <li>Records of periodic log review, an alert for logging failures, NTP time sync, and restricted access to logs.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Define the events that matter (logons, admin actions, failures) and retention.</li>
+      <li>Centralize: Windows events, firewall, EDR, cloud audit logs into one place.</li>
+      <li>Schedule a recurring log review and <em>keep a record</em> each time.</li>
+      <li>Alert on "logging stopped"; sync all clocks to one authoritative source.</li>
+      <li>No SIEM budget? Start with built-ins — Windows Event Forwarding, syslog to one server, or your cloud tenant's audit log. Centralizing matters more than the brand.</li>
+      <li>Limit log-clearing rights to named admins and keep the permission export as evidence.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.3.1</td><td>System auditing</td><td>Create and keep the logs needed to replay the story.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.3.2</td><td>User accountability</td><td>Logs tie every action to a specific person or process.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.3.3</td><td>Event review</td><td>Review and update <em>what</em> you log as needs change.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.3.4</td><td>Audit failure alerting</td><td>If logging breaks, the right people get alerted.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.3.5</td><td>Audit correlation</td><td>Bring logs together so clues can be connected.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.3.6</td><td>Reduction &amp; reporting</td><td>Turn raw logs into on-demand, readable reports.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.3.7</td><td>Authoritative time source</td><td>All systems share one trusted clock so logs line up.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.3.8</td><td>Audit protection</td><td>Logs and log tools can't be altered or deleted by the wrong people.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.3.9</td><td>Audit management</td><td>Only a small set of privileged users manage logging.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- CM -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">CM</div><div class="ft">
+    <h3>Configuration Management — 9 requirements</h3><div class="nick">"The Lego instruction book."</div></div></div>
+  <p class="mini">Know the approved, safe setup of every system — and control every change to it. Six of nine requirements
+  here are 5-pointers, which makes CM the densest concentration of score in the model. The star is 3.4.8: allowlisting or
+  blocklisting what software may run.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A written baseline (hardening standard) per system type, plus a hardware/software inventory.</li>
+      <li>Change tickets showing track → review → approve → log.</li>
+      <li>Evidence that unnecessary services, ports, and programs are disabled.</li>
+      <li>Your allow/deny software policy and the live mechanism enforcing it (e.g., an application-control tool or managed software policy).</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Write a one-page baseline per system type (start from CIS or DISA STIG guidance, trimmed to fit).</li>
+      <li>Stand up a lightweight change log — even a ticket queue works.</li>
+      <li>Turn off what you don't use; document what you keep.</li>
+      <li>Decide allowlist vs blocklist, write it down, enforce it with tooling.</li>
+      <li>Prove enforcement, not intent: a monthly settings export or config scan compared against the baseline.</li>
+      <li>Tie the inventory to purchasing and disposal so it updates when hardware changes — not once a year.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.4.1</td><td>System baselining</td><td>Write down the approved setup + keep a system inventory.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.2</td><td>Security configuration enforcement</td><td>Systems actually follow the safe setup — no drift.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.3</td><td>System change management</td><td>Changes are tracked, reviewed, approved, and logged.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.4.4</td><td>Security impact analysis</td><td>Think through security impact before you change things.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.4.5</td><td>Access restrictions for change</td><td>Only authorized people can change systems.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.6</td><td>Least functionality</td><td>Systems provide only what's essential.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.7</td><td>Nonessential functionality</td><td>Unneeded programs, ports, protocols, services are off.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.8</td><td>Application execution policy</td><td>Only approved software runs (allowlist), or banned software can't (blocklist).</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.4.9</td><td>User-installed software</td><td>User software installs are controlled and monitored.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- IA + IR -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">IA</div><div class="ft">
+    <h3>Identification &amp; Authentication — 11 requirements</h3><div class="nick">"Name tag plus secret handshake."</div></div></div>
+  <p class="mini">Every user, process, and device proves who it is before getting in. The heart of the family is 3.5.3 —
+  multifactor authentication — one of only two requirements in the whole model with partial credit.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Unique accounts for everyone (no shared logins), incl. service accounts.</li>
+      <li>MFA live for: local <em>and</em> network access to privileged accounts, and network access for everyone else.</li>
+      <li>Password policy settings (complexity, reuse, temporary passwords) and hashed/encrypted password storage and transmission.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Kill shared accounts; give every human and service its own identity.</li>
+      <li>Roll out MFA — privileged accounts first, then all network access.</li>
+      <li>Set password rules in the identity system, not just on paper.</li>
+      <li>Disable accounts after a defined idle period; automate it.</li>
+      <li>Prefer stronger factors over SMS codes — an authenticator app at minimum, a phishing-resistant FIDO2 key where you can.</li>
+      <li>Inventory service accounts separately — each gets a named owner and a documented purpose.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.5.1</td><td>Identification</td><td>Every user, process, and device has a unique ID.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.5.2</td><td>Authentication</td><td>Identity is verified before access is granted.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.5.3</td><td>Multifactor authentication</td><td>MFA for privileged accounts (local + network) and all network access.</td><td><span class="pts pP">3/5</span></td><td class="no-poam">✗ see Waypoint 6</td></tr>
+    <tr><td class="id">3.5.4</td><td>Replay-resistant authentication</td><td>Logins can't be captured and replayed by an attacker.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.5</td><td>Identifier reuse</td><td>Old usernames aren't recycled for a defined period.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.6</td><td>Identifier handling</td><td>Inactive accounts get disabled after a defined period.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.7</td><td>Password complexity</td><td>New passwords meet your written strength rules.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.8</td><td>Password reuse</td><td>Old passwords can't be recycled for N generations.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.9</td><td>Temporary passwords</td><td>Temp passwords must be changed immediately at first logon.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.5.10</td><td>Cryptographically-protected passwords</td><td>Passwords are protected (hashed/encrypted) in storage and transit.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.5.11</td><td>Obscure feedback</td><td>Passwords are hidden as people type them.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+
+  <div class="fam-head" style="margin-top:14pt;"><div class="fam-chip">IR</div><div class="ft">
+    <h3>Incident Response — 3 requirements</h3><div class="nick">"The fire drill plan."</div></div></div>
+  <p class="mini">Have a real plan for cyber trouble: detect it, contain it, recover from it, report it, and practice the
+  whole thing before it's real. Remember the contract side too: DFARS 252.204-7012 gives you <strong>72 hours</strong> to
+  report a cyber incident to DoD via <span class="mono">dibnet.dod.mil</span> (you'll need a DoD-approved medium-assurance
+  certificate to file — get it <em>before</em> you need it).</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A written incident response plan with phases: prepare, detect, analyze, contain, recover, respond.</li>
+      <li>An incident log — even "suspicious email, investigated, benign" counts as operational evidence.</li>
+      <li>A tabletop exercise record with date, participants, and lessons learned.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Write the plan; name roles by title, with a wallet-card contact list.</li>
+      <li>Register for DIBNet reporting now (certificate takes time).</li>
+      <li>Run one tabletop per year minimum; document it.</li>
+      <li>Put the "who to call" card in onboarding and the break room — reporting speed depends on it.</li>
+      <li>After any event, even a false alarm, file a five-line lessons-learned note. It's cheap, and it's evidence.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.6.1</td><td>Incident handling</td><td>A working capability: prepare, detect, analyze, contain, recover, respond.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.6.2</td><td>Incident tracking &amp; reporting</td><td>Incidents are tracked, documented, and reported to the designated officials and authorities.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.6.3</td><td>Incident response testing</td><td>Practice the plan — like a fire drill — and keep the record.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- MA + MP -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">MA</div><div class="ft">
+    <h3>Maintenance — 6 requirements</h3><div class="nick">"The fix-it log."</div></div></div>
+  <p class="mini">When systems get repaired — by you or a vendor — control who does it, what tools they bring, and what
+  leaves the building. Remote (nonlocal) maintenance needs MFA and must be disconnected when done.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Maintenance records: who, what, when, on which asset.</li>
+      <li>Sanitization records for anything sent off-site for repair.</li>
+      <li>Malware checks on vendor diagnostic media; supervision records for unescorted-ineligible technicians.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Add a maintenance ticket type to whatever queue you already run.</li>
+      <li>Rule: nothing leaves for repair with CUI on it — wipe or pull the drive, record it.</li>
+      <li>Vendor remote sessions: MFA in, monitored, disconnected after.</li>
+      <li>Keep a one-line-per-visit log: date, technician, what was touched, escort initials.</li>
+      <li>Scan vendor diagnostic tools on an isolated or non-production machine before they touch in-scope systems.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.7.1</td><td>Perform maintenance</td><td>Systems are maintained — patched, serviced, repaired.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.7.2</td><td>Maintenance control</td><td>Tools, techniques, and people doing maintenance are controlled.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.7.3</td><td>Equipment sanitization</td><td>Gear leaving for off-site repair is scrubbed of CUI first.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.7.4</td><td>Media inspection</td><td>Vendor diagnostic disks/USBs are malware-checked before use.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.7.5</td><td>Nonlocal maintenance</td><td>Remote maintenance uses MFA and is disconnected when complete.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.7.6</td><td>Maintenance personnel</td><td>Technicians without authorization are supervised.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+
+  <div class="fam-head" style="margin-top:14pt;"><div class="fam-chip">MP</div><div class="ft">
+    <h3>Media Protection — 9 requirements</h3><div class="nick">"The locked backpack."</div></div></div>
+  <p class="mini">Protect CUI wherever it sits outside a running system: paper, USB drives, external disks, backup media.
+  Control it, mark it, encrypt it in transport, and destroy it properly at end of life.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Locked storage for CUI media and paper; an access rule for who may retrieve it.</li>
+      <li>Destruction/sanitization certificates (or your own signed wipe records).</li>
+      <li>USB control settings; encryption for media leaving the building; protected backups.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Buy a lockable cabinet; make it the only home for CUI media and paper.</li>
+      <li>Technically restrict USB use; ban unowned/found devices outright.</li>
+      <li>Encrypt anything CUI that travels; verify backup encryption settings.</li>
+      <li>Adopt NIST SP 800-88 media sanitization practices for disposal and keep the records.</li>
+      <li>Keep a simple media inventory with a checkout sheet — what exists, where it lives, who has it.</li>
+      <li>Set backups to encrypt by default and re-verify the setting after backup-software updates.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.8.1</td><td>Media protection</td><td>CUI on paper and digital media is physically controlled and stored safely.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.8.2</td><td>Media access</td><td>Only authorized people can access CUI media.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.8.3</td><td>Media disposal</td><td>Media is sanitized or destroyed before disposal or reuse.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.8.4</td><td>Media markings</td><td>CUI media carries the required markings and limits.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.8.5</td><td>Media accountability</td><td>Media leaving controlled areas is tracked and controlled in transport.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.8.6</td><td>Portable storage encryption</td><td>CUI on media in transport is encrypted (or physically safeguarded).</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.8.7</td><td>Removable media</td><td>Use of removable media (USB drives) is controlled by rule + setting.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.8.8</td><td>Shared / ownerless media</td><td>Portable storage with no identifiable owner is banned.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.8.9</td><td>Protect backups</td><td>Backup copies of CUI are protected where they're stored.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- PS + PE -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">PS</div><div class="ft">
+    <h3>Personnel Security — 2 requirements</h3><div class="nick">"People safety checks."</div></div></div>
+  <p class="mini">Two requirements, giant consequences: screen people before they touch CUI, and cut access <em>fast</em> when
+  they leave or change roles. 3.9.2 is a 5-pointer because orphaned accounts of ex-employees are a classic breach path.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Your written screening standard (e.g., background check level) and a record it ran for CUI-access staff.</li>
+      <li>A termination/transfer checklist with same-day access removal — plus a completed example with the ticket trail.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Write the screening rule that matches your risk and state law; apply it consistently.</li>
+      <li>Build the offboarding checklist with HR; make IT sign-off a required line.</li>
+      <li>Test it: pick a recent departure and pull the evidence end-to-end.</li>
+      <li>Handle transfers, not just exits: on a role change, re-run the person's access against the new role.</li>
+      <li>Pre-stage a same-day disable checklist with IT so offboarding never waits for whoever's on vacation.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.9.1</td><td>Screen individuals</td><td>People are screened before getting CUI access.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.9.2</td><td>Personnel actions</td><td>Access is removed promptly on termination or transfer.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+  </table>
+
+  <div class="fam-head" style="margin-top:14pt;"><div class="fam-chip">PE</div><div class="ft">
+    <h3>Physical Protection — 6 requirements</h3><div class="nick">"Locked doors and visitor badges."</div></div></div>
+  <p class="mini">Protect the rooms where CUI and CUI systems live. Note carefully: <strong>three of these six requirements
+  (3.10.3, 3.10.4, 3.10.5) can never be placed on a POA&amp;M</strong> — visitor escorts, physical access logs, and badge/key
+  management must simply be working on assessment day. They're cheap to fix and fatal to skip.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>The list of who has physical access (badges/keys) and a periodic review of it.</li>
+      <li>A visitor log with escort initials — with real entries, not a fresh empty book.</li>
+      <li>Facility monitoring (cameras/alarm) evidence; a home/remote work rule for CUI.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Put a sign-in sheet and escort rule at the door <em>today</em>; brief the front desk.</li>
+      <li>Inventory badges and keys; recover strays; log issuance.</li>
+      <li>Define alternate-work-site rules (locked screens, no CUI printing at home, VPN required).</li>
+      <li>Review the visitor log and badge list monthly; initial and date the review on the log itself.</li>
+      <li>Photograph the physical controls — locked rack, cabinet, cameras — for the evidence binder.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.10.1</td><td>Limit physical access</td><td>Only authorized people can physically reach CUI systems.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.10.2</td><td>Monitor facility</td><td>The facility and its support systems are protected and watched.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.10.3</td><td>Escort visitors</td><td>Visitors are escorted and their activity monitored.</td><td><span class="pts p1">1</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+    <tr><td class="id">3.10.4</td><td>Physical access logs</td><td>Keep records of who entered CUI areas.</td><td><span class="pts p1">1</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+    <tr><td class="id">3.10.5</td><td>Manage physical access</td><td>Badges, keys, and fobs are inventoried and controlled.</td><td><span class="pts p1">1</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+    <tr><td class="id">3.10.6</td><td>Alternative work sites</td><td>Home and remote sites follow defined CUI safeguards.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- RA + CA -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">RA</div><div class="ft">
+    <h3>Risk Assessment — 3 requirements</h3><div class="nick">"Look for weak spots."</div></div></div>
+  <p class="mini">On a schedule you define: assess risk, scan for vulnerabilities, and fix what you find in risk order.
+  The evidence is the cadence — one old scan proves almost nothing; a rhythm of scans with remediation tickets proves a practice.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A dated risk assessment (a structured spreadsheet is fine at small scale) and its defined frequency.</li>
+      <li>Vulnerability scan reports on a defined schedule, plus rescans after big new vulnerabilities hit the news.</li>
+      <li>Remediation tickets linking findings → fixes, prioritized by risk.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Pick a scanner; scan everything in scope; calendar the recurrence.</li>
+      <li>Triage: critical/high first, with dates and owners in tickets.</li>
+      <li>Once or twice a year, sit down and write the risk assessment. Date it.</li>
+      <li>Watch CISA's Known Exploited Vulnerabilities (KEV) catalog; a KEV hit on your stack is a scan-now trigger.</li>
+      <li>Keep the risk register short and living — five real risks reviewed twice a year beat fifty stale ones.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.11.1</td><td>Risk assessments</td><td>Periodically ask "what could hurt our CUI, and how badly?"</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.11.2</td><td>Vulnerability scanning</td><td>Scan systems and apps on schedule and when new threats emerge.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.11.3</td><td>Vulnerability remediation</td><td>Fix findings in risk order.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+
+  <div class="fam-head" style="margin-top:14pt;"><div class="fam-chip">CA</div><div class="ft">
+    <h3>Security Assessment — 4 requirements</h3><div class="nick">"The report card you give yourself."</div></div></div>
+  <p class="mini">Check your own controls on a schedule, keep a plan of action for weaknesses, monitor continuously, and
+  maintain the SSP. This family is where the assessment machinery itself lives — including the unscored, never-deferrable
+  SSP requirement, 3.12.4.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A defined self-assessment cadence and the completed results.</li>
+      <li>A living POA&amp;M with owners and dates — reviewed on a schedule, not just before assessments.</li>
+      <li>The SSP itself, current, with revision history.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Calendar a control self-check (e.g., annually, plus spot checks quarterly).</li>
+      <li>Treat the POA&amp;M as a standing agenda item in ops meetings.</li>
+      <li>Update the SSP whenever systems, clouds, or responsibilities change.</li>
+      <li>Self-check against the 320 objectives in NIST SP 800-171A — grade yourself the way the assessor will.</li>
+      <li>Rotate spot-checks: each quarter, pick two or three controls and pull their evidence end-to-end.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.12.1</td><td>Security control assessment</td><td>Periodically test whether your controls actually work.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.12.2</td><td>Operational plan of action</td><td>Track deficiencies in a plan with owners and milestones.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.12.3</td><td>Security control monitoring</td><td>Keep watching controls between assessments.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.12.4</td><td>System Security Plan</td><td>The master document. Unscored — because without it there is no assessment.</td><td><span class="pts pS">SSP</span></td><td><span class="never">NEVER on POA&amp;M</span></td></tr>
+  </table>
+</section>
+
+<!-- SC -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">SC</div><div class="ft">
+    <h3>System &amp; Communications Protection — 16 requirements</h3><div class="nick">"Safe roads for data."</div></div></div>
+  <p class="mini">Protect the network paths CUI travels and the places it rests: boundaries, segmentation, deny-by-default
+  firewalls, and encryption. Home of the model's other partial-credit case: 3.13.11, FIPS-validated cryptography.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>Firewall rules showing deny-by-default with documented exceptions; the network diagram matching reality.</li>
+      <li>Public-facing systems separated (DMZ/subnet) from the CUI environment.</li>
+      <li>Encryption for CUI in transit and protection at rest — with <strong>CMVP certificate numbers</strong> for the crypto modules where FIPS validation is claimed.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Flip the firewall philosophy: block everything, allow by exception, document each exception.</li>
+      <li>Segment public/guest systems away from CUI networks.</li>
+      <li>Turn on TLS/VPN encryption for every CUI path; disable split tunneling.</li>
+      <li>For FIPS: look up each product's module on NIST's CMVP list and file the certificate number in your evidence. "It uses AES" is not validation.</li>
+      <li>Export firewall rule sets on a schedule and compare — an unexplained new rule is a finding in waiting.</li>
+      <li>Where a platform offers a FIPS mode, consider enabling it — and still record the CMVP certificate for the module version actually in use.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.13.1</td><td>Boundary protection</td><td>Watch and control traffic at the network's edges and key interior lines.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.2</td><td>Security engineering</td><td>Build security in — architecture and design, not bolt-ons.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.3</td><td>Role separation</td><td>Separate user functions from system-admin functions.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.4</td><td>Shared resource control</td><td>One user's data can't leak to another via shared resources.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.5</td><td>Public-access separation</td><td>Public-facing systems live in their own subnetwork (DMZ).</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.6</td><td>Deny by default</td><td>Network traffic is blocked unless explicitly allowed.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.7</td><td>Split tunneling</td><td>Remote devices can't bridge your network and the internet at once.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.8</td><td>Data in transit</td><td>CUI is encrypted while it moves (or physically safeguarded).</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.9</td><td>Connection termination</td><td>Network sessions end when done or after defined idle time.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.10</td><td>Key management</td><td>Encryption keys are generated, stored, and managed properly.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.11</td><td>CUI encryption (FIPS)</td><td>Crypto protecting CUI confidentiality is FIPS-validated.</td><td><span class="pts pP">3/5</span></td><td class="ok-poam">✓ only the −3 case</td></tr>
+    <tr><td class="id">3.13.12</td><td>Collaborative device control</td><td>Remote switch-on of cameras/mics is prohibited; devices show when in use.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.13</td><td>Mobile code</td><td>Scripts and active content (applets, macros-style code) are controlled and monitored.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.14</td><td>VoIP</td><td>Internet phone/voice systems are controlled and monitored.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+    <tr><td class="id">3.13.15</td><td>Communications authenticity</td><td>Sessions are protected against spoofing and hijacking.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.13.16</td><td>Data at rest</td><td>CUI is protected while stored.</td><td><span class="pts p1">1</span></td><td class="ok-poam">✓ eligible</td></tr>
+  </table>
+</section>
+
+<!-- SI -->
+<section class="fam">
+  <div class="fam-head"><div class="fam-chip">SI</div><div class="ft">
+    <h3>System &amp; Information Integrity — 7 requirements</h3><div class="nick">"Keep the system healthy."</div></div></div>
+  <p class="mini">Patch flaws on a timeline you defined, run malware protection everywhere and keep it updated, watch
+  security alerts and traffic, and notice unauthorized use. Five of seven are 5-pointers — this family is basic hygiene
+  with maximum scoring weight.</p>
+  <div class="fam-cols">
+    <div class="mini show"><h4>What you must be able to show</h4>
+      <ul><li>A patch policy with defined timeframes (identify → report → correct) and patch reports proving you hit them.</li>
+      <li>EDR/antivirus deployed to every in-scope system, auto-updating, with real-time + scheduled scans.</li>
+      <li>A subscription to security advisories (e.g., CISA alerts, vendor bulletins) and records of acting on them.</li></ul></div>
+    <div class="mini path"><h4>Your pathway</h4>
+      <ol><li>Write the patch clock (e.g., critical: 14 days) — then measure yourself against it.</li>
+      <li>Verify EDR coverage = inventory coverage. Gaps are findings.</li>
+      <li>Route advisories to a named person; log the "we checked, we acted" trail.</li>
+      <li>Turn on automatic protection updates, then spot-check a device monthly to confirm they're landing.</li>
+      <li>Don't forget outbound: an EDR or firewall alert on unusual outbound traffic covers the half of 3.14.6 teams miss.</li></ol></div>
+  </div>
+  <table class="ctl">
+    <thead><tr><th style="width:9%">ID</th><th style="width:27%">Name</th><th>In plain words</th><th style="width:8%">Points</th><th style="width:12%">POA&amp;M?</th></tr></thead>
+    <tr><td class="id">3.14.1</td><td>Flaw remediation</td><td>Find, report, and fix flaws within defined timeframes.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.2</td><td>Malicious code protection</td><td>Malware protection runs at designated points.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.3</td><td>Security alerts &amp; advisories</td><td>Monitor security alerts and act on them.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.4</td><td>Update malware protection</td><td>Protection mechanisms update when new releases ship.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.5</td><td>System &amp; file scanning</td><td>Periodic system scans + real-time scans of downloaded files.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.6</td><td>Monitor communications</td><td>Watch inbound and outbound traffic for attack indicators.</td><td><span class="pts p5">5</span></td><td class="no-poam">✗ must be MET</td></tr>
+    <tr><td class="id">3.14.7</td><td>Identify unauthorized use</td><td>Define authorized use; detect what falls outside it.</td><td><span class="pts p3">3</span></td><td class="no-poam">✗ must be MET</td></tr>
+  </table>
+</section>
+
+<!-- ================= WAYPOINT 5 ================= -->
+<section>
+  <div class="wp"><div class="num">5</div><div class="wtitle">
+    <h2>Score yourself — and read the score honestly</h2><div class="sub">The math is simple. The eligibility rules are not. Learn both.</div></div></div>
+
+  <h3>The math</h3>
+  <p>Start at <strong>110</strong>. For every requirement that is NOT MET, subtract its point value (5, 3, or 1). N/A
+  requirements (justified by scope) don't subtract. The floor is <strong>−203</strong>. Two special cases give partial credit:</p>
+  <table>
+    <tr><th style="width:20%">Requirement</th><th>Partial-credit rule</th></tr>
+    <tr><td class="mono">3.5.3 MFA</td><td>Subtract <strong>3</strong> if MFA covers remote access and privileged users but not general users yet; subtract <strong>5</strong> if it's not implemented at all.</td></tr>
+    <tr><td class="mono">3.13.11 FIPS</td><td>Subtract <strong>3</strong> if encryption protects CUI but isn't FIPS-validated; subtract <strong>5</strong> if CUI isn't encrypted at all.</td></tr>
+  </table>
+
+  <div class="fig">
+    <svg viewBox="0 0 700 250" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="Worked scoring example">
+      <text x="10" y="20" font-size="13" font-weight="700" fill="#16283B">WORKED EXAMPLE — "SCORE 89, STILL NOT ELIGIBLE"</text>
+      <!-- start bar -->
+      <rect x="10" y="40" width="330" height="26" fill="#24455F"/><text x="18" y="58" font-size="12" fill="#fff" font-weight="700">START: 110 POINTS</text>
+      <!-- deductions -->
+      <g font-size="10.5" fill="#33404d">
+        <rect x="10" y="78" width="200" height="20" fill="#A03123"/><text x="16" y="92" font-size="10" fill="#fff">3.4.8 software control NOT MET&#160;&#160;−5</text>
+        <rect x="10" y="102" width="200" height="20" fill="#A03123"/><text x="16" y="116" font-size="10" fill="#fff">3.13.6 deny-by-default NOT MET&#160;&#160;−5</text>
+        <rect x="10" y="126" width="200" height="20" fill="#A03123"/><text x="16" y="140" font-size="10" fill="#fff">3.14.6 traffic monitoring NOT MET&#160;&#160;−5</text>
+        <rect x="10" y="150" width="200" height="20" fill="#5C6672"/><text x="16" y="164" font-size="10" fill="#fff">3.1.20 external connections&#160;&#160;−1</text>
+        <rect x="10" y="174" width="200" height="20" fill="#5C6672"/><text x="16" y="188" font-size="10" fill="#fff">five other 1-point items&#160;&#160;−5</text>
+      </g>
+      <!-- result -->
+      <rect x="10" y="206" width="267" height="26" fill="#C65A1E"/><text x="18" y="224" font-size="12" fill="#fff" font-weight="700">RESULT: 110 − 21 = 89</text>
+      <!-- verdict panel -->
+      <rect x="370" y="40" width="320" height="192" rx="5" fill="#F3E2DC" stroke="#A03123" stroke-width="1.6"/>
+      <text x="384" y="64" font-size="12.5" font-weight="700" fill="#A03123">THE ELIGIBILITY CHECK</text>
+      <text x="384" y="88" font-size="11" fill="#33404d">Score ≥ 88?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;89 ✓ yes</text>
+      <text x="384" y="112" font-size="11" fill="#33404d">Everything open ≤ 1 point?&#160;&#160;✗ no — three</text>
+      <text x="384" y="126" font-size="11" fill="#33404d">&#160;&#160;&#160;5-point items are still open</text>
+      <text x="384" y="150" font-size="11" fill="#33404d">Never-list all clear?&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;✗ no — 3.1.20</text>
+      <text x="384" y="164" font-size="11" fill="#33404d">&#160;&#160;&#160;can never sit on a POA&amp;M</text>
+      <text x="384" y="194" font-size="13" font-weight="700" fill="#A03123">VERDICT: NOT ELIGIBLE for</text>
+      <text x="384" y="210" font-size="13" font-weight="700" fill="#A03123">Conditional status at 89 points</text>
+    </svg>
+    <div class="cap">Figure 4 — A contractor at 89 points, above the 88 floor, who still cannot achieve Conditional status. The three open 5-pointers and 3.1.20 must be fixed and MET first — the POA&amp;M cannot absorb them.</div>
+  </div>
+
+  <div class="callout trap"><span class="tag">✗ Trap — 88 is necessary, not sufficient</span>
+    <p>The most expensive misunderstanding in CMMC: treating 88 as a finish line. <strong>88 is only the entry ticket.</strong>
+    Conditional status also requires that <em>every single open item</em> is POA&amp;M-eligible. One open 5-pointer — or one
+    item from the never-list — makes you ineligible at <em>any</em> score. Aim for MET on everything above 1 point; use the
+    POA&amp;M only for eligible stragglers.</p></div>
+
+  <div class="callout prove"><span class="tag">✓ Prove it — keep the worksheet</span>
+    <p>Keep the scoring worksheet that shows each requirement's status and deduction, dated, with the assessor-facing evidence
+    reference beside each MET. Your SPRS number should be reproducible from it in ten minutes.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 6 ================= -->
+<section>
+  <div class="wp"><div class="num">6</div><div class="wtitle">
+    <h2>The POA&amp;M — what may wait, and what may not</h2><div class="sub">A POA&amp;M is a short leash, not a parking lot.</div></div></div>
+
+  <div class="fig">
+    <svg viewBox="0 0 700 260" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="POA&M decision tree">
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#24455F"/>
+        </marker>
+      </defs>
+      <!-- start -->
+      <rect x="10" y="20" width="170" height="44" rx="5" fill="#16283B"/>
+      <text x="95" y="39" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle">A requirement is</text>
+      <text x="95" y="54" font-size="11.5" font-weight="700" fill="#fff" text-anchor="middle">NOT MET</text>
+      <!-- q1 -->
+      <rect x="240" y="14" width="190" height="56" rx="5" fill="#fff" stroke="#24455F" stroke-width="1.6"/>
+      <text x="335" y="35" font-size="11" text-anchor="middle" fill="#16283B">Is it on the NEVER list?</text>
+      <text x="335" y="50" font-size="9" text-anchor="middle" fill="#5C6672">3.1.20 · 3.1.22 · 3.10.3 · 3.10.4</text>
+      <text x="335" y="62" font-size="9" text-anchor="middle" fill="#5C6672">3.10.5 · 3.12.4 (SSP)</text>
+      <path d="M180,42 H236" stroke="#24455F" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <!-- yes -> fix -->
+      <rect x="500" y="14" width="190" height="56" rx="5" fill="#F3E2DC" stroke="#A03123" stroke-width="1.8"/>
+      <text x="595" y="38" font-size="11.5" font-weight="700" fill="#A03123" text-anchor="middle">FIX IT NOW.</text>
+      <text x="595" y="54" font-size="9.5" fill="#33404d" text-anchor="middle">Blocks Conditional status at any score.</text>
+      <path d="M430,42 H496" stroke="#A03123" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <text x="455" y="34" font-size="9.5" font-weight="700" fill="#A03123">YES</text>
+      <!-- q2 -->
+      <rect x="240" y="108" width="190" height="56" rx="5" fill="#fff" stroke="#24455F" stroke-width="1.6"/>
+      <text x="335" y="130" font-size="11" text-anchor="middle" fill="#16283B">Worth more than 1 point?</text>
+      <text x="335" y="146" font-size="9" text-anchor="middle" fill="#5C6672">(one exception: 3.13.11 at −3 —</text>
+      <text x="335" y="157" font-size="9" text-anchor="middle" fill="#5C6672">encryption in use, not yet FIPS-validated)</text>
+      <path d="M335,70 V104" stroke="#24455F" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <text x="345" y="92" font-size="9.5" font-weight="700" fill="#24455F">NO</text>
+      <!-- yes -> fix2 -->
+      <rect x="500" y="108" width="190" height="56" rx="5" fill="#F3E2DC" stroke="#A03123" stroke-width="1.8"/>
+      <text x="595" y="132" font-size="11.5" font-weight="700" fill="#A03123" text-anchor="middle">FIX IT NOW.</text>
+      <text x="595" y="148" font-size="9.5" fill="#33404d" text-anchor="middle">3- and 5-point items can't be deferred.</text>
+      <path d="M430,136 H496" stroke="#A03123" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <text x="455" y="128" font-size="9.5" font-weight="700" fill="#A03123">YES</text>
+      <!-- q3 -->
+      <rect x="240" y="196" width="190" height="52" rx="5" fill="#fff" stroke="#24455F" stroke-width="1.6"/>
+      <text x="335" y="217" font-size="11" text-anchor="middle" fill="#16283B">Is the total score ≥ 88</text>
+      <text x="335" y="232" font-size="11" text-anchor="middle" fill="#16283B">(80% of 110)?</text>
+      <path d="M335,164 V192" stroke="#24455F" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <text x="345" y="182" font-size="9.5" font-weight="700" fill="#24455F">NO</text>
+      <!-- yes -> poam ok -->
+      <rect x="500" y="196" width="190" height="52" rx="5" fill="#E7EFE4" stroke="#2F6B3F" stroke-width="1.8"/>
+      <text x="595" y="216" font-size="11.5" font-weight="700" fill="#2F6B3F" text-anchor="middle">POA&amp;M PERMITTED</text>
+      <text x="595" y="232" font-size="9.5" fill="#33404d" text-anchor="middle">Close every item within 180 days.</text>
+      <path d="M430,222 H496" stroke="#2F6B3F" stroke-width="1.8" marker-end="url(#arr2)"/>
+      <text x="452" y="214" font-size="9.5" font-weight="700" fill="#2F6B3F">YES</text>
+      <!-- no -> not eligible -->
+      <text x="90" y="215" font-size="10.5" font-weight="700" fill="#A03123">Score &lt; 88?</text>
+      <text x="90" y="230" font-size="10" fill="#A03123">No Conditional status.</text>
+      <text x="90" y="243" font-size="10" fill="#A03123">Keep remediating.</text>
+      <path d="M236,222 H160" stroke="#A03123" stroke-width="1.6" marker-end="url(#arr2)"/>
+    </svg>
+    <div class="cap">Figure 5 — The POA&amp;M eligibility gate (32 CFR 170.21). All three checks must pass — for every open item at once.</div>
+  </div>
+
+  <h3>The 180-day clock</h3>
+  <div class="fig">
+    <svg viewBox="0 0 700 130" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Bahnschrift,'Arial Narrow',Arial" role="img" aria-label="180 day timeline">
+      <line x1="30" y1="70" x2="670" y2="70" stroke="#24455F" stroke-width="2.5"/>
+      <circle cx="60" cy="70" r="9" fill="#C65A1E"/>
+      <text x="60" y="45" font-size="11" font-weight="700" fill="#16283B" text-anchor="middle">CONDITIONAL</text>
+      <text x="60" y="58" font-size="9" fill="#5C6672" text-anchor="middle">status date — clock starts</text>
+      <circle cx="360" cy="70" r="7" fill="#24455F"/>
+      <text x="360" y="50" font-size="10" fill="#33404d" text-anchor="middle">work the POA&amp;M; keep closure evidence</text>
+      <circle cx="610" cy="70" r="9" fill="#2F6B3F"/>
+      <text x="610" y="40" font-size="11" font-weight="700" fill="#2F6B3F" text-anchor="middle">DAY ≤ 180: all items closed</text>
+      <text x="610" y="54" font-size="9.5" fill="#33404d" text-anchor="middle">closeout assessment → FINAL status</text>
+      <text x="610" y="100" font-size="10" font-weight="700" fill="#A03123" text-anchor="middle">Miss it → Conditional status expires</text>
+      <text x="610" y="113" font-size="9" fill="#A03123" text-anchor="middle">and contract eligibility is at risk</text>
+      <text x="60" y="100" font-size="9.5" fill="#5C6672" text-anchor="middle">valid 3 years only if</text>
+      <text x="60" y="112" font-size="9.5" fill="#5C6672" text-anchor="middle">the POA&amp;M closes in time</text>
+    </svg>
+    <div class="cap">Figure 6 — Conditional → Final. The POA&amp;M closeout (self-assessment or C3PAO, matching your assessment type) must confirm every item within 180 days.</div>
+  </div>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — a POA&amp;M does not make a control MET</span>
+    <p>An item on the POA&amp;M is still NOT MET and still costs its points. The POA&amp;M only buys time — 180 days, once —
+    for a limited class of items. Plan as if the POA&amp;M didn't exist; use it as a shock absorber, not a strategy.</p></div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — a POA&amp;M entry that would survive review</span>
+    <p><strong>Weak:</strong> "3.3.4 — will configure alerting." <strong>Strong:</strong> "3.3.4 Audit failure alerting —
+    SIEM heartbeat alert to IT manager on log-source silence &gt; 1 hr. Owner: J. Rivera. Milestones: rule built 8/15, tested
+    8/22, monitored 30 days, close 9/30. Evidence at closure: alert config export + test alert email." Owner, dates, method,
+    and the closure evidence named in advance.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 7 ================= -->
+<section>
+  <div class="wp"><div class="num">7</div><div class="wtitle">
+    <h2>Post to SPRS and affirm</h2><div class="sub">The score isn't real until it's in the system — and someone signs their name to it.</div></div></div>
+
+  <p class="lead">SPRS (the Supplier Performance Risk System) is where your self-assessment score, CMMC status, and
+  affirmations live. Contracting officers check it before award. Access runs through PIEE
+  (<span class="mono">piee.eb.mil</span>) — set up your account early; registration is its own small project.
+  One clarification: for <strong>Level 2 (Self)</strong> you enter the assessment results yourself; for a
+  <strong>C3PAO certification</strong>, the assessment results are submitted from the C3PAO's side (through the CMMC
+  instance of eMASS, which feeds SPRS) — your own required act in SPRS is the <strong>affirmation</strong>.</p>
+
+  <h3>Have ready before you log in</h3>
+  <table>
+    <tr><th style="width:34%">Field</th><th>Notes</th></tr>
+    <tr><td>CMMC level &amp; assessment type</td><td>Level 2 (Self) or Level 2 (C3PAO) — whichever your contracts require.</td></tr>
+    <tr><td>CMMC Status Date</td><td>The date your assessment completed — starts the 3-year validity and any 180-day POA&amp;M clock.</td></tr>
+    <tr><td>Assessment scope description</td><td>Matches the SSP boundary — enclave or enterprise.</td></tr>
+    <tr><td>CAGE code(s)</td><td>Every CAGE covered by the systems in scope.</td></tr>
+    <tr><td>Score (e.g., 103 / 110)</td><td>From your worksheet; keep the worksheet.</td></tr>
+    <tr><td>POA&amp;M status</td><td>Whether one exists and is compliant with the eligibility rules.</td></tr>
+    <tr><td>Affirming Official</td><td>Name, title, contact — a senior official who can bind the company.</td></tr>
+  </table>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — the affirmation is a legal act, not a checkbox</span>
+    <p>The Affirming Official attests that the company has implemented — and will maintain — the requirements, and re-affirms
+    <strong>every year</strong>. A knowingly false submission is the kind of statement the Department of Justice has pursued
+    under the False Claims Act. Never let anyone sign it who hasn't seen the evidence. And calendar the annual affirmation:
+    letting it lapse invalidates your status.</p></div>
+
+  <div class="callout prove"><span class="tag">✓ Prove it</span>
+    <p>Save the SPRS submission confirmation, the scoring worksheet behind the number, and a dated record of what the
+    Affirming Official reviewed. Six years is the artifact-retention expectation — file it like you'll need it in year five.</p></div>
+</section>
+
+<!-- ================= WAYPOINT 8 ================= -->
+<section>
+  <div class="wp"><div class="num alt">8</div><div class="wtitle">
+    <h2>Assessment week — the C3PAO visit</h2><div class="sub">What actually happens when the assessors arrive, and how to make it boring (boring is good).</div></div></div>
+
+  <p class="lead">Most contracts with CUI will require certification by a <strong>C3PAO</strong> — an assessment organization
+  authorized by the Cyber AB. You hire them directly (get quotes early; good ones book out months ahead). The assessment
+  follows the CMMC Assessment Process in four broad phases:</p>
+
+  <table>
+    <tr><th style="width:26%">Phase</th><th>What happens · what they'll want from you</th></tr>
+    <tr><td><strong>1 · Plan &amp; prepare</strong></td><td>Contracting, scope validation, readiness check, evidence logistics. They review your SSP, diagram, and asset inventory <em>before</em> arriving. A weak scoping pack stalls everything here.</td></tr>
+    <tr><td><strong>2 · Conduct the assessment</strong></td><td>Days of examine / interview / test across the 110 requirements and their objectives. Expect screen-sharing sessions ("show me the live setting"), staff interviews, and walk-throughs of the facility.</td></tr>
+    <tr><td><strong>3 · Report results</strong></td><td>Findings are scored MET / NOT MET / N/A; results are briefed to you and recorded. Narrowly-scoped deficiencies may be correctable within a short window during the process — ask your C3PAO how they handle deficiency correction. Outcome: Final status (all met), Conditional status (score ≥ 88 and only POA&amp;M-eligible items open), or no status.</td></tr>
+    <tr><td><strong>4 · POA&amp;M close-out</strong></td><td>If Conditional: fix every POA&amp;M item, then a close-out assessment confirms closure within 180 days → Final.</td></tr>
+  </table>
+
+  <h3>The three ways they verify everything</h3>
+  <table>
+    <tr><th style="width:20%">Method</th><th style="width:44%">What it looks like</th><th>Your preparation</th></tr>
+    <tr><td><strong>Examine</strong></td><td>"Show me the policy… the config… the log… the ticket."</td><td>The evidence binder, organized by family, findable in seconds.</td></tr>
+    <tr><td><strong>Interview</strong></td><td>"How do you handle a departing employee?" — asked of the person who actually does it.</td><td>Staff who can describe their piece in their own words. Not scripts — practice.</td></tr>
+    <tr><td><strong>Test</strong></td><td>"Log in as a normal user and try to reach the admin console." "Plug in this concept — what blocks a USB drive?"</td><td>Controls that hold up when poked, not just when screenshotted.</td></tr>
+  </table>
+
+  <div class="callout watch"><span class="tag">▲ Watch out — interviews are not just for IT</span>
+    <p>Assessors interview the people who <em>perform</em> the work: the office manager about visitor escorts, HR about
+    offboarding, an engineer about handling drawings, the receptionist about the sign-in sheet. A classic interview
+    failure isn't a wrong answer — it's "I didn't know we had a policy about that." Brief everyone; the employee card at the
+    back of this guide exists for exactly this week.</p></div>
+
+  <div class="gb">
+    <div class="good"><div class="lbl">✓ An assessment that goes smoothly</div>
+      <ul>
+        <li>One coordinator owns logistics; evidence indexed per requirement in advance.</li>
+        <li>Every claim in the SSP has a matching artifact — no "let me find that."</li>
+        <li>Staff answer from experience: "I lock the screen, I escort visitors, I report weird emails to Sam."</li>
+        <li>Something small is NOT MET and you say so, with the fix in motion. Honesty reads as maturity.</li>
+      </ul>
+    </div>
+    <div class="bad"><div class="lbl">✗ An assessment that unravels</div>
+      <ul>
+        <li>The SSP describes a company that doesn't exist ("we review logs daily" — last review: never).</li>
+        <li>Evidence generated the week before, all timestamped the same day.</li>
+        <li>Employees visibly hearing about policies for the first time.</li>
+        <li>Arguing every finding. Assessors document what they observe; the fix is fixing, not debating.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>After you pass: the three-year rhythm</h3>
+  <ul>
+    <li><strong>Annually:</strong> the Affirming Official re-affirms in SPRS. Miss it and the status lapses.</li>
+    <li><strong>Continuously:</strong> keep evidence flowing (log reviews, training, scans, access reviews). New systems, clouds, or offices go into the SSP <em>when they change</em>, not in year three.</li>
+    <li><strong>Year 3:</strong> full reassessment. If evidence stayed alive, prep is weeks, not a year.</li>
+    <li><strong>Six years:</strong> keep assessment artifacts that long from each Status Date.</li>
+  </ul>
+</section>
+
+<!-- ================= EVIDENCE CHAPTER ================= -->
+<section>
+  <div class="kicker">The proof standard</div>
+  <h2>Evidence that survives an assessor</h2>
+  <p class="lead">Every waypoint ends at the same door: <strong>can you show it?</strong> Here is the difference, six times,
+  between evidence that holds and evidence that folds.</p>
+
+  <div class="gb">
+    <div class="good"><div class="lbl">✓ Holds up</div>
+      <ul>
+        <li><strong>MFA:</strong> identity-provider policy export showing MFA enforced for all users, dated this quarter + enrollment report (23/23 users) + the sign-in log of a real MFA prompt.</li>
+        <li><strong>Screen lock:</strong> the GPO/MDM setting (15 min) + policy citing 15 min + a photo of a locked, pattern-hidden screen.</li>
+        <li><strong>Offboarding:</strong> HR ticket 4482: separation 3:10 p.m., accounts disabled 3:25 p.m., badge returned, checklist signed.</li>
+      </ul>
+    </div>
+    <div class="bad"><div class="lbl">✗ Folds</div>
+      <ul>
+        <li><strong>MFA:</strong> "Everyone has MFA" (spoken); a screenshot with no tenant name, no date, taken who-knows-when; three service accounts quietly exempted and unmentioned.</li>
+        <li><strong>Screen lock:</strong> policy says 15 minutes; the live setting says "never." (Now <em>two</em> findings: the control and the false document.)</li>
+        <li><strong>Offboarding:</strong> "IT usually disables accounts pretty fast." No ticket. Assessor pulls the account list: two ex-employees still enabled.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gb">
+    <div class="good"><div class="lbl">✓ Holds up</div>
+      <ul>
+        <li><strong>Log review:</strong> a recurring calendar entry + a one-paragraph review note each week ("reviewed auth failures, 2 lockouts, benign, JR 6/12") — twelve of them in a row.</li>
+        <li><strong>Training:</strong> LMS report: all staff, completion dates, this year's content attached; new-hire completions within first week.</li>
+        <li><strong>FIPS:</strong> the CMVP certificate number for each crypto module recorded next to the system using it.</li>
+      </ul>
+    </div>
+    <div class="bad"><div class="lbl">✗ Folds</div>
+      <ul>
+        <li><strong>Log review:</strong> "We look at logs when something seems off." Zero records. A control nobody can see happening isn't happening.</li>
+        <li><strong>Training:</strong> one undated sign-in sheet from two years ago; three current employees not on it.</li>
+        <li><strong>FIPS:</strong> "It uses AES-256, so it's FIPS." Validation is about the <em>tested module</em>, not the algorithm name.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — the freshness test</span>
+    <p>Strong evidence accumulates on a rhythm: dated, named, and boring. If your entire binder was created in one heroic
+    week, an assessor will notice the timestamps — and so will you, at 2 a.m., during that week. The cheapest evidence program
+    is a calendar: every recurring control (reviews, scans, training, access recerts) gets a recurring slot and a
+    one-paragraph record. Fifteen minutes a week beats a forensic reconstruction every three years.</p></div>
+</section>
+
+<!-- ================= TEN WAYS ================= -->
+<section>
+  <div class="kicker">Hazard map</div>
+  <h2>Ten ways good teams get hurt</h2>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:30%">The hazard</th><th>The counter-move</th></tr>
+    <tr><td>1</td><td><strong>Scoping everything</strong> — the flat network goes to assessment.</td><td>Build the enclave. Shrink the bubble before you gold-plate it.</td></tr>
+    <tr><td>2</td><td><strong>The stale or missing SSP</strong> — the one item with no points and total power.</td><td>Treat the SSP as a living document with an owner and an update trigger list.</td></tr>
+    <tr><td>3</td><td><strong>Draft-itis</strong> — policies stuck at "DRAFT v0.9" for a year.</td><td>Sign them. An imperfect signed policy beats a perfect draft.</td></tr>
+    <tr><td>4</td><td><strong>MFA gaps</strong> — MFA everywhere except the VPN's local admin, the file server, that one service account.</td><td>Enumerate every access path to CUI; MFA each one or document the compensating story honestly.</td></tr>
+    <tr><td>5</td><td><strong>"AES means FIPS"</strong> — assuming algorithm = validation.</td><td>Record CMVP certificate numbers per module. If it isn't validated, say so and take the −3 with a plan.</td></tr>
+    <tr><td>6</td><td><strong>Consumer cloud drift</strong> — CUI in a personal-tier file share or free email.</td><td>CUI clouds need FedRAMP Moderate or equivalency. Migrate before, not after, it's noticed.</td></tr>
+    <tr><td>7</td><td><strong>Invisible periodic controls</strong> — reviews and scans that "happen" but leave no residue.</td><td>Calendar + one-paragraph record, every time. No record, no control.</td></tr>
+    <tr><td>8</td><td><strong>POA&amp;M as a wish list</strong> — 5-pointers parked with hopeful dates.</td><td>Only 1-point items (plus the single 3.13.11 exception) may sit there — and only at a score of 88 or higher.</td></tr>
+    <tr><td>9</td><td><strong>The 88 finish-line myth</strong> — celebrating the score while ineligible items sit open.</td><td>Run the three-question gate (Figure 5) on every open item, not just the total.</td></tr>
+    <tr><td>10</td><td><strong>The casual affirmation</strong> — signing SPRS without reading the evidence.</td><td>Give the Affirming Official a one-hour evidence walkthrough before every affirmation. Their signature, their risk.</td></tr>
+  </table>
+
+  <div class="callout marker"><span class="tag">■ Trail marker — the MSP corollary</span>
+    <p>Half these hazards hide inside "our IT provider handles it." Your MSP can operate controls, but <strong>you</strong> own
+    the requirement, the evidence, and the affirmation. Get the shared responsibility matrix in writing, get read access to
+    the consoles that prove your own controls, and make the MSP's remote-access path meet the same rules (MFA, logging,
+    managed access points) as everyone else's.</p></div>
+</section>
+
+<!-- ================= EMPLOYEE CARD ================= -->
+<section>
+  <div class="kicker">Post this in the break room</div>
+  <h2>The employee card — six rules that carry the whole company</h2>
+  <p class="lead">You don't need to know 110 requirements. If every person does these six things, most of the human side of
+  CMMC takes care of itself.</p>
+
+  <table>
+    <tr><th style="width:24%">Rule</th><th>What it means for you</th></tr>
+    <tr><td><strong>1 · Know what CUI looks like</strong></td><td>Marked documents (CUI banner), technical drawings, anything the government or the prime says is controlled. Not sure? Ask before you share, print, or forward.</td></tr>
+    <tr><td><strong>2 · Lock your screen</strong></td><td>Every time you stand up. <span class="mono">Win + L</span> takes one second.</td></tr>
+    <tr><td><strong>3 · No mystery USB drives</strong></td><td>Found a thumb drive? Don't plug it in — hand it to IT. Personal drives stay out of work machines.</td></tr>
+    <tr><td><strong>4 · Escort your visitors</strong></td><td>Sign them in, badge them, stay with them. A friendly stranger walking the hall alone is everyone's problem.</td></tr>
+    <tr><td><strong>5 · Report weird things fast</strong></td><td>Odd email, popup, missing laptop, wrong file in the wrong place — tell [your IT/security contact] the same hour. Reporting fast is praised, never punished. Speed matters: the company has as little as 72 hours to report real incidents to the DoD.</td></tr>
+    <tr><td><strong>6 · Keep CUI on company systems</strong></td><td>Never to personal email, personal cloud drives, home printers, or group chats. If a tool wasn't issued for CUI, it doesn't get CUI. When in doubt — ask first.</td></tr>
+  </table>
+
+  <div class="callout prove"><span class="tag">✓ Why you'll be asked about this</span>
+    <p>During the assessment, an assessor may ask <em>you</em> — not just IT — how you handle visitors, strange emails, or a
+    marked document. "Here's what I do, and here's who I'd call" is a perfect answer. You are the control.</p></div>
+</section>
+
+<!-- ================= KEY NUMBERS + GLOSSARY ================= -->
+<section>
+  <div class="kicker">Quick reference</div>
+  <h2>The numbers that run everything</h2>
+  <div class="numcard">
+    <div><span class="bignum">110</span><div class="nc-what">Security requirements in NIST SP 800-171 Rev 2 — and the maximum score.</div></div>
+    <div><span class="bignum">320</span><div class="nc-what">Assessment objectives across those requirements. MET means all applicable objectives pass.</div></div>
+    <div><span class="bignum">14</span><div class="nc-what">Requirement families, AC through SI.</div></div>
+    <div><span class="bignum">5·3·1</span><div class="nc-what">Point weights: 44 fives, 14 threes, 51 ones, plus the unscored SSP. Floor: −203.</div></div>
+    <div><span class="bignum">88</span><div class="nc-what">Minimum score (80% of 110) for Conditional status — necessary, never sufficient by itself.</div></div>
+    <div><span class="bignum">6</span><div class="nc-what">Requirements that can never sit on a POA&amp;M: 3.1.20, 3.1.22, 3.10.3, 3.10.4, 3.10.5, 3.12.4.</div></div>
+    <div><span class="bignum">180</span><div class="nc-what">Days from the Conditional Status Date to close every POA&amp;M item — or the status expires.</div></div>
+    <div><span class="bignum">3 yrs</span><div class="nc-what">Validity of a Level 2 status — with an affirmation renewed every year in SPRS.</div></div>
+    <div><span class="bignum">6 yrs</span><div class="nc-what">How long to retain assessment artifacts from each CMMC Status Date.</div></div>
+    <div><span class="bignum">72 hrs</span><div class="nc-what">DFARS 252.204-7012 deadline to report cyber incidents to DoD via DIBNet.</div></div>
+    <div><span class="bignum">15</span><div class="nc-what">Requirements at Level 1 (FCI only, FAR 52.204-21) — annual self-assessment.</div></div>
+    <div><span class="bignum">2</span><div class="nc-what">Partial-credit requirements: 3.5.3 (MFA) and 3.13.11 (FIPS crypto) — the only ones.</div></div>
+  </div>
+
+  <h3>Glossary — plain definitions</h3>
+  <div class="cols2" style="font-size:8.8pt;">
+    <p><strong>Affirming Official</strong> — the senior person who attests in SPRS, annually, that requirements are implemented and maintained.</p>
+    <p><strong>C3PAO</strong> — CMMC Third-Party Assessment Organization; authorized by the Cyber AB to perform Level 2 certification assessments.</p>
+    <p><strong>CAGE code</strong> — Commercial and Government Entity code identifying your company in federal systems.</p>
+    <p><strong>CMMC</strong> — Cybersecurity Maturity Model Certification, the DoD program (32 CFR Part 170) verifying contractor cybersecurity.</p>
+    <p><strong>CMVP</strong> — NIST's Cryptographic Module Validation Program; its certificate list defines "FIPS-validated."</p>
+    <p><strong>Conditional / Final status</strong> — Conditional: assessed with a compliant POA&amp;M open (score ≥ 88). Final: everything met (or POA&amp;M closed within 180 days).</p>
+    <p><strong>CUI</strong> — Controlled Unclassified Information; unclassified information requiring safeguarding under law, regulation, or government-wide policy. Cataloged in the NARA CUI Registry.</p>
+    <p><strong>Cyber AB</strong> — the CMMC accreditation body; authorizes C3PAOs and runs the assessor ecosystem.</p>
+    <p><strong>DIBCAC</strong> — DCMA's Defense Industrial Base Cybersecurity Assessment Center; conducts government-led assessments, including Level 3.</p>
+    <p><strong>DIBNet</strong> — the DoD portal (<span class="mono">dibnet.dod.mil</span>) for mandatory cyber-incident reporting.</p>
+    <p><strong>Enclave</strong> — a deliberately fenced-off environment where CUI lives, keeping the rest of the company out of scope.</p>
+    <p><strong>ESP</strong> — External Service Provider (cloud vendors, MSPs/MSSPs) that handles CUI or provides security for it; part of your assessment story.</p>
+    <p><strong>FCI</strong> — Federal Contract Information; non-public contract information. Protected at Level 1.</p>
+    <p><strong>FedRAMP Moderate</strong> — the federal cloud security baseline required (or equivalency) for clouds holding CUI under DFARS 7012.</p>
+    <p><strong>FIPS-validated</strong> — cryptography whose specific module passed CMVP testing; required when encryption protects CUI confidentiality.</p>
+    <p><strong>MET / NOT MET / N/A</strong> — the three assessment findings per requirement; N/A needs a scope-based justification and doesn't cost points.</p>
+    <p><strong>OSA / OSC</strong> — Organization Seeking Assessment / Certification. You.</p>
+    <p><strong>POA&amp;M</strong> — Plan of Action &amp; Milestones; the tightly limited list of open items being fixed on a deadline.</p>
+    <p><strong>SPRS</strong> — Supplier Performance Risk System; where scores, statuses, and affirmations are recorded and checked.</p>
+    <p><strong>SSP</strong> — System Security Plan; the master description of your system, boundary, and how every requirement is implemented.</p>
+  </div>
+</section>
+
+<!-- ================= SOURCES ================= -->
+<section>
+  <div class="kicker">Provenance</div>
+  <h2>Sources, and how to verify this guide</h2>
+  <p class="lead">Every rule in this guide traces to one of the documents below. When you make a real decision — a bid, an
+  SPRS entry, a C3PAO engagement — verify against the current official version, not this guide and not any secondhand source.</p>
+  <table>
+    <tr><th style="width:38%">Source</th><th>What it governs</th></tr>
+    <tr><td><strong>32 CFR Part 170</strong> (the CMMC Program rule) — esp. §§ 170.16–.24</td><td>Levels, assessment types, Conditional/Final status, POA&amp;M limits and the 180-day clock, affirmations, artifact retention, scoring incorporation.</td></tr>
+    <tr><td><strong>NIST SP 800-171 Rev 2</strong></td><td>The 110 security requirements themselves.</td></tr>
+    <tr><td><strong>NIST SP 800-171A</strong></td><td>The 320 assessment objectives and examine/interview/test methods.</td></tr>
+    <tr><td><strong>DoD NIST SP 800-171 Assessment Methodology, v1.2.1, Annex A</strong></td><td>The 5/3/1 point weights, the two partial-credit rules, the −203 floor, and the SSP's special unscored treatment.</td></tr>
+    <tr><td><strong>CMMC Assessment Guide — Level 2, v2.13 (Sep 2024)</strong></td><td>How assessors evaluate each requirement and objective; MET/NOT MET criteria.</td></tr>
+    <tr><td><strong>CMMC Scoping Guide — Level 2, v2.13</strong></td><td>The five asset categories and boundary rules.</td></tr>
+    <tr><td><strong>DFARS 252.204-7012 / -7019 / -7020 / -7021</strong></td><td>Safeguarding, 72-hour incident reporting, FedRAMP Moderate for clouds, SPRS posting, and the contractual CMMC requirement.</td></tr>
+    <tr><td><strong>FAR 52.204-21</strong></td><td>The 15 basic safeguarding requirements (Level 1).</td></tr>
+    <tr><td><strong>SPRS entry tutorials / PIEE documentation</strong></td><td>The mechanics of posting scores and affirmations.</td></tr>
+    <tr><td><strong>NARA CUI Registry</strong> · <strong>NIST CMVP</strong> · <strong>NIST SP 800-88</strong></td><td>CUI categories and markings · FIPS-validated module certificates · media sanitization.</td></tr>
+  </table>
+
+  <p style="margin-top:8pt;">Find the official documents at the DoD CIO's CMMC documentation page, <span class="mono">csrc.nist.gov</span>,
+  <span class="mono">ecfr.gov</span>, and <span class="mono">sprs.csd.disa.mil</span>. Regulations change: re-check the sources
+  (and whether a newer 800-171 revision applies to your contracts) before any high-stakes decision.</p>
+
+  <div class="callout trap"><span class="tag">✗ Final honesty box</span>
+    <p>This guide is a plain-language learning and preparation aid for small defense contractors. It was prepared by
+    Chris Judkins with AI assistance against the sources above and reviewed for accuracy, but it is <strong>not</strong> legal advice, is
+    <strong>not</strong> an official DoD, NIST, or Cyber AB publication, and <strong>confers no CMMC status</strong>. Assessment
+    outcomes depend on your implementation and your assessor's findings — no guide can promise a result. For decisions that
+    carry contract or legal weight, engage a qualified CMMC professional (a CCP/CCA or a Registered Practitioner Organization)
+    and rely on the official documents. CMMC® and Cybersecurity Maturity Model Certification are marks of the U.S. Department
+    of Defense; this guide is independent and unaffiliated.</p></div>
+
+  <div class="footer-note">The CMMC Level 2 Survival Guide · Plain-English Edition · July 2026 · Prepared by Chris Judkins ·
+  Companion to <strong>CMMC Vault</strong>, the open-source, session-only readiness scoring tool this guide ships with
+  (<span class="mono">github.com/CJud25/CMMCVault</span>). Use the app to score yourself and find what blocks eligibility;
+  use this guide to understand the trail.</div>
+</section>
+
+</body>
+</html>
